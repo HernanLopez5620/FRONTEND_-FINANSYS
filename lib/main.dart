@@ -1,21 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'services/api_service.dart';
-import 'theme/app_theme.dart';
-import 'screens/login_screen.dart';
-import 'screens/home_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:intl/date_symbol_data_local.dart';
+
+import 'core/theme/app_theme.dart';
+import 'presentation/providers/auth_provider.dart';
+import 'presentation/providers/gasto_provider.dart';
+import 'presentation/providers/categoria_provider.dart';
+import 'presentation/providers/presupuesto_provider.dart';
+import 'presentation/providers/divisa_provider.dart';
+import 'presentation/pages/auth_page.dart';
+import 'presentation/pages/dashboard_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  SystemChrome.setPreferredOrientations([
+  await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
   ]);
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
     statusBarIconBrightness: Brightness.dark,
   ));
+
+  await initializeDateFormatting('es', null);
 
   runApp(const FinanSysApp());
 }
@@ -25,68 +35,87 @@ class FinanSysApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'FinanSys',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.theme,
-      home: const _SplashGate(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => GastoProvider()),
+        ChangeNotifierProvider(create: (_) => CategoriaProvider()),
+        ChangeNotifierProvider(create: (_) => PresupuestoProvider()),
+        ChangeNotifierProvider(create: (_) => DivisaProvider()),
+      ],
+      child: MaterialApp(
+        title: 'FinanSys',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.light,
+        home: const _AuthGate(),
+      ),
     );
   }
 }
 
-/// Revisa si hay token guardado para decidir qué pantalla mostrar
-class _SplashGate extends StatefulWidget {
-  const _SplashGate();
+class _AuthGate extends StatefulWidget {
+  const _AuthGate();
+
   @override
-  State<_SplashGate> createState() => _SplashGateState();
+  State<_AuthGate> createState() => _AuthGateState();
 }
 
-class _SplashGateState extends State<_SplashGate> {
+class _AuthGateState extends State<_AuthGate> {
+  bool _checking = true;
+
   @override
   void initState() {
     super.initState();
-    _checkToken();
+    _checkAuth();
   }
 
-  Future<void> _checkToken() async {
-    await Future.delayed(const Duration(milliseconds: 800));
-    final token = await ApiService.getToken();
-    if (!mounted) return;
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (_) =>
-            token != null ? const HomeScreen() : const LoginScreen(),
-      ),
-    );
+  Future<void> _checkAuth() async {
+    await context.read<AuthProvider>().checkAuthStatus();
+    setState(() => _checking = false);
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: AppTheme.primary,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.account_balance_wallet_rounded,
-                color: Colors.white, size: 64),
-            SizedBox(height: 18),
-            Text('FinanSys',
+    if (_checking) {
+      return const Scaffold(
+        backgroundColor: AppTheme.primary,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.account_balance_wallet_rounded,
+                color: Colors.white,
+                size: 60,
+              ),
+              SizedBox(height: 16),
+              Text(
+                'FinanSys',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 32,
+                  fontSize: 28,
                   fontWeight: FontWeight.w700,
                   letterSpacing: -0.5,
-                )),
-            SizedBox(height: 8),
-            Text('Tus finanzas bajo control',
-                style: TextStyle(color: Colors.white60, fontSize: 14)),
-            SizedBox(height: 40),
-            CircularProgressIndicator(color: Colors.white38, strokeWidth: 2),
-          ],
+                ),
+              ),
+              SizedBox(height: 32),
+              CircularProgressIndicator(
+                color: Colors.white54,
+                strokeWidth: 2,
+              ),
+            ],
+          ),
         ),
-      ),
+      );
+    }
+
+    return Consumer<AuthProvider>(
+      builder: (context, auth, child) {
+        if (auth.isAuthenticated) {
+          return DashboardPage();
+        }
+        return AuthPage();
+      },
     );
   }
 }
