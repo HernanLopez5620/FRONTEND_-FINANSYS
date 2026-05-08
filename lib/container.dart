@@ -32,6 +32,7 @@ import 'application/usecases/list_budgets_usecase.dart';
 import 'application/usecases/save_budget_usecase.dart';
 import 'application/usecases/get_exchange_rate_usecase.dart';
 import 'application/usecases/convert_currency_usecase.dart';
+import 'application/usecases/update_profile_usecase.dart';
 
 class Container {
   static const bool useMock =
@@ -86,4 +87,7 @@ class Container {
   // ── Divisas ──
   static final getExchangeRateUseCase = GetExchangeRateUseCase(_divisaPort);
   static final convertCurrencyUseCase = ConvertCurrencyUseCase(_divisaPort);
+
+  //---Edicion de Perfil---
+  static final updateProfileUseCase = UpdateProfileUseCase(_authPort);
 }

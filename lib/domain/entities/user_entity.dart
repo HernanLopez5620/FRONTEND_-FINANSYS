@@ -7,19 +7,26 @@ class UserEntity {
   final int uid;
   final String email;
   final String username;
+  final bool activo;
+  final DateTime? createdAt;
 
   const UserEntity({
     required this.uid,
     required this.email,
     required this.username,
+    this.activo = true,
+    this.createdAt,
   });
 
-  // Backend retorna: { uid, email, username }
   factory UserEntity.fromJson(Map<String, dynamic> json) {
     return UserEntity(
       uid: json['uid'] ?? json['id'] ?? 0,
       email: json['email'] ?? '',
       username: json['username'] ?? '',
+      activo: json['activo'] ?? true,
+      createdAt: json['created_at'] != null
+          ? DateTime.tryParse(json['created_at'])
+          : null,
     );
   }
 

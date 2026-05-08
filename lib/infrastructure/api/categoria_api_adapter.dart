@@ -13,7 +13,8 @@ class CategoriaApiAdapter implements CategoriaPort {
   // GET /api/v1/categorias
   @override
   Future<List<CategoriaEntity>> listCategories() async {
-    final res = await _http.get('/categorias');
+    final res = await _http.get('/categorias',
+    requiresAuth: true,);
     final data = res['data'] as List? ?? [];
     return data.map((e) => CategoriaEntity.fromJson(e)).toList();
   }

@@ -16,7 +16,7 @@ class AuthProvider extends ChangeNotifier {
   bool get isAuthenticated => _isAuthenticated;
   String? get error => _error;
 
-  // Verifica si hay token guardado al iniciar la app
+// Verifica si hay token guardado al iniciar la app
   Future<void> checkAuthStatus() async {
     _loading = true;
     notifyListeners();
@@ -87,5 +87,26 @@ class AuthProvider extends ChangeNotifier {
     _user = null;
     _isAuthenticated = false;
     notifyListeners();
+  }
+
+  // ← nuevo método
+  Future<bool> updateProfile({String? username, String? password}) async {
+    _loading = true;
+    _error = null;
+    notifyListeners();
+    try {
+      final user = await Container.updateProfileUseCase.execute(
+        username: username,
+        password: password,
+      );
+      _user = user;
+      return true;
+    } catch (e) {
+      _error = e.toString();
+      return false;
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
   }
 }

@@ -38,7 +38,7 @@ class GastoApiAdapter implements GastoPort {
       'limite': limite,
       'pagina': pagina,
     });
-    final res = await _http.get('/gastos$query');
+    final res = await _http.get('/gastos$query', requiresAuth: true);
     final data = res['data'] as List? ?? [];
     return data.map((e) => GastoEntity.fromJson(e)).toList();
   }
@@ -82,6 +82,7 @@ class GastoApiAdapter implements GastoPort {
       int mes, int anio) async {
     final res = await _http.get(
       '/gastos/reportes/categorias?mes=$mes&anio=$anio',
+       requiresAuth: true,
     );
     final data = res['data'] as List? ?? [];
     return data.map((e) => GastoCategoriaEntity.fromJson(e)).toList();
@@ -90,7 +91,8 @@ class GastoApiAdapter implements GastoPort {
   // GET /api/v1/gastos/reportes/comparacion
   @override
   Future<List<ComparacionMensualEntity>> getMonthlyComparison() async {
-    final res = await _http.get('/gastos/reportes/comparacion');
+    final res = await _http.get('/gastos/reportes/comparacion',
+    requiresAuth: true,);
     final data = res['data'] as List? ?? [];
     return data.map((e) => ComparacionMensualEntity.fromJson(e)).toList();
   }

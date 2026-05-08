@@ -12,6 +12,7 @@ class AppHeader extends StatelessWidget {
   final String username;
   final ValueChanged<DateTime> onMonthChanged;
   final VoidCallback onLogout;
+  final VoidCallback? onVerPerfil;
 
   const AppHeader({
     super.key,
@@ -20,7 +21,78 @@ class AppHeader extends StatelessWidget {
     required this.username,
     required this.onMonthChanged,
     required this.onLogout,
+    this.onVerPerfil,
   });
+
+  void _mostrarMenu(BuildContext context) {
+    final RenderBox button = context.findRenderObject() as RenderBox;
+    final RenderBox overlay =
+        Navigator.of(context).overlay!.context.findRenderObject() as RenderBox;
+    final RelativeRect position = RelativeRect.fromRect(
+      Rect.fromPoints(
+        button.localToGlobal(Offset.zero, ancestor: overlay),
+        button.localToGlobal(button.size.bottomRight(Offset.zero),
+            ancestor: overlay),
+      ),
+      Offset.zero & overlay.size,
+    );
+
+    showMenu<String>(
+      context: context,
+      position: position,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      items: [
+        const PopupMenuItem(
+          value: 'perfil',
+          child: Row(children: [
+            Icon(Icons.person_outline_rounded, size: 18),
+            SizedBox(width: 10),
+            Text('Ver perfil'),
+          ]),
+        ),
+        const PopupMenuItem(
+          value: 'logout',
+          child: Row(children: [
+            Icon(Icons.logout_rounded, size: 18, color: Colors.red),
+            SizedBox(width: 10),
+            Text('Cerrar sesión', style: TextStyle(color: Colors.red)),
+          ]),
+        ),
+      ],
+    ).then((value) {
+      if (value == 'perfil') {
+        onVerPerfil?.call();
+      } else if (value == 'logout') {
+        _confirmarLogout(context);
+      }
+    });
+  }
+
+  void _confirmarLogout(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Text('Cerrar sesión'),
+        content: const Text('¿Estás seguro que deseas cerrar sesión?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('Cancelar'),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+              onLogout();
+            },
+            child: const Text('Cerrar sesión',
+                style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,17 +111,19 @@ class AppHeader extends StatelessWidget {
                   fontSize: 18,
                   fontWeight: FontWeight.w700)),
           const Spacer(),
-          GestureDetector(
-            onTap: onLogout,
-            child: CircleAvatar(
-              radius: 17,
-              backgroundColor: Colors.white24,
-              child: Text(
-                username.isNotEmpty ? username[0].toUpperCase() : 'U',
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600),
+          Builder(
+            builder: (ctx) => GestureDetector(
+              onTap: () => _mostrarMenu(ctx),
+              child: CircleAvatar(
+                radius: 17,
+                backgroundColor: Colors.white24,
+                child: Text(
+                  username.isNotEmpty ? username[0].toUpperCase() : 'U',
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600),
+                ),
               ),
             ),
           ),

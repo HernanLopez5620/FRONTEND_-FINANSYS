@@ -19,6 +19,7 @@ import 'gastos_page.dart';
 import 'categorias_page.dart';
 import 'presupuestos_page.dart';
 import 'reportes_page.dart';
+import 'profile_page.dart'; // ← nuevo
 import '../../domain/entities/gasto_entity.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -48,6 +49,12 @@ class _DashboardPageState extends State<DashboardPage> {
     await context.read<AuthProvider>().logout();
   }
 
+  void _verPerfil() {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => const ProfilePage()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final auth = context.watch<AuthProvider>();
@@ -72,6 +79,7 @@ class _DashboardPageState extends State<DashboardPage> {
             username: auth.user?.username ?? '',
             onMonthChanged: (m) => gastoP.setMonth(m),
             onLogout: _logout,
+            onVerPerfil: _verPerfil, // ← nuevo
           ),
         ),
         Expanded(
@@ -119,7 +127,6 @@ class _HomeTab extends StatelessWidget {
           : ListView(
               padding: const EdgeInsets.all(16),
               children: [
-                // Gráfico barras
                 if (gastoP.comparacion.isNotEmpty) ...[
                   AppCard(
                     child: Column(
@@ -137,8 +144,6 @@ class _HomeTab extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                 ],
-
-                // Donut por categoría
                 if (gastoP.porCategoria.isNotEmpty) ...[
                   AppCard(
                     child: Column(
@@ -156,8 +161,6 @@ class _HomeTab extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                 ],
-
-                // Últimos movimientos
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -173,7 +176,6 @@ class _HomeTab extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 8),
-
                 if (gastoP.gastos.isEmpty)
                   const AppEmptyState(
                     icon: Icons.receipt_long_outlined,
@@ -186,7 +188,6 @@ class _HomeTab extends StatelessWidget {
                         onDelete: () =>
                             context.read<GastoProvider>().deleteExpense(g.id),
                       )),
-
                 const SizedBox(height: 80),
               ],
             ),

@@ -55,4 +55,14 @@ class MockAuthAdapter implements AuthPort {
       UserEntity(uid: 2, email: 'maria@ejemplo.com', username: 'María López'),
     ];
   }
+
+  @override
+  Future<UserEntity> updateProfile({String? username, String? password}) async {
+    await Future.delayed(const Duration(milliseconds: 400));
+    return UserEntity(
+      uid: 1,
+      email: 'juan@ejemplo.call',
+      username: username ?? 'Juan García',
+    );
+  }
 }

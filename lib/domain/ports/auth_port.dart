@@ -19,6 +19,10 @@ abstract class AuthPort {
   });
 
   Future<UserEntity> getProfile();
-
   Future<List<UserEntity>> getUsers();
+
+  Future<UserEntity> updateProfile({
+    String? username,
+    String? password,
+  });
 }

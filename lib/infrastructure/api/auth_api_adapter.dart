@@ -8,12 +8,8 @@ import 'http_client.dart';
 
 class AuthApiAdapter implements AuthPort {
   final HttpClient _http;
-
   AuthApiAdapter(this._http);
 
-  // POST /api/v1/users/register
-  // Body: { email, password, username }
-  // Response: { ok: true, user, token }
   @override
   Future<({UserEntity user, String token})> register({
     required String email,
@@ -25,14 +21,12 @@ class AuthApiAdapter implements AuthPort {
       'password': password,
       'username': username,
     });
-    final token = res['token'] as String;
-    final user = UserEntity.fromJson(res['user'] ?? {});
-    return (user: user, token: token);
+    return (
+      user: UserEntity.fromJson(res['user'] ?? {}),
+      token: res['token'] as String
+    );
   }
 
-  // POST /api/v1/users/login
-  // Body: { email, password }
-  // Response: { ok: true, user, token }
   @override
   Future<({UserEntity user, String token})> login({
     required String email,
@@ -42,25 +36,31 @@ class AuthApiAdapter implements AuthPort {
       'email': email,
       'password': password,
     });
-    final token = res['token'] as String;
-    final user = UserEntity.fromJson(res['user'] ?? {});
-    return (user: user, token: token);
+    return (
+      user: UserEntity.fromJson(res['user'] ?? {}),
+      token: res['token'] as String
+    );
   }
 
-  // GET /api/v1/users/profile  (requiere JWT)
-  // Response: { ok: true, user }
   @override
   Future<UserEntity> getProfile() async {
     final res = await _http.get('/users/profile', requiresAuth: true);
     return UserEntity.fromJson(res['user'] ?? {});
   }
 
-  // GET /api/v1/users/
-  // Response: { ok: true, users: [] }
   @override
   Future<List<UserEntity>> getUsers() async {
     final res = await _http.get('/users/', requiresAuth: true);
     final data = res['users'] as List? ?? [];
     return data.map((e) => UserEntity.fromJson(e)).toList();
+  }
+
+  @override
+  Future<UserEntity> updateProfile({String? username, String? password}) async {
+    final body = <String, dynamic>{};
+    if (username != null && username.isNotEmpty) body['username'] = username;
+    if (password != null && password.isNotEmpty) body['password'] = password;
+    final res = await _http.put('/users/profile', body, requiresAuth: true);
+    return UserEntity.fromJson(res['user'] ?? {});
   }
 }
