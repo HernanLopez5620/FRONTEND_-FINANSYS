@@ -2,6 +2,7 @@
 // SOLID-SRP: gestiona únicamente el estado de divisas y conversión.
 
 import 'package:flutter/foundation.dart';
+import 'dart:async';
 import '../../domain/entities/tasa_cambio_entity.dart';
 import '../../container.dart';
 
@@ -10,13 +11,13 @@ class DivisaProvider extends ChangeNotifier {
   ConversionEntity? _conversion;
   bool _loading = false;
   String? _error;
+  Timer? _debounce;
 
   TasaCambioEntity? get tasa => _tasa;
   ConversionEntity? get conversion => _conversion;
   bool get loading => _loading;
   String? get error => _error;
 
-  // Carga la tasa de cambio actual
   Future<void> loadExchangeRate() async {
     _loading = true;
     _error = null;
@@ -31,12 +32,28 @@ class DivisaProvider extends ChangeNotifier {
     }
   }
 
-  // Convierte un monto entre monedas
+  // Conversión con debounce — espera 500ms después de que el usuario deje de escribir
+  void convertDebounced({
+    required double monto,
+    required String de,
+    required String a,
+  }) {
+    _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      convert(monto: monto, de: de, a: a);
+    });
+  }
+
   Future<void> convert({
     required double monto,
     required String de,
     required String a,
   }) async {
+    if (monto <= 0) {
+      _conversion = null;
+      notifyListeners();
+      return;
+    }
     _loading = true;
     _error = null;
     notifyListeners();
@@ -55,7 +72,14 @@ class DivisaProvider extends ChangeNotifier {
   }
 
   void clearConversion() {
+    _debounce?.cancel();
     _conversion = null;
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    super.dispose();
   }
 }

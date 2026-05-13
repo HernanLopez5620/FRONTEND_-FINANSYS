@@ -21,6 +21,7 @@ import 'presupuestos_page.dart';
 import 'reportes_page.dart';
 import 'profile_page.dart'; // ← nuevo
 import '../../domain/entities/gasto_entity.dart';
+import 'divisas_page.dart'; // ← nuevo import
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -66,6 +67,7 @@ class _DashboardPageState extends State<DashboardPage> {
       const ReportesPage(),
       const CategoriasPage(),
       const PresupuestosPage(),
+      const DivisasPage(), // ← nuevo
     ];
 
     return Scaffold(

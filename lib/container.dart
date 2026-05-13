@@ -33,6 +33,8 @@ import 'application/usecases/save_budget_usecase.dart';
 import 'application/usecases/get_exchange_rate_usecase.dart';
 import 'application/usecases/convert_currency_usecase.dart';
 import 'application/usecases/update_profile_usecase.dart';
+import 'infrastructure/api/compra_extranjera_api_adapter.dart';
+import 'application/usecases/compra_extranjera_usecase.dart';
 
 class Container {
   static const bool useMock =
@@ -90,4 +92,13 @@ class Container {
 
   //---Edicion de Perfil---
   static final updateProfileUseCase = UpdateProfileUseCase(_authPort);
+
+  // ── Compras Extranjeras ──
+  static final _compraExtranjeraPort = CompraExtranjeraApiAdapter(_http);
+  static final listarComprasUseCase =
+      ListarComprasUseCase(_compraExtranjeraPort);
+  static final guardarCompraUseCase =
+      GuardarCompraUseCase(_compraExtranjeraPort);
+  static final eliminarCompraUseCase =
+      EliminarCompraUseCase(_compraExtranjeraPort);
 }

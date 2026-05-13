@@ -49,6 +49,12 @@ class AppNavBar extends StatelessWidget {
             activeIcon: Icon(Icons.savings_rounded),
             label: 'Presupuestos',
           ),
+          BottomNavigationBarItem(
+            // ← nuevo
+            icon: Icon(Icons.currency_exchange_outlined),
+            activeIcon: Icon(Icons.currency_exchange_rounded),
+            label: 'Divisas',
+          ),
         ],
       ),
     );

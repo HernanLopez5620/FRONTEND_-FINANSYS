@@ -161,12 +161,36 @@ class AppHeader extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               Formatters.toCurrency(resumen?.balance ?? 0),
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 30,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: -1),
+              style: TextStyle(
+                color: (resumen?.balance ?? 0) < 0
+                    ? Colors.red.shade300
+                    : Colors.white, // ← cambio
+                fontSize: 30,
+                fontWeight: FontWeight.w700,
+                letterSpacing: -1,
+              ),
             ),
+            // Mensaje si balance negativo
+            if ((resumen?.balance ?? 0) < 0) ...[
+              const SizedBox(height: 4),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.red.shade700,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.warning_rounded, color: Colors.white, size: 12),
+                    SizedBox(width: 4),
+                    Text('Tienes deudas este mes',
+                        style: TextStyle(color: Colors.white, fontSize: 11)),
+                  ],
+                ),
+              ),
+            ],
           ]),
         ),
         const SizedBox(height: 16),

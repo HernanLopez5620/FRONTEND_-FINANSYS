@@ -9,6 +9,7 @@ import 'presentation/providers/gasto_provider.dart';
 import 'presentation/providers/categoria_provider.dart';
 import 'presentation/providers/presupuesto_provider.dart';
 import 'presentation/providers/divisa_provider.dart';
+import 'presentation/providers/compra_extranjera_provider.dart'; // ← nuevo
 import 'presentation/pages/auth_page.dart';
 import 'presentation/pages/dashboard_page.dart';
 
@@ -44,6 +45,8 @@ class FinanSysApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CategoriaProvider()),
         ChangeNotifierProvider(create: (_) => PresupuestoProvider()),
         ChangeNotifierProvider(create: (_) => DivisaProvider()),
+        ChangeNotifierProvider(
+            create: (_) => CompraExtranjeraProvider()), // ← nuevo
       ],
       child: MaterialApp(
         title: 'FinanSys',
@@ -110,9 +113,7 @@ class _AuthGateState extends State<_AuthGate> {
 
     return Consumer<AuthProvider>(
       builder: (context, auth, child) {
-        if (auth.isAuthenticated) {
-          return DashboardPage();
-        }
+        if (auth.isAuthenticated) return DashboardPage();
         return AuthPage();
       },
     );
