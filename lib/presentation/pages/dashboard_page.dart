@@ -19,9 +19,9 @@ import 'gastos_page.dart';
 import 'categorias_page.dart';
 import 'presupuestos_page.dart';
 import 'reportes_page.dart';
-import 'profile_page.dart'; // ← nuevo
+import 'profile_page.dart';
 import '../../domain/entities/gasto_entity.dart';
-import 'divisas_page.dart'; // ← nuevo import
+import 'divisas_page.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -67,7 +67,7 @@ class _DashboardPageState extends State<DashboardPage> {
       const ReportesPage(),
       const CategoriasPage(),
       const PresupuestosPage(),
-      const DivisasPage(), // ← nuevo
+      const DivisasPage(),
     ];
 
     return Scaffold(
@@ -81,7 +81,7 @@ class _DashboardPageState extends State<DashboardPage> {
             username: auth.user?.username ?? '',
             onMonthChanged: (m) => gastoP.setMonth(m),
             onLogout: _logout,
-            onVerPerfil: _verPerfil, // ← nuevo
+            onVerPerfil: _verPerfil,
           ),
         ),
         Expanded(
@@ -254,7 +254,32 @@ class _GastoRow extends StatelessWidget {
         ),
         const SizedBox(width: 8),
         GestureDetector(
-          onTap: onDelete,
+          onTap: () async {
+            final nombre = gasto.descripcion.isNotEmpty
+                ? gasto.descripcion
+                : gasto.categoria ?? 'este movimiento';
+            final ok = await showDialog<bool>(
+              context: context,
+              builder: (_) => AlertDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16)),
+                title: const Text('Eliminar movimiento'),
+                content: Text('¿Seguro que quieres eliminar "$nombre"?'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, false),
+                    child: const Text('Cancelar'),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, true),
+                    child: const Text('Eliminar',
+                        style: TextStyle(color: AppTheme.danger)),
+                  ),
+                ],
+              ),
+            );
+            if (ok == true) onDelete();
+          },
           child: const Icon(Icons.close_rounded,
               size: 16, color: AppTheme.textHint),
         ),

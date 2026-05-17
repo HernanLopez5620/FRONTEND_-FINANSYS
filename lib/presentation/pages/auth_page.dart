@@ -150,12 +150,12 @@ class _LoginFormState extends State<_LoginForm> {
           controller: _emailCtrl,
           keyboardType: TextInputType.emailAddress,
           decoration: const InputDecoration(
-            labelText: 'Correo electrónico',
+            labelText: 'Correo o usuario',
             prefixIcon:
-                Icon(Icons.email_outlined, color: AppTheme.textGrey, size: 20),
+                Icon(Icons.person_outline, color: AppTheme.textGrey, size: 20),
           ),
           validator: (v) =>
-              (v == null || !v.contains('@')) ? 'Correo inválido' : null,
+              (v == null || v.isEmpty) ? 'Ingresa tu correo o usuario' : null,
         ),
         const SizedBox(height: 14),
         TextFormField(

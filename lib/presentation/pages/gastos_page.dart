@@ -120,7 +120,8 @@ class _GastosPageState extends State<GastosPage> {
             context: context,
             builder: (_) => AlertDialog(
               title: const Text('Eliminar movimiento'),
-              content: const Text('¿Eliminar este movimiento?'),
+              content: Text(
+                  '¿Seguro que quieres eliminar "${g.descripcion.isNotEmpty ? g.descripcion : g.categoria ?? 'este movimiento'}"?'),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context, false),

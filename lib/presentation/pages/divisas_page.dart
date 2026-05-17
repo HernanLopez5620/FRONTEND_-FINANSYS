@@ -371,7 +371,30 @@ class _DivisasPageState extends State<DivisasPage> {
                     ],
                   )),
                   GestureDetector(
-                    onTap: () => compraP.eliminar(c.id),
+                    onTap: () async {
+                      final ok = await showDialog<bool>(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16)),
+                          title: const Text('Eliminar compra'),
+                          content: Text(
+                              '¿Seguro que quieres eliminar "${c.nombre}"?'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, false),
+                              child: const Text('Cancelar'),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, true),
+                              child: const Text('Eliminar',
+                                  style: TextStyle(color: AppTheme.danger)),
+                            ),
+                          ],
+                        ),
+                      );
+                      if (ok == true) compraP.eliminar(c.id);
+                    },
                     child: const Icon(Icons.close_rounded,
                         size: 16, color: AppTheme.textHint),
                   ),
