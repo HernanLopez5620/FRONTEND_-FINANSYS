@@ -3,7 +3,7 @@
 
 import 'package:flutter/foundation.dart';
 import '../../domain/entities/user_entity.dart';
-import '../../container.dart';
+import '../../container.dart' as AppContainer;
 
 class AuthProvider extends ChangeNotifier {
   UserEntity? _user;
@@ -16,12 +16,11 @@ class AuthProvider extends ChangeNotifier {
   bool get isAuthenticated => _isAuthenticated;
   String? get error => _error;
 
-// Verifica si hay token guardado al iniciar la app
   Future<void> checkAuthStatus() async {
     _loading = true;
     notifyListeners();
     try {
-      final user = await Container.getProfileUseCase.execute();
+      final user = await AppContainer.Container.getProfileUseCase.execute();
       if (user != null) {
         _user = user;
         _isAuthenticated = true;
@@ -41,17 +40,24 @@ class AuthProvider extends ChangeNotifier {
     _error = null;
     notifyListeners();
     try {
-      final result = await Container.loginUseCase.execute(
+      final result = await AppContainer.Container.loginUseCase.execute(
         email: email,
         password: password,
       );
       _user = result.user;
       _isAuthenticated = true;
-      await Container.storage.saveToken(result.token);
+      await AppContainer.Container.storage.saveToken(result.token);
+
+      // ← Recargar perfil completo para obtener nombre
+      try {
+        final fullUser =
+            await AppContainer.Container.getProfileUseCase.execute();
+        if (fullUser != null) _user = fullUser;
+      } catch (_) {}
+
       return true;
     } catch (e) {
       _error = e.toString();
-      print('ERROR LOGIN: $e'); // ← agregar esto
       return false;
     } finally {
       _loading = false;
@@ -59,19 +65,21 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> register(String email, String password, String username) async {
+  Future<bool> register(
+      String email, String password, String nombre, String username) async {
     _loading = true;
     _error = null;
     notifyListeners();
     try {
-      final result = await Container.registerUseCase.execute(
+      final result = await AppContainer.Container.registerUseCase.execute(
         email: email,
         password: password,
+        nombre: nombre,
         username: username,
       );
       _user = result.user;
       _isAuthenticated = true;
-      await Container.storage.saveToken(result.token); // ← agregar esta línea
+      await AppContainer.Container.storage.saveToken(result.token);
       return true;
     } catch (e) {
       _error = e.toString();
@@ -83,19 +91,20 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> logout() async {
-    await Container.logoutUseCase.execute();
+    await AppContainer.Container.logoutUseCase.execute();
     _user = null;
     _isAuthenticated = false;
     notifyListeners();
   }
 
-  // ← nuevo método
-  Future<bool> updateProfile({String? username, String? password}) async {
+  Future<bool> updateProfile(
+      {String? nombre, String? username, String? password}) async {
     _loading = true;
     _error = null;
     notifyListeners();
     try {
-      final user = await Container.updateProfileUseCase.execute(
+      final user = await AppContainer.Container.updateProfileUseCase.execute(
+        nombre: nombre,
         username: username,
         password: password,
       );

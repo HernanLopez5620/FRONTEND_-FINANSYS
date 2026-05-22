@@ -14,11 +14,13 @@ class AuthApiAdapter implements AuthPort {
   Future<({UserEntity user, String token})> register({
     required String email,
     required String password,
+    required String nombre,
     required String username,
   }) async {
     final res = await _http.post('/users/register', {
       'email': email,
       'password': password,
+      'nombre': nombre,
       'username': username,
     });
     return (
@@ -56,11 +58,23 @@ class AuthApiAdapter implements AuthPort {
   }
 
   @override
-  Future<UserEntity> updateProfile({String? username, String? password}) async {
+  Future<UserEntity> updateProfile(
+      {String? nombre, String? username, String? password}) async {
     final body = <String, dynamic>{};
+    if (nombre != null && nombre.isNotEmpty) body['nombre'] = nombre;
     if (username != null && username.isNotEmpty) body['username'] = username;
     if (password != null && password.isNotEmpty) body['password'] = password;
     final res = await _http.put('/users/profile', body, requiresAuth: true);
     return UserEntity.fromJson(res['user'] ?? {});
+  }
+
+  @override
+  Future<({bool disponible, String msg})> checkUsername(String username) async {
+    final res =
+        await _http.get('/users/check-username/$username', requiresAuth: false);
+    return (
+      disponible: res['disponible'] as bool? ?? false,
+      msg: res['msg'] as String? ?? '',
+    );
   }
 }

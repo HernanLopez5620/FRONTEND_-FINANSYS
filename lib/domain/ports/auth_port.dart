@@ -10,6 +10,7 @@ abstract class AuthPort {
   Future<({UserEntity user, String token})> register({
     required String email,
     required String password,
+    required String nombre,
     required String username,
   });
 
@@ -22,7 +23,10 @@ abstract class AuthPort {
   Future<List<UserEntity>> getUsers();
 
   Future<UserEntity> updateProfile({
+    String? nombre,
     String? username,
     String? password,
   });
+
+  Future<({bool disponible, String msg})> checkUsername(String username);
 }

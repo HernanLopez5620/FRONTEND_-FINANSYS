@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
-import '../../../core/theme/app_theme.dart';
+import '../../core/theme/app_theme.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -12,6 +12,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final _nombreCtrl = TextEditingController();
   final _usernameCtrl = TextEditingController();
   final _passwordCtrl = TextEditingController();
   final _confirmCtrl = TextEditingController();
@@ -21,12 +22,15 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
+    // Primero carga lo que hay en memoria
     final user = context.read<AuthProvider>().user;
+    _nombreCtrl.text = user?.nombre ?? '';
     _usernameCtrl.text = user?.username ?? '';
   }
 
   @override
   void dispose() {
+    _nombreCtrl.dispose();
     _usernameCtrl.dispose();
     _passwordCtrl.dispose();
     _confirmCtrl.dispose();
@@ -34,6 +38,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> _guardar() async {
+    final nombre = _nombreCtrl.text.trim();
     final username = _usernameCtrl.text.trim();
     final password = _passwordCtrl.text.trim();
     final confirm = _confirmCtrl.text.trim();
@@ -48,6 +53,7 @@ class _ProfilePageState extends State<ProfilePage> {
     }
 
     final ok = await context.read<AuthProvider>().updateProfile(
+          nombre: nombre.isNotEmpty ? nombre : null,
           username: username.isNotEmpty ? username : null,
           password: password.isNotEmpty ? password : null,
         );
@@ -67,6 +73,10 @@ class _ProfilePageState extends State<ProfilePage> {
     final user = context.watch<AuthProvider>().user;
     final loading = context.watch<AuthProvider>().loading;
 
+    // Inicial basada en el nombre real
+    final inicial =
+        (user?.nombre.isNotEmpty == true) ? user!.nombre[0].toUpperCase() : 'U';
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Mi perfil'),
@@ -78,14 +88,12 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(children: [
           const SizedBox(height: 16),
 
-          // Avatar
+          // Avatar con inicial del nombre
           CircleAvatar(
             radius: 45,
             backgroundColor: AppTheme.primary,
             child: Text(
-              user?.username.isNotEmpty == true
-                  ? user!.username[0].toUpperCase()
-                  : 'U',
+              inicial,
               style: const TextStyle(
                   fontSize: 36,
                   color: Colors.white,
@@ -93,8 +101,30 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
           const SizedBox(height: 12),
-          Text(user?.email ?? '', style: const TextStyle(color: Colors.grey)),
+
+          // Nombre completo
+          Text(
+            user?.nombre ?? '',
+            style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: AppTheme.textDark),
+          ),
+          const SizedBox(height: 4),
+
+          // Username
+          Text(
+            '@${user?.username ?? ''}',
+            style: const TextStyle(fontSize: 13, color: AppTheme.textGrey),
+          ),
+          const SizedBox(height: 6),
+
+          // Email
+          Text(user?.email ?? '',
+              style: const TextStyle(color: Colors.grey, fontSize: 13)),
           const SizedBox(height: 8),
+
+          // Estado cuenta
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             decoration: BoxDecoration(
@@ -130,12 +160,25 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           const SizedBox(height: 16),
 
+          // Nombre completo
+          TextField(
+            controller: _nombreCtrl,
+            textCapitalization: TextCapitalization.words,
+            decoration: InputDecoration(
+              labelText: 'Nombre completo',
+              prefixIcon: const Icon(Icons.badge_outlined),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+            ),
+          ),
+          const SizedBox(height: 16),
+
           // Username
           TextField(
             controller: _usernameCtrl,
             decoration: InputDecoration(
-              labelText: 'Nombre de usuario',
-              prefixIcon: const Icon(Icons.person_outline),
+              labelText: 'Usuario',
+              prefixIcon: const Icon(Icons.alternate_email),
               border:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
             ),

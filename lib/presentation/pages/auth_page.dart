@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../providers/auth_provider.dart';
 import '../components/ui/app_toast.dart';
+import '../../container.dart' as AppContainer;
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -197,7 +198,7 @@ class _LoginFormState extends State<_LoginForm> {
   }
 }
 
-// ── Register Form ──
+// ── Register Form ──----------------------------------------------
 class _RegisterForm extends StatefulWidget {
   const _RegisterForm();
 
@@ -207,14 +208,20 @@ class _RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<_RegisterForm> {
   final _formKey = GlobalKey<FormState>();
+  final _nombreCtrl = TextEditingController();
   final _usernameCtrl = TextEditingController();
   final _emailCtrl = TextEditingController();
   final _passCtrl = TextEditingController();
   final _confirmCtrl = TextEditingController();
   bool _obscure = true;
 
+  bool? _usernameDisponible;
+  String _usernameMsg = '';
+  bool _checkingUsername = false;
+
   @override
   void dispose() {
+    _nombreCtrl.dispose();
     _usernameCtrl.dispose();
     _emailCtrl.dispose();
     _passCtrl.dispose();
@@ -222,13 +229,46 @@ class _RegisterFormState extends State<_RegisterForm> {
     super.dispose();
   }
 
+  Future<void> _onUsernameChanged(String value) async {
+    final regex = RegExp(r'^[a-zA-Z0-9_]{3,20}$');
+    if (!regex.hasMatch(value)) {
+      setState(() {
+        _usernameDisponible = false;
+        _usernameMsg = 'Solo letras, números y _ (3-20 caracteres)';
+        _checkingUsername = false;
+      });
+      return;
+    }
+
+    setState(() => _checkingUsername = true);
+
+    final result =
+        await AppContainer.Container.checkUsernameUseCase.execute(value);
+
+    if (mounted) {
+      setState(() {
+        _usernameDisponible = result.disponible;
+        _usernameMsg = result.msg;
+        _checkingUsername = false;
+      });
+    }
+  }
+
   Future<void> _register() async {
     if (!_formKey.currentState!.validate()) return;
+    if (_usernameDisponible != true) {
+      AppToast.show(context, 'El username no está disponible',
+          type: ToastType.error);
+      return;
+    }
+
     final ok = await context.read<AuthProvider>().register(
           _emailCtrl.text.trim(),
           _passCtrl.text,
+          _nombreCtrl.text.trim(),
           _usernameCtrl.text.trim(),
         );
+
     if (!ok && mounted) {
       AppToast.show(
           context, context.read<AuthProvider>().error ?? 'Error al registrarse',
@@ -242,18 +282,62 @@ class _RegisterFormState extends State<_RegisterForm> {
       key: _formKey,
       child: SingleChildScrollView(
         child: Column(children: [
+          // Nombre real
           TextFormField(
-            controller: _usernameCtrl,
+            controller: _nombreCtrl,
             textCapitalization: TextCapitalization.words,
             decoration: const InputDecoration(
-              labelText: 'Nombre de usuario',
-              prefixIcon: Icon(Icons.person_outline,
+              labelText: 'Nombre completo',
+              prefixIcon: Icon(Icons.badge_outlined,
                   color: AppTheme.textGrey, size: 20),
             ),
             validator: (v) =>
-                (v == null || v.isEmpty) ? 'Ingresa un nombre' : null,
+                (v == null || v.isEmpty) ? 'Ingresa tu nombre' : null,
           ),
           const SizedBox(height: 12),
+
+          // Username con validación en tiempo real
+          TextFormField(
+            controller: _usernameCtrl,
+            decoration: InputDecoration(
+              labelText: 'Usuario (ej: JuanCa123)',
+              prefixIcon: const Icon(Icons.alternate_email,
+                  color: AppTheme.textGrey, size: 20),
+              suffixIcon: _checkingUsername
+                  ? const Padding(
+                      padding: EdgeInsets.all(12),
+                      child: SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: CircularProgressIndicator(strokeWidth: 2)))
+                  : _usernameDisponible == null
+                      ? null
+                      : Icon(
+                          _usernameDisponible!
+                              ? Icons.check_circle_rounded
+                              : Icons.cancel_rounded,
+                          color:
+                              _usernameDisponible! ? Colors.green : Colors.red,
+                          size: 20,
+                        ),
+              helperText: _usernameMsg.isEmpty
+                  ? 'Solo letras, números y _ (3-20 caracteres)'
+                  : _usernameMsg,
+              helperStyle: TextStyle(
+                color: _usernameDisponible == null
+                    ? AppTheme.textHint
+                    : _usernameDisponible!
+                        ? Colors.green
+                        : Colors.red,
+              ),
+            ),
+            onChanged: _onUsernameChanged,
+            validator: (v) =>
+                (v == null || v.isEmpty) ? 'Ingresa un usuario' : null,
+          ),
+          const SizedBox(height: 12),
+
+          // Email
           TextFormField(
             controller: _emailCtrl,
             keyboardType: TextInputType.emailAddress,
@@ -266,6 +350,8 @@ class _RegisterFormState extends State<_RegisterForm> {
                 (v == null || !v.contains('@')) ? 'Correo inválido' : null,
           ),
           const SizedBox(height: 12),
+
+          // Contraseña
           TextFormField(
             controller: _passCtrl,
             obscureText: _obscure,
@@ -275,12 +361,11 @@ class _RegisterFormState extends State<_RegisterForm> {
                   color: AppTheme.textGrey, size: 20),
               suffixIcon: IconButton(
                 icon: Icon(
-                  _obscure
-                      ? Icons.visibility_off_outlined
-                      : Icons.visibility_outlined,
-                  color: AppTheme.textGrey,
-                  size: 20,
-                ),
+                    _obscure
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
+                    color: AppTheme.textGrey,
+                    size: 20),
                 onPressed: () => setState(() => _obscure = !_obscure),
               ),
             ),
@@ -288,6 +373,8 @@ class _RegisterFormState extends State<_RegisterForm> {
                 (v != null && v.length < 6) ? 'Mínimo 6 caracteres' : null,
           ),
           const SizedBox(height: 12),
+
+          // Confirmar contraseña
           TextFormField(
             controller: _confirmCtrl,
             obscureText: true,
@@ -300,6 +387,7 @@ class _RegisterFormState extends State<_RegisterForm> {
                 v != _passCtrl.text ? 'Las contraseñas no coinciden' : null,
           ),
           const SizedBox(height: 20),
+
           Consumer<AuthProvider>(
             builder: (_, auth, __) => ElevatedButton(
               onPressed: auth.loading ? null : _register,

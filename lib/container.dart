@@ -35,6 +35,7 @@ import 'application/usecases/convert_currency_usecase.dart';
 import 'application/usecases/update_profile_usecase.dart';
 import 'infrastructure/api/compra_extranjera_api_adapter.dart';
 import 'application/usecases/compra_extranjera_usecase.dart';
+import 'application/usecases/check_username_usecase.dart';
 
 class Container {
   static const bool useMock =
@@ -101,4 +102,6 @@ class Container {
       GuardarCompraUseCase(_compraExtranjeraPort);
   static final eliminarCompraUseCase =
       EliminarCompraUseCase(_compraExtranjeraPort);
+
+  static final checkUsernameUseCase = CheckUsernameUseCase(_authPort);
 }

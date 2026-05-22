@@ -11,11 +11,13 @@ class RegisterUseCase {
   Future<({UserEntity user, String token})> execute({
     required String email,
     required String password,
+    required String nombre,
     required String username,
   }) {
     return _authPort.register(
       email: email,
       password: password,
+      nombre: nombre,
       username: username,
     );
   }

@@ -6,7 +6,12 @@ class UpdateProfileUseCase {
   final AuthPort _authPort;
   UpdateProfileUseCase(this._authPort);
 
-  Future<UserEntity> execute({String? username, String? password}) {
-    return _authPort.updateProfile(username: username, password: password);
+  Future<UserEntity> execute(
+      {String? nombre, String? username, String? password}) {
+    return _authPort.updateProfile(
+      nombre: nombre,
+      username: username,
+      password: password,
+    );
   }
 }

@@ -6,6 +6,7 @@
 class UserEntity {
   final int uid;
   final String email;
+  final String nombre;
   final String username;
   final bool activo;
   final DateTime? createdAt;
@@ -13,6 +14,7 @@ class UserEntity {
   const UserEntity({
     required this.uid,
     required this.email,
+    required this.nombre,
     required this.username,
     this.activo = true,
     this.createdAt,
@@ -22,6 +24,7 @@ class UserEntity {
     return UserEntity(
       uid: json['uid'] ?? json['id'] ?? 0,
       email: json['email'] ?? '',
+      nombre: json['nombre'] ?? '',
       username: json['username'] ?? '',
       activo: json['activo'] ?? true,
       createdAt: json['created_at'] != null
@@ -33,6 +36,7 @@ class UserEntity {
   Map<String, dynamic> toJson() => {
         'uid': uid,
         'email': email,
+        'nombre': nombre,
         'username': username,
       };
 }
