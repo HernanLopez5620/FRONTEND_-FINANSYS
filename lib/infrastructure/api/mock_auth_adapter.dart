@@ -1,6 +1,7 @@
 // infrastructure/api/mock_auth_adapter.dart
 // Adaptador MOCK — para desarrollo sin backend activo.
 // SOLID-LSP: reemplaza a AuthApiAdapter sin romper nada.
+
 import '../../domain/entities/user_entity.dart';
 import '../../domain/ports/auth_port.dart';
 import '../../domain/ports/storage_port.dart';
@@ -20,9 +21,14 @@ class MockAuthAdapter implements AuthPort {
   }) async {
     await Future.delayed(const Duration(milliseconds: 600));
     await _storage.saveToken(_mockToken);
+
     return (
-      user:
-          UserEntity(uid: 1, email: email, nombre: nombre, username: username),
+      user: UserEntity(
+        uid: 1,
+        email: email,
+        nombre: nombre,
+        username: username,
+      ),
       token: _mockToken,
     );
   }
@@ -34,12 +40,14 @@ class MockAuthAdapter implements AuthPort {
   }) async {
     await Future.delayed(const Duration(milliseconds: 600));
     await _storage.saveToken(_mockToken);
+
     return (
       user: const UserEntity(
-          uid: 1,
-          email: 'juan@ejemplo.com',
-          nombre: 'Juan Garcia',
-          username: 'juangarcia123'),
+        uid: 1,
+        email: 'juan@ejemplo.com',
+        nombre: 'Juan García',
+        username: 'juangarcia123',
+      ),
       token: _mockToken,
     );
   }
@@ -47,27 +55,32 @@ class MockAuthAdapter implements AuthPort {
   @override
   Future<UserEntity> getProfile() async {
     await Future.delayed(const Duration(milliseconds: 300));
+
     return const UserEntity(
-        uid: 1,
-        email: 'juan@ejemplo.com',
-        nombre: 'Juan Garcia',
-        username: 'juangarcia123');
+      uid: 1,
+      email: 'juan@ejemplo.com',
+      nombre: 'Juan García',
+      username: 'juangarcia123',
+    );
   }
 
   @override
   Future<List<UserEntity>> getUsers() async {
     await Future.delayed(const Duration(milliseconds: 400));
+
     return const [
       UserEntity(
-          uid: 1,
-          email: 'juan@ejemplo.com',
-          nombre: 'Juan Garcia',
-          username: 'juangarcia123'),
+        uid: 1,
+        email: 'juan@ejemplo.com',
+        nombre: 'Juan García',
+        username: 'juangarcia123',
+      ),
       UserEntity(
-          uid: 2,
-          email: 'maria@ejemplo.com',
-          nombre: 'Maria Lopez',
-          username: 'marialopez456'),
+        uid: 2,
+        email: 'maria@ejemplo.com',
+        nombre: 'María López',
+        username: 'marialopez456',
+      ),
     ];
   }
 
@@ -78,28 +91,39 @@ class MockAuthAdapter implements AuthPort {
     String? password,
   }) async {
     await Future.delayed(const Duration(milliseconds: 400));
+
     return UserEntity(
       uid: 1,
       email: 'juan@ejemplo.com',
-      nombre: nombre ?? 'Juan Garcia',
+      nombre: nombre ?? 'Juan García',
       username: username ?? 'juangarcia123',
     );
   }
 
   @override
-  Future<({bool disponible, String msg})> checkUsername(String username) async {
+  Future<({bool disponible, String msg})> checkUsername(
+    String username,
+  ) async {
     await Future.delayed(const Duration(milliseconds: 300));
-    return (disponible: true, msg: 'Usuario disponible');
+
+    return (
+      disponible: true,
+      msg: 'Usuario disponible',
+    );
   }
 
   @override
-  Future<void> forgotPassword({required String email}) async {
+  Future<void> forgotPassword({
+    required String email,
+  }) async {
     await Future.delayed(const Duration(milliseconds: 500));
   }
 
   @override
-  Future<void> resetPassword(
-      {required String token, required String password}) async {
+  Future<void> resetPassword({
+    required String token,
+    required String password,
+  }) async {
     await Future.delayed(const Duration(milliseconds: 500));
   }
 

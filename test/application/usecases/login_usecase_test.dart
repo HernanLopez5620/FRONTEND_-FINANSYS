@@ -15,7 +15,12 @@ class MockAuthPort implements AuthPort {
     required String password,
   }) async {
     return (
-      user: const UserEntity(uid: 1, email: 'juan@ejemplo.com', username: 'Juan'),
+      user: const UserEntity(
+        uid: 1,
+        email: 'juan@ejemplo.com',
+        nombre: 'Juan García',
+        username: 'Juan',
+      ),
       token: 'mock-token-123',
     );
   }
@@ -24,14 +29,50 @@ class MockAuthPort implements AuthPort {
   Future<({UserEntity user, String token})> register({
     required String email,
     required String password,
+    required String nombre,
     required String username,
-  }) async => throw UnimplementedError();
+  }) async =>
+      throw UnimplementedError();
 
   @override
   Future<UserEntity> getProfile() async => throw UnimplementedError();
 
   @override
   Future<List<UserEntity>> getUsers() async => throw UnimplementedError();
+
+  @override
+  Future<UserEntity> updateProfile({
+    String? nombre,
+    String? username,
+    String? password,
+  }) async =>
+      throw UnimplementedError();
+
+  @override
+  Future<({bool disponible, String msg})> checkUsername(
+    String username,
+  ) async =>
+      throw UnimplementedError();
+
+  @override
+  Future<void> forgotPassword({required String email}) async =>
+      throw UnimplementedError();
+
+  @override
+  Future<void> resetPassword({
+    required String token,
+    required String password,
+  }) async =>
+      throw UnimplementedError();
+
+  @override
+  Future<void> updateTema(String tema) async => throw UnimplementedError();
+
+  @override
+  Future<void> logout() async => throw UnimplementedError();
+
+  @override
+  Future<void> checkSession() async => throw UnimplementedError();
 }
 
 void main() {
@@ -46,17 +87,17 @@ void main() {
 
     test('execute() retorna usuario y token correctamente', () async {
       final result = await loginUseCase.execute(
-        email:    'juan@ejemplo.com',
+        email: 'juan@ejemplo.com',
         password: '123456',
       );
 
       expect(result.user.email, equals('juan@ejemplo.com'));
-      expect(result.token,      equals('mock-token-123'));
+      expect(result.token, equals('mock-token-123'));
     });
 
     test('execute() retorna el uid correcto del usuario', () async {
       final result = await loginUseCase.execute(
-        email:    'juan@ejemplo.com',
+        email: 'juan@ejemplo.com',
         password: '123456',
       );
 

@@ -11,6 +11,7 @@ void main() {
       final json = {
         'uid': 1,
         'email': 'juan@ejemplo.com',
+        'nombre': 'Juan García',
         'username': 'Juan García',
       };
 
@@ -18,6 +19,7 @@ void main() {
 
       expect(user.uid, equals(1));
       expect(user.email, equals('juan@ejemplo.com'));
+      expect(user.nombre, equals('Juan García'));
       expect(user.username, equals('Juan García'));
     });
 
@@ -25,12 +27,14 @@ void main() {
       final json = {
         'id': 2,
         'email': 'maria@ejemplo.com',
+        'nombre': 'María López',
         'username': 'María López',
       };
 
       final user = UserEntity.fromJson(json);
 
       expect(user.uid, equals(2));
+      expect(user.nombre, equals('María López'));
     });
 
     test('fromJson() usa valores por defecto si faltan campos', () {
@@ -38,6 +42,7 @@ void main() {
 
       expect(user.uid, equals(0));
       expect(user.email, equals(''));
+      expect(user.nombre, equals(''));
       expect(user.username, equals(''));
     });
 
@@ -45,6 +50,7 @@ void main() {
       const user = UserEntity(
         uid: 1,
         email: 'juan@ejemplo.com',
+        nombre: 'Juan García',
         username: 'Juan García',
       );
 
@@ -52,6 +58,7 @@ void main() {
 
       expect(json['uid'], equals(1));
       expect(json['email'], equals('juan@ejemplo.com'));
+      expect(json['nombre'], equals('Juan García'));
       expect(json['username'], equals('Juan García'));
     });
   });

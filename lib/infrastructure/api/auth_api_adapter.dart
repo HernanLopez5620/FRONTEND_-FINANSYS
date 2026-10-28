@@ -1,6 +1,7 @@
 // infrastructure/api/auth_api_adapter.dart
 // Adaptador REAL — implementa AuthPort conectando al backend.
 // Correlacionado con user.routes.js y user.controller.js.
+
 import '../../domain/entities/user_entity.dart';
 import '../../domain/ports/auth_port.dart';
 import 'http_client.dart';

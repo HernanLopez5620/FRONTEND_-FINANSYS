@@ -37,6 +37,7 @@ import 'infrastructure/api/compra_extranjera_api_adapter.dart';
 import 'application/usecases/compra_extranjera_usecase.dart';
 import 'application/usecases/update_tema_usecase.dart';
 import 'application/usecases/check_session_usecase.dart';
+import 'application/usecases/check_username_usecase.dart';
 import 'infrastructure/api/admin_api_adapter.dart';
 import 'application/usecases/admin_usecases.dart';
 
@@ -69,6 +70,7 @@ class Container {
   static final logoutUseCase = LogoutUseCase(storage, _authPort);
   static final checkSessionUseCase = CheckSessionUseCase(_authPort);
   static final listUsersUseCase = ListUsersUseCase(_authPort);
+  static final checkUsernameUseCase = CheckUsernameUseCase(_authPort);
 
   // ── Gastos ──
   static final listExpensesUseCase = ListExpensesUseCase(_gastoPort);
@@ -107,7 +109,7 @@ class Container {
   static final eliminarCompraUseCase =
       EliminarCompraUseCase(_compraExtranjeraPort);
 
-  //-- Cambio de temas (claro, oscuro, opera gx)--
+  // ── Cambio de temas (claro, oscuro, opera gx) ──
   static final updateTemaUseCase = UpdateTemaUseCase(_authPort);
 
   // ── Panel de administrador ──

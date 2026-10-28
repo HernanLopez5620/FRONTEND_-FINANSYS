@@ -16,17 +16,17 @@ void main() {
 
     test('login() retorna usuario con email correcto', () async {
       final result = await adapter.login(
-        email:    'test@ejemplo.com',
+        email: 'test@ejemplo.com',
         password: '123456',
       );
 
       expect(result.user.email, isNotEmpty);
-      expect(result.token,      isNotEmpty);
+      expect(result.token, isNotEmpty);
     });
 
     test('login() retorna token no vacío', () async {
       final result = await adapter.login(
-        email:    'test@ejemplo.com',
+        email: 'test@ejemplo.com',
         password: '123456',
       );
 
@@ -35,12 +35,14 @@ void main() {
 
     test('register() retorna el username ingresado', () async {
       final result = await adapter.register(
-        email:    'nuevo@ejemplo.com',
+        email: 'nuevo@ejemplo.com',
         password: '123456',
+        nombre: 'Nuevo Usuario',
         username: 'NuevoUsuario',
       );
 
       expect(result.user.username, equals('NuevoUsuario'));
+      expect(result.user.nombre, equals('Nuevo Usuario'));
     });
 
     test('getProfile() retorna usuario con uid mayor a 0', () async {

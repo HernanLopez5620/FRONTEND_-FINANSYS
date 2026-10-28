@@ -29,8 +29,12 @@ abstract class AuthPort {
   });
 
   Future<({bool disponible, String msg})> checkUsername(String username);
+
   Future<void> forgotPassword({required String email});
-  Future<void> resetPassword({required String token, required String password});
+  Future<void> resetPassword({
+    required String token,
+    required String password,
+  });
   Future<void> updateTema(String tema);
 
   // Sesión única
