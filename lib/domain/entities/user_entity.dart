@@ -1,29 +1,40 @@
 // domain/entities/user_entity.dart
 // Entidad pura — correlacionada con user.entity.js del backend.
-// Campos: uid, email, username (password nunca se guarda en el front)
+// Campos: uid, email, username, nombre, tema (password nunca se guarda en el front)
 // SOLID-SRP: representa únicamente el concepto de Usuario.
 
 class UserEntity {
   final int uid;
   final String email;
+  final String nombre;
   final String username;
   final bool activo;
+  final String tema; // ← nuevo
+  final String rol; // 'usuario' o 'admin'
   final DateTime? createdAt;
 
   const UserEntity({
     required this.uid,
     required this.email,
+    required this.nombre,
     required this.username,
     this.activo = true,
+    this.tema = 'claro', // ← nuevo
+    this.rol = 'usuario',
     this.createdAt,
   });
+
+  bool get esAdmin => rol == 'admin';
 
   factory UserEntity.fromJson(Map<String, dynamic> json) {
     return UserEntity(
       uid: json['uid'] ?? json['id'] ?? 0,
       email: json['email'] ?? '',
+      nombre: json['nombre'] ?? '',
       username: json['username'] ?? '',
       activo: json['activo'] ?? true,
+      tema: json['tema'] ?? 'claro', // ← nuevo
+      rol: json['rol'] ?? 'usuario',
       createdAt: json['created_at'] != null
           ? DateTime.tryParse(json['created_at'])
           : null,
@@ -33,6 +44,9 @@ class UserEntity {
   Map<String, dynamic> toJson() => {
         'uid': uid,
         'email': email,
+        'nombre': nombre,
         'username': username,
+        'tema': tema,
+        'rol': rol,
       };
 }

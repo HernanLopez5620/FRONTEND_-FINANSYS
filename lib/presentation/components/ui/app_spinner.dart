@@ -2,7 +2,6 @@
 // SOLID-SRP: única responsabilidad — mostrar indicador de carga.
 
 import 'package:flutter/material.dart';
-import '../../../core/theme/app_theme.dart';
 
 class AppSpinner extends StatelessWidget {
   final double size;
@@ -15,8 +14,8 @@ class AppSpinner extends StatelessWidget {
       child: SizedBox(
         width: size,
         height: size,
-        child: const CircularProgressIndicator(
-          color: AppTheme.primary,
+        child: CircularProgressIndicator(
+          color: Theme.of(context).colorScheme.primary,
           strokeWidth: 3,
         ),
       ),

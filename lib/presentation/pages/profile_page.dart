@@ -1,8 +1,14 @@
 // presentation/pages/profile_page.dart
+// SOLID-SRP: única responsabilidad — ver y editar el perfil del usuario.
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
-import '../../../core/theme/app_theme.dart';
+import '../providers/tema_provider.dart';
+import '../components/ui/app_toast.dart';
+import '../widgets/inactividad_overlay.dart';
+import 'terminos_page.dart';
+import 'politica_datos_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -12,209 +18,249 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final _usernameCtrl = TextEditingController();
-  final _passwordCtrl = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  late final TextEditingController _nombreCtrl;
+  late final TextEditingController _usernameCtrl;
+  final _passCtrl = TextEditingController();
   final _confirmCtrl = TextEditingController();
-  bool _obscurePass = true;
-  bool _obscureConfirm = true;
+  bool _obscure = true;
 
   @override
   void initState() {
     super.initState();
     final user = context.read<AuthProvider>().user;
-    _usernameCtrl.text = user?.username ?? '';
+    _nombreCtrl = TextEditingController(text: user?.nombre ?? '');
+    _usernameCtrl = TextEditingController(text: user?.username ?? '');
   }
 
   @override
   void dispose() {
+    _nombreCtrl.dispose();
     _usernameCtrl.dispose();
-    _passwordCtrl.dispose();
+    _passCtrl.dispose();
     _confirmCtrl.dispose();
     super.dispose();
   }
 
   Future<void> _guardar() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    final auth = context.read<AuthProvider>();
+    final user = auth.user;
+    final nombre = _nombreCtrl.text.trim();
     final username = _usernameCtrl.text.trim();
-    final password = _passwordCtrl.text.trim();
-    final confirm = _confirmCtrl.text.trim();
+    final password = _passCtrl.text;
 
-    if (password.isNotEmpty && password != confirm) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Las contraseñas no coinciden'),
-            backgroundColor: Colors.red),
-      );
-      return;
-    }
-
-    final ok = await context.read<AuthProvider>().updateProfile(
-          username: username.isNotEmpty ? username : null,
-          password: password.isNotEmpty ? password : null,
-        );
+    // Solo enviamos lo que realmente cambió
+    final ok = await auth.updateProfile(
+      nombre: nombre != user?.nombre ? nombre : null,
+      username: username != user?.username ? username : null,
+      password: password.isNotEmpty ? password : null,
+    );
 
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(ok ? 'Perfil actualizado' : 'Error al actualizar'),
-        backgroundColor: ok ? AppTheme.primary : Colors.red,
-      ),
-    );
-    if (ok) Navigator.of(context).pop();
+    if (ok) {
+      _passCtrl.clear();
+      _confirmCtrl.clear();
+      AppToast.show(context, 'Perfil actualizado', type: ToastType.success);
+    } else {
+      AppToast.show(context, auth.error ?? 'No se pudo actualizar el perfil',
+          type: ToastType.error);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final user = context.watch<AuthProvider>().user;
-    final loading = context.watch<AuthProvider>().loading;
+    final cs = Theme.of(context).colorScheme;
+    final auth = context.watch<AuthProvider>();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Mi perfil'),
-        backgroundColor: AppTheme.primary,
-        foregroundColor: Colors.white,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: Column(children: [
-          const SizedBox(height: 16),
+    // Si la sesión se cerró (p. ej. por inactividad), volvemos al inicio
+    if (!auth.isAuthenticated) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) Navigator.of(context).popUntil((r) => r.isFirst);
+      });
+    }
 
-          // Avatar
-          CircleAvatar(
-            radius: 45,
-            backgroundColor: AppTheme.primary,
-            child: Text(
-              user?.username.isNotEmpty == true
-                  ? user!.username[0].toUpperCase()
-                  : 'U',
-              style: const TextStyle(
-                  fontSize: 36,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
+    final user = auth.user;
+
+    return InactividadOverlay(
+      child: Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        appBar: AppBar(
+          title: const Text('Mi perfil'),
+        ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // ── Avatar y datos básicos ──
+                Center(
+                  child: CircleAvatar(
+                    radius: 40,
+                    backgroundColor: cs.primary,
+                    child: Text(
+                      _inicial(user?.nombre, user?.username),
+                      style: TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.w700,
+                          color: cs.onPrimary),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Center(
+                  child: Text(
+                    user?.email ?? '',
+                    style: TextStyle(
+                        fontSize: 14, color: cs.onSurface.withOpacity(0.6)),
+                  ),
+                ),
+                const SizedBox(height: 28),
+
+                // ── Datos editables ──
+                _titulo(context, 'Datos personales'),
+                TextFormField(
+                  controller: _nombreCtrl,
+                  decoration: const InputDecoration(
+                    labelText: 'Nombre',
+                    prefixIcon: Icon(Icons.badge_outlined),
+                  ),
+                  validator: (v) => (v == null || v.trim().isEmpty)
+                      ? 'Ingresa tu nombre'
+                      : null,
+                ),
+                const SizedBox(height: 14),
+                TextFormField(
+                  controller: _usernameCtrl,
+                  decoration: const InputDecoration(
+                    labelText: 'Usuario',
+                    prefixIcon: Icon(Icons.person_outline_rounded),
+                  ),
+                  validator: (v) => (v == null || v.trim().isEmpty)
+                      ? 'Ingresa un nombre de usuario'
+                      : null,
+                ),
+                const SizedBox(height: 24),
+
+                // ── Cambio de contraseña (opcional) ──
+                _titulo(context, 'Cambiar contraseña (opcional)'),
+                TextFormField(
+                  controller: _passCtrl,
+                  obscureText: _obscure,
+                  decoration: InputDecoration(
+                    labelText: 'Nueva contraseña',
+                    prefixIcon: const Icon(Icons.lock_outline_rounded),
+                    suffixIcon: IconButton(
+                      icon: Icon(_obscure
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined),
+                      onPressed: () => setState(() => _obscure = !_obscure),
+                    ),
+                  ),
+                  validator: (v) {
+                    if (v == null || v.isEmpty) return null;
+                    return v.length < 6 ? 'Mínimo 6 caracteres' : null;
+                  },
+                ),
+                const SizedBox(height: 14),
+                TextFormField(
+                  controller: _confirmCtrl,
+                  obscureText: _obscure,
+                  decoration: const InputDecoration(
+                    labelText: 'Confirmar contraseña',
+                    prefixIcon: Icon(Icons.lock_outline_rounded),
+                  ),
+                  validator: (v) => (v != _passCtrl.text)
+                      ? 'Las contraseñas no coinciden'
+                      : null,
+                ),
+                const SizedBox(height: 24),
+
+                ElevatedButton(
+                  onPressed: auth.loading ? null : _guardar,
+                  child: auth.loading
+                      ? const SizedBox(
+                          width: 22,
+                          height: 22,
+                          child: CircularProgressIndicator(
+                              color: Colors.white, strokeWidth: 2.5))
+                      : const Text('Guardar cambios'),
+                ),
+                const SizedBox(height: 32),
+
+                // ── Tema ──
+                _titulo(context, 'Apariencia'),
+                Consumer<TemaProvider>(
+                  builder: (_, temaP, __) => Wrap(
+                    spacing: 8,
+                    children: [
+                      _chipTema(temaP, 'claro', 'Claro'),
+                      _chipTema(temaP, 'oscuro', 'Oscuro'),
+                      _chipTema(temaP, 'operagx', 'Gamer'),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 32),
+
+                // ── Legal ──
+                _titulo(context, 'Información legal'),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: Icon(Icons.description_outlined, color: cs.primary),
+                  title: const Text('Términos y Condiciones'),
+                  trailing: const Icon(Icons.chevron_right_rounded),
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const TerminosPage()),
+                  ),
+                ),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: Icon(Icons.privacy_tip_outlined, color: cs.primary),
+                  title: const Text('Política de tratamiento de datos'),
+                  trailing: const Icon(Icons.chevron_right_rounded),
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (_) => const PoliticaDatosPage()),
+                  ),
+                ),
+                const SizedBox(height: 16),
+              ],
             ),
           ),
-          const SizedBox(height: 12),
-          Text(user?.email ?? '', style: const TextStyle(color: Colors.grey)),
-          const SizedBox(height: 8),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-            decoration: BoxDecoration(
-              color: user?.activo == true
-                  ? Colors.green.shade50
-                  : Colors.red.shade50,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Text(
-              user?.activo == true ? '✅ Cuenta activa' : '❌ Cuenta inactiva',
-              style: TextStyle(
-                color: user?.activo == true ? Colors.green : Colors.red,
-                fontSize: 12,
-              ),
-            ),
-          ),
-          if (user?.createdAt != null) ...[
-            const SizedBox(height: 4),
-            Text(
-              'Miembro desde ${_formatDate(user!.createdAt!)}',
-              style: const TextStyle(color: Colors.grey, fontSize: 12),
-            ),
-          ],
-
-          const SizedBox(height: 32),
-          const Divider(),
-          const SizedBox(height: 16),
-
-          const Align(
-            alignment: Alignment.centerLeft,
-            child: Text('Editar perfil',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-          ),
-          const SizedBox(height: 16),
-
-          // Username
-          TextField(
-            controller: _usernameCtrl,
-            decoration: InputDecoration(
-              labelText: 'Nombre de usuario',
-              prefixIcon: const Icon(Icons.person_outline),
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-            ),
-          ),
-          const SizedBox(height: 16),
-
-          // Password
-          TextField(
-            controller: _passwordCtrl,
-            obscureText: _obscurePass,
-            decoration: InputDecoration(
-              labelText: 'Nueva contraseña (opcional)',
-              prefixIcon: const Icon(Icons.lock_outline),
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-              suffixIcon: IconButton(
-                icon: Icon(
-                    _obscurePass ? Icons.visibility_off : Icons.visibility),
-                onPressed: () => setState(() => _obscurePass = !_obscurePass),
-              ),
-            ),
-          ),
-          const SizedBox(height: 16),
-
-          // Confirm password
-          TextField(
-            controller: _confirmCtrl,
-            obscureText: _obscureConfirm,
-            decoration: InputDecoration(
-              labelText: 'Confirmar contraseña',
-              prefixIcon: const Icon(Icons.lock_outline),
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-              suffixIcon: IconButton(
-                icon: Icon(
-                    _obscureConfirm ? Icons.visibility_off : Icons.visibility),
-                onPressed: () =>
-                    setState(() => _obscureConfirm = !_obscureConfirm),
-              ),
-            ),
-          ),
-          const SizedBox(height: 32),
-
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: loading ? null : _guardar,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.primary,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
-              ),
-              child: loading
-                  ? const CircularProgressIndicator(color: Colors.white)
-                  : const Text('Guardar cambios',
-                      style: TextStyle(color: Colors.white, fontSize: 16)),
-            ),
-          ),
-        ]),
+        ),
       ),
     );
   }
 
-  String _formatDate(DateTime date) {
-    const meses = [
-      'Enero',
-      'Febrero',
-      'Marzo',
-      'Abril',
-      'Mayo',
-      'Junio',
-      'Julio',
-      'Agosto',
-      'Septiembre',
-      'Octubre',
-      'Noviembre',
-      'Diciembre'
-    ];
-    return '${meses[date.month - 1]} ${date.year}';
+  Widget _chipTema(TemaProvider temaP, String valor, String etiqueta) {
+    return ChoiceChip(
+      label: Text(etiqueta),
+      selected: temaP.tema == valor,
+      onSelected: (_) => temaP.setTema(valor),
+    );
+  }
+
+  Widget _titulo(BuildContext context, String texto) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Text(
+        texto,
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w700,
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
+      ),
+    );
+  }
+
+  String _inicial(String? nombre, String? username) {
+    final base = (nombre != null && nombre.trim().isNotEmpty)
+        ? nombre.trim()
+        : (username ?? '').trim();
+    return base.isEmpty ? '?' : base[0].toUpperCase();
   }
 }

@@ -1,7 +1,6 @@
 // presentation/pages/divisas_page.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../core/theme/app_theme.dart';
 import '../providers/divisa_provider.dart';
 import '../providers/compra_extranjera_provider.dart';
 
@@ -81,6 +80,8 @@ class _DivisasPageState extends State<DivisasPage> {
   Future<void> _guardar() async {
     final nombre = _nombreCtrl.text.trim();
     final conversion = context.read<DivisaProvider>().conversion;
+    final colorScheme = Theme.of(context).colorScheme;
+
     if (nombre.isEmpty || conversion == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -103,7 +104,7 @@ class _DivisasPageState extends State<DivisasPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(ok ? '✅ Compra guardada' : '❌ Error al guardar'),
-        backgroundColor: ok ? AppTheme.primary : Colors.red,
+        backgroundColor: ok ? colorScheme.primary : colorScheme.error,
       ),
     );
     if (ok) _nombreCtrl.clear();
@@ -113,6 +114,8 @@ class _DivisasPageState extends State<DivisasPage> {
   Widget build(BuildContext context) {
     final divisaP = context.watch<DivisaProvider>();
     final compraP = context.watch<CompraExtranjeraProvider>();
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
 
     return ListView(
       padding: const EdgeInsets.all(16),
@@ -121,20 +124,22 @@ class _DivisasPageState extends State<DivisasPage> {
         Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: AppTheme.bgCard,
+            color: theme.cardColor, // ← Dinámico
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppTheme.border, width: 0.5),
+            border:
+                Border.all(color: theme.dividerColor, width: 0.5), // ← Dinámico
           ),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const Text('Calculadora de divisas',
+            Text('Calculadora de divisas',
                 style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
-                    color: AppTheme.textDark)),
+                    color: cs.onSurface)), // ← Dinámico
             const SizedBox(height: 4),
-            const Text('El resultado se actualiza automáticamente',
-                style: TextStyle(fontSize: 11, color: AppTheme.textHint)),
+            Text('El resultado se actualiza automáticamente',
+                style: TextStyle(
+                    fontSize: 11, color: cs.onSurfaceVariant)), // ← Dinámico
             const SizedBox(height: 16),
 
             // Moneda origen + monto
@@ -201,13 +206,13 @@ class _DivisasPageState extends State<DivisasPage> {
                 child: Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: AppTheme.primary.withOpacity(0.1),
+                    color: cs.primary.withOpacity(0.1), // ← Dinámico
                     shape: BoxShape.circle,
-                    border:
-                        Border.all(color: AppTheme.primary.withOpacity(0.3)),
+                    border: Border.all(
+                        color: cs.primary.withOpacity(0.3)), // ← Dinámico
                   ),
-                  child: const Icon(Icons.swap_vert_rounded,
-                      color: AppTheme.primary, size: 22),
+                  child: Icon(Icons.swap_vert_rounded,
+                      color: cs.primary, size: 22), // ← Dinámico
                 ),
               ),
             ),
@@ -247,22 +252,23 @@ class _DivisasPageState extends State<DivisasPage> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
                   decoration: BoxDecoration(
-                    color: AppTheme.surface,
+                    color: theme.cardColor, // ← Dinámico
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppTheme.border),
+                    border: Border.all(color: theme.dividerColor), // ← Dinámico
                   ),
                   child: divisaP.conversion != null
                       ? Text(
                           divisaP.conversion!.montoConvertido
                               .toStringAsFixed(2),
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
-                              color: AppTheme.primary),
+                              color: cs.primary), // ← Dinámico
                         )
-                      : const Text('0.00',
+                      : Text('0.00',
                           style: TextStyle(
-                              fontSize: 20, color: AppTheme.textHint)),
+                              fontSize: 20,
+                              color: cs.onSurfaceVariant)), // ← Dinámico
                 ),
               ),
             ]),
@@ -273,8 +279,8 @@ class _DivisasPageState extends State<DivisasPage> {
               Center(
                 child: Text(
                   '1 ${divisaP.conversion!.monedaOrigen} = ${divisaP.conversion!.tasa.toStringAsFixed(4)} ${divisaP.conversion!.monedaDestino}',
-                  style:
-                      const TextStyle(fontSize: 11, color: AppTheme.textHint),
+                  style: TextStyle(
+                      fontSize: 11, color: cs.onSurfaceVariant), // ← Dinámico
                 ),
               ),
               const SizedBox(height: 16),
@@ -297,8 +303,8 @@ class _DivisasPageState extends State<DivisasPage> {
                   icon: const Icon(Icons.save_outlined),
                   label: const Text('Guardar compra'),
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: AppTheme.primary,
-                    side: const BorderSide(color: AppTheme.primary),
+                    foregroundColor: cs.primary, // ← Dinámico
+                    side: BorderSide(color: cs.primary), // ← Dinámico
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12)),
@@ -312,11 +318,11 @@ class _DivisasPageState extends State<DivisasPage> {
         const SizedBox(height: 24),
 
         // ── Lista de compras guardadas ──
-        const Text('Compras guardadas',
+        Text('Compras guardadas',
             style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
-                color: AppTheme.textDark)),
+                color: cs.onSurface)), // ← Dinámico
         const SizedBox(height: 12),
 
         if (compraP.loading)
@@ -325,12 +331,12 @@ class _DivisasPageState extends State<DivisasPage> {
           Container(
             padding: const EdgeInsets.all(32),
             alignment: Alignment.center,
-            child: const Column(children: [
+            child: Column(children: [
               Icon(Icons.shopping_cart_outlined,
-                  size: 48, color: AppTheme.textHint),
-              SizedBox(height: 8),
+                  size: 48, color: cs.onSurfaceVariant), // ← Dinámico
+              const SizedBox(height: 8),
               Text('Sin compras guardadas',
-                  style: TextStyle(color: AppTheme.textGrey)),
+                  style: TextStyle(color: cs.onSurfaceVariant)), // ← Dinámico
             ]),
           )
         else
@@ -338,16 +344,17 @@ class _DivisasPageState extends State<DivisasPage> {
                 margin: const EdgeInsets.only(bottom: 8),
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  color: AppTheme.bgCard,
+                  color: theme.cardColor, // ← Dinámico
                   borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: AppTheme.border, width: 0.5),
+                  border: Border.all(
+                      color: theme.dividerColor, width: 0.5), // ← Dinámico
                 ),
                 child: Row(children: [
                   Container(
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
-                      color: AppTheme.surface,
+                      color: cs.surfaceVariant ?? theme.cardColor, // ← Dinámico
                       borderRadius: BorderRadius.circular(11),
                     ),
                     child: const Center(
@@ -359,21 +366,22 @@ class _DivisasPageState extends State<DivisasPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(c.nombre,
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
-                              color: AppTheme.textDark)),
+                              color: cs.onSurface)), // ← Dinámico
                       Text(
                         '${c.montoOrigen.toStringAsFixed(2)} ${c.monedaOrigen} → ${c.montoCop.toStringAsFixed(0)} COP',
-                        style: const TextStyle(
-                            fontSize: 11, color: AppTheme.textGrey),
+                        style: TextStyle(
+                            fontSize: 11,
+                            color: cs.onSurfaceVariant), // ← Dinámico
                       ),
                     ],
                   )),
                   GestureDetector(
                     onTap: () => compraP.eliminar(c.id),
-                    child: const Icon(Icons.close_rounded,
-                        size: 16, color: AppTheme.textHint),
+                    child: Icon(Icons.close_rounded,
+                        size: 16, color: cs.onSurfaceVariant), // ← Dinámico
                   ),
                 ]),
               )),

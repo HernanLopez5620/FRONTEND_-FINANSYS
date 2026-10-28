@@ -2,7 +2,6 @@
 // SOLID-SRP: única responsabilidad — mostrar estado vacío.
 
 import 'package:flutter/material.dart';
-import '../../../core/theme/app_theme.dart';
 
 class AppEmptyState extends StatelessWidget {
   final IconData icon;
@@ -22,46 +21,47 @@ class AppEmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 24),
+        padding: const EdgeInsets.all(32),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: 68,
-              height: 68,
+              width: 72,
+              height: 72,
               decoration: BoxDecoration(
-                color: AppTheme.surface,
+                color: cs.primary.withOpacity(0.12),
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Icon(icon, color: AppTheme.primary, size: 32),
+              child: Icon(icon, size: 36, color: cs.primary),
             ),
             const SizedBox(height: 16),
             Text(
               title,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                color: AppTheme.textDark,
+                color: cs.onSurface,
               ),
               textAlign: TextAlign.center,
             ),
             if (subtitle != null) ...[
-              const SizedBox(height: 6),
+              const SizedBox(height: 8),
               Text(
                 subtitle!,
-                style: const TextStyle(fontSize: 13, color: AppTheme.textGrey),
+                style: TextStyle(
+                  fontSize: 13,
+                  color: cs.onSurface.withOpacity(0.5),
+                ),
                 textAlign: TextAlign.center,
               ),
             ],
             if (actionLabel != null && onAction != null) ...[
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: onAction,
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(160, 44),
-                ),
                 child: Text(actionLabel!),
               ),
             ],

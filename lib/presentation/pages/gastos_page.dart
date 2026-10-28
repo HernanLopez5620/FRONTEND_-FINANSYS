@@ -3,7 +3,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../core/theme/app_theme.dart';
 import '../providers/gasto_provider.dart';
 import '../components/ui/app_spinner.dart';
 import '../components/ui/app_empty_state.dart';
@@ -22,12 +21,15 @@ class _GastosPageState extends State<GastosPage> {
   @override
   Widget build(BuildContext context) {
     final gastoP = context.watch<GastoProvider>();
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+
     final filtered = _filter == 'todos'
         ? gastoP.gastos
         : gastoP.gastos.where((g) => g.tipo == _filter).toList();
 
     return RefreshIndicator(
-      color: AppTheme.primary,
+      color: cs.primary, // ← Dinámico
       onRefresh: () => gastoP.loadAll(),
       child: Column(
         children: [
@@ -44,12 +46,14 @@ class _GastosPageState extends State<GastosPage> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 8),
                       decoration: BoxDecoration(
-                        color:
-                            _filter == f ? AppTheme.primary : AppTheme.bgCard,
+                        color: _filter == f
+                            ? cs.primary
+                            : theme.cardColor, // ← Dinámico
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color:
-                              _filter == f ? AppTheme.primary : AppTheme.border,
+                          color: _filter == f
+                              ? cs.primary
+                              : theme.dividerColor, // ← Dinámico
                           width: 0.5,
                         ),
                       ),
@@ -62,8 +66,9 @@ class _GastosPageState extends State<GastosPage> {
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
-                          color:
-                              _filter == f ? Colors.white : AppTheme.textGrey,
+                          color: _filter == f
+                              ? cs.onPrimary
+                              : cs.onSurfaceVariant, // ← Dinámico
                         ),
                       ),
                     ),
@@ -83,6 +88,9 @@ class _GastosPageState extends State<GastosPage> {
   }
 
   Widget _buildList(BuildContext context, GastoProvider gastoP, List filtered) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+
     if (gastoP.loading) {
       return const AppSpinner();
     }
@@ -108,12 +116,12 @@ class _GastosPageState extends State<GastosPage> {
             alignment: Alignment.centerRight,
             padding: const EdgeInsets.only(right: 20),
             decoration: BoxDecoration(
-              color: AppTheme.dangerSurface,
+              color: cs.errorContainer, // ← Dinámico
               borderRadius: BorderRadius.circular(14),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.delete_outline_rounded,
-              color: AppTheme.danger,
+              color: cs.error, // ← Dinámico
             ),
           ),
           confirmDismiss: (_) async => await showDialog<bool>(
@@ -128,9 +136,9 @@ class _GastosPageState extends State<GastosPage> {
                 ),
                 TextButton(
                   onPressed: () => Navigator.pop(context, true),
-                  child: const Text(
+                  child: Text(
                     'Eliminar',
-                    style: TextStyle(color: AppTheme.danger),
+                    style: TextStyle(color: cs.error), // ← Dinámico
                   ),
                 ),
               ],
@@ -149,17 +157,19 @@ class _GastosPageState extends State<GastosPage> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
               decoration: BoxDecoration(
-                color: AppTheme.bgCard,
+                color: theme.cardColor, // ← Dinámico
                 borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: AppTheme.border, width: 0.5),
+                border: Border.all(
+                    color: theme.dividerColor, width: 0.5), // ← Dinámico
               ),
               child: Row(children: [
                 Container(
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color:
-                        g.esGasto ? AppTheme.dangerSurface : AppTheme.surface,
+                    color: g.esGasto
+                        ? cs.errorContainer // ← Dinámico
+                        : (cs.surfaceVariant ?? theme.cardColor), // ← Dinámico
                     borderRadius: BorderRadius.circular(11),
                   ),
                   child: Center(
@@ -178,17 +188,17 @@ class _GastosPageState extends State<GastosPage> {
                         g.descripcion.isNotEmpty
                             ? g.descripcion
                             : g.categoria ?? '',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
-                          color: AppTheme.textDark,
+                          color: cs.onSurface, // ← Dinámico
                         ),
                       ),
                       Text(
                         '${g.fecha.day}/${g.fecha.month}/${g.fecha.year}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 11,
-                          color: AppTheme.textGrey,
+                          color: cs.onSurfaceVariant, // ← Dinámico
                         ),
                       ),
                     ],
@@ -199,7 +209,7 @@ class _GastosPageState extends State<GastosPage> {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: g.esGasto ? AppTheme.danger : AppTheme.primaryLight,
+                    color: g.esGasto ? cs.error : cs.primary, // ← Dinámico
                   ),
                 ),
               ]),

@@ -3,7 +3,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../core/theme/app_theme.dart';
 import '../providers/categoria_provider.dart';
 import '../components/ui/app_spinner.dart';
 import '../components/ui/app_empty_state.dart';
@@ -38,13 +37,15 @@ class _CategoriasPageState extends State<CategoriasPage> {
   @override
   Widget build(BuildContext context) {
     final catP = context.watch<CategoriaProvider>();
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
 
     return Scaffold(
-      backgroundColor: AppTheme.bgPage,
+      backgroundColor: theme.scaffoldBackgroundColor, // ← Dinámico
       floatingActionButton: FloatingActionButton(
         onPressed: _showAdd,
-        backgroundColor: AppTheme.primary,
-        child: const Icon(Icons.add_rounded, color: Colors.white),
+        backgroundColor: cs.primary, // ← Dinámico
+        child: Icon(Icons.add_rounded, color: cs.onPrimary),
       ),
       body: catP.loading
           ? const AppSpinner()
@@ -72,14 +73,16 @@ class _CategoriasPageState extends State<CategoriasPage> {
                       color =
                           Color(int.parse(cat.color.replaceFirst('#', '0xFF')));
                     } catch (_) {
-                      color = AppTheme.primary;
+                      color = cs.primary; // ← Dinámico
                     }
                     return Container(
                       padding: const EdgeInsets.all(14),
                       decoration: BoxDecoration(
-                        color: AppTheme.bgCard,
+                        color: theme.cardColor, // ← Dinámico
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: AppTheme.border, width: 0.5),
+                        border: Border.all(
+                            color: theme.dividerColor,
+                            width: 0.5), // ← Dinámico
                       ),
                       child: Row(children: [
                         Container(
@@ -101,10 +104,10 @@ class _CategoriasPageState extends State<CategoriasPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(cat.nombre,
-                                style: const TextStyle(
+                                style: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w600,
-                                    color: AppTheme.textDark),
+                                    color: cs.onSurface), // ← Dinámico
                                 overflow: TextOverflow.ellipsis),
                             const SizedBox(height: 2),
                             Container(

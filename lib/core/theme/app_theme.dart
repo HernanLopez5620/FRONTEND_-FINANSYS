@@ -3,154 +3,202 @@
 
 import 'package:flutter/material.dart';
 
-class AppTheme {
-  AppTheme._();
+/// Colores del encabezado superior (cada tema define los suyos).
+class AppHeaderColors extends ThemeExtension<AppHeaderColors> {
+  final Color background;
+  final Color foreground;
+  const AppHeaderColors({required this.background, required this.foreground});
 
-  // ── Colores principales ──
-  static const Color primary = Color(0xFF1A7A3C);
-  static const Color primaryDark = Color(0xFF0D5C2E);
-  static const Color primaryLight = Color(0xFF2ECC71);
-  static const Color surface = Color(0xFFE8F5ED);
+  @override
+  AppHeaderColors copyWith({Color? background, Color? foreground}) =>
+      AppHeaderColors(
+        background: background ?? this.background,
+        foreground: foreground ?? this.foreground,
+      );
 
-  // ── Colores de estado ──
-  static const Color danger = Color(0xFFC0392B);
-  static const Color dangerSurface = Color(0xFFFDECEB);
-  static const Color warning = Color(0xFFE67E22);
-  static const Color success = Color(0xFF27AE60);
-
-  // ── Colores de texto ──
-  static const Color textDark = Color(0xFF1A1A1A);
-  static const Color textGrey = Color(0xFF6B6B6B);
-  static const Color textHint = Color(0xFFAAAAAA);
-
-  // ── Colores de fondo ──
-  static const Color bgPage = Color(0xFFF2F6F2);
-  static const Color bgCard = Color(0xFFFFFFFF);
-  static const Color bgInput = Color(0xFFF7FAF7);
-  static const Color border = Color(0xFFDDE8DD);
-
-  // ── Colores para categorías ──
-  static const List<Color> categoryColors = [
-    Color(0xFF1A7A3C),
-    Color(0xFF2ECC71),
-    Color(0xFF27AE60),
-    Color(0xFF3498DB),
-    Color(0xFF9B59B6),
-    Color(0xFFE67E22),
-    Color(0xFFE74C3C),
-    Color(0xFF1ABC9C),
-    Color(0xFFF39C12),
-    Color(0xFF82D8A0),
-  ];
-
-  // ── ThemeData global ──
-  static ThemeData get light => ThemeData(
-    useMaterial3: true,
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: primary,
-      brightness: Brightness.light,
-    ),
-    scaffoldBackgroundColor: bgPage,
-    appBarTheme: const AppBarTheme(
-      backgroundColor: primary,
-      foregroundColor: Colors.white,
-      elevation: 0,
-      centerTitle: true,
-      titleTextStyle: TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.w600,
-        color: Colors.white,
-        letterSpacing: 0.3,
-      ),
-    ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: primary,
-        foregroundColor: Colors.white,
-        minimumSize: const Size(double.infinity, 50),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
-        elevation: 0,
-      ),
-    ),
-    outlinedButtonTheme: OutlinedButtonThemeData(
-      style: OutlinedButton.styleFrom(
-        foregroundColor: primary,
-        side: const BorderSide(color: primary, width: 1.5),
-        minimumSize: const Size(double.infinity, 50),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
-      ),
-    ),
-    inputDecorationTheme: InputDecorationTheme(
-      filled: true,
-      fillColor: bgInput,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: border, width: 0.5),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: border, width: 0.5),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: primary, width: 1.5),
-      ),
-      errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: danger, width: 1),
-      ),
-      labelStyle: const TextStyle(color: textGrey, fontSize: 14),
-      hintStyle: const TextStyle(color: textHint, fontSize: 14),
-    ),
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      backgroundColor: bgCard,
-      selectedItemColor: primary,
-      unselectedItemColor: textHint,
-      type: BottomNavigationBarType.fixed,
-      elevation: 0,
-      selectedLabelStyle: TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
-      unselectedLabelStyle: TextStyle(fontSize: 11),
-    ),
-  );
+  @override
+  AppHeaderColors lerp(ThemeExtension<AppHeaderColors>? other, double t) {
+    if (other is! AppHeaderColors) return this;
+    return AppHeaderColors(
+      background: Color.lerp(background, other.background, t)!,
+      foreground: Color.lerp(foreground, other.foreground, t)!,
+    );
+  }
 }
 
-// ── Estilos de texto reutilizables ──
-class AppTextStyles {
-  AppTextStyles._();
+class AppTheme {
+  // ── Colores base (restaurados los que faltaban)
+  static const Color primary = Color(0xFF1F5C2E);
+  static const Color primaryLight = Color(0xFF2E7D32);
+  static const Color primaryDark = Color(0xFF143D1E); // <-- Restaurado
+  static const Color surface = Color(0xFFE8F5E9);
+  static const Color bgPage = Color(0xFFF2F7F2);
+  static const Color bgCard = Color(0xFFFFFFFF);
+  static const Color bgInput = Color(0xFFF5F5F5); // <-- Restaurado
+  static const Color border = Color(0xFFE0E0E0);
+  static const Color textDark = Color(0xFF1A1A1A);
+  static const Color textGrey = Color(0xFF666666);
+  static const Color textHint = Color(0xFF9E9E9E);
+  static const Color success = Color(0xFF2E7D32); // <-- Restaurado
+  static const Color warning = Color(0xFFED6C02); // <-- Restaurado
+  static const Color danger = Color(0xFFD32F2F);
+  static const Color dangerSurface = Color(0xFFFFEBEE);
 
-  static const headline = TextStyle(
-    fontSize: 26,
-    fontWeight: FontWeight.w700,
-    color: AppTheme.textDark,
-    letterSpacing: -0.5,
-  );
+  // <-- Restaurados los colores de categorías para los gráficos
+  static const List<Color> categoryColors = [
+    Color(0xFF2196F3), // Azul
+    Color(0xFF4CAF50), // Verde
+    Color(0xFFFFC107), // Amarillo
+    Color(0xFFF44336), // Rojo
+    Color(0xFF9C27B0), // Morado
+    Color(0xFFFF9800), // Naranja
+    Color(0xFF009688), // Verde azulado
+    Color(0xFF795548), // Marrón
+  ];
 
-  static const subtitle = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    color: AppTheme.textGrey,
-  );
+  // ── Tema CLARO
+  static ThemeData get light => ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: primary,
+          brightness: Brightness.light,
+        ),
+        scaffoldBackgroundColor: bgPage,
+        cardColor: bgCard,
+        extensions: const [
+          AppHeaderColors(background: primary, foreground: Colors.white),
+        ],
+        appBarTheme: const AppBarTheme(
+          backgroundColor: primary,
+          foregroundColor: Colors.white,
+          elevation: 0,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: primary,
+            foregroundColor: Colors.white,
+            minimumSize: const Size(double.infinity, 52),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+          filled: true,
+          fillColor: Colors.white,
+        ),
+      );
 
-  static const body = TextStyle(
-    fontSize: 15,
-    fontWeight: FontWeight.w400,
-    color: AppTheme.textDark,
-  );
+  // ── Tema OSCURO
 
-  static const label = TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w500,
-    color: AppTheme.textGrey,
-    letterSpacing: 0.2,
-  );
+  static ThemeData get dark => ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.dark(
+          primary: Colors.white, // Blanco: letras e iconos legibles
+          onPrimary: const Color(0xFF143D1E), // Texto sobre fondos blancos
+          surface: const Color(0xFF1E1E1E), // Gris oscuro para tarjetas
+          onSurface: Colors.white,
+          surfaceVariant: const Color(0xFF2A2A2A), // Gris un poco más claro
+          onSurfaceVariant:
+              const Color(0xFFAAAAAA), // Gris para textos secundarios
+        ),
+        scaffoldBackgroundColor: const Color(0xFF121212),
+        cardColor: const Color(0xFF1E1E1E),
+        extensions: const [
+          AppHeaderColors(
+              background: Color(0xFF143D1E), foreground: Colors.white),
+        ],
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor:
+              Color(0xFF1E1E1E), // Asegura que el panel de abajo se vea
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.grey,
+        ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(
+              0xFF121212), // Fondo oscuro para el AppBar en lugar de verde
+          foregroundColor: Colors.white,
+          elevation: 0,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF143D1E), // Botones verde oscuro
+            foregroundColor: Colors.white,
+            minimumSize: const Size(double.infinity, 52),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+          filled: true,
+          fillColor: const Color(0xFF2A2A2A),
+        ),
+      );
 
-  static const amountLarge = TextStyle(
-    fontSize: 30,
-    fontWeight: FontWeight.w700,
-    color: Colors.white,
-    letterSpacing: -1,
-  );
+  // ── Tema GAMER (antes Opera GX). La clave interna sigue siendo 'operagx'
+  //    para no romper el tema ya guardado en la cuenta de cada usuario.
+  static ThemeData get operagx => ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.dark(
+          primary: const Color(0xFFFF4D6A),
+          secondary: const Color(0xFF00E5FF),
+          surface: const Color(0xFF1A0A1A),
+          onPrimary: Colors.white,
+          onSecondary: Colors.black,
+        ),
+        scaffoldBackgroundColor: const Color(0xFF0D0D1A),
+        cardColor: const Color(0xFF1A1A2E),
+        extensions: const [
+          // Encabezado en un tono ciruela suave en lugar del rojo fuerte
+          AppHeaderColors(
+              background: Color(0xFF4A2340), foreground: Colors.white),
+        ],
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF0D0D1A),
+          foregroundColor: Color(0xFFF2A0B0),
+          elevation: 0,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFFFF4D6A),
+            foregroundColor: Colors.white,
+            minimumSize: const Size(double.infinity, 52),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shadowColor: const Color(0xFFFF4D6A),
+            elevation: 8,
+          ),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: Color(0xFFFF4D6A)),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: Color(0xFF3A1A3A)),
+          ),
+          filled: true,
+          fillColor: const Color(0xFF1A1A2E),
+          labelStyle: const TextStyle(color: Color(0xFF00E5FF)),
+        ),
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(color: Colors.white),
+          bodyMedium: TextStyle(color: Colors.white70),
+        ),
+      );
+
+  // ── Helper para obtener el tema por nombre
+  static ThemeData fromNombre(String nombre) {
+    switch (nombre) {
+      case 'oscuro':
+        return dark;
+      case 'operagx':
+      case 'gamer':
+        return operagx;
+      default:
+        return light;
+    }
+  }
 }

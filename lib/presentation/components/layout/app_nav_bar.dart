@@ -2,7 +2,6 @@
 // SOLID-SRP: única responsabilidad — barra de navegación inferior.
 
 import 'package:flutter/material.dart';
-import '../../../core/theme/app_theme.dart';
 
 class AppNavBar extends StatelessWidget {
   final int currentIndex;
@@ -16,13 +15,31 @@ class AppNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final bg = Theme.of(context).bottomNavigationBarTheme.backgroundColor ??
+        Theme.of(context).cardColor;
+
     return Container(
-      decoration: const BoxDecoration(
-        border: Border(top: BorderSide(color: AppTheme.border, width: 0.5)),
+      decoration: BoxDecoration(
+        color: bg,
+        border: Border(
+          top: BorderSide(
+            color: cs.onSurface.withOpacity(0.1),
+            width: 0.5,
+          ),
+        ),
       ),
       child: BottomNavigationBar(
         currentIndex: currentIndex,
         onTap: onTap,
+        backgroundColor: bg,
+        selectedItemColor: cs.primary,
+        unselectedItemColor: cs.onSurface.withOpacity(0.4),
+        selectedLabelStyle:
+            const TextStyle(fontWeight: FontWeight.w600, fontSize: 11),
+        unselectedLabelStyle: const TextStyle(fontSize: 11),
+        type: BottomNavigationBarType.fixed,
+        elevation: 0,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
@@ -50,7 +67,6 @@ class AppNavBar extends StatelessWidget {
             label: 'Presupuestos',
           ),
           BottomNavigationBarItem(
-            // ← nuevo
             icon: Icon(Icons.currency_exchange_outlined),
             activeIcon: Icon(Icons.currency_exchange_rounded),
             label: 'Divisas',

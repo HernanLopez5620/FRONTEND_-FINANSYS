@@ -17,6 +17,19 @@ class UnauthorizedError extends AppError {
       : super(msg, statusCode: 401);
 }
 
+/// El servidor indicó que esta sesión ya no es la activa
+/// (code: 'SESION_REEMPLAZADA' o 'SESION_CERRADA').
+class SessionReplacedError extends AppError {
+  final String code;
+  const SessionReplacedError(String msg, this.code)
+      : super(msg, statusCode: 401);
+}
+
+class ForbiddenError extends AppError {
+  const ForbiddenError([String msg = 'No tienes permiso para esta acción'])
+      : super(msg, statusCode: 403);
+}
+
 class NotFoundError extends AppError {
   const NotFoundError([String msg = 'No encontrado'])
       : super(msg, statusCode: 404);

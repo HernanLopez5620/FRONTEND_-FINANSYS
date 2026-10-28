@@ -2,36 +2,35 @@
 // SOLID-SRP: única responsabilidad — renderizar una tarjeta reutilizable.
 
 import 'package:flutter/material.dart';
-import '../../../core/theme/app_theme.dart';
 
 class AppCard extends StatelessWidget {
   final Widget child;
   final EdgeInsetsGeometry? padding;
-  final VoidCallback? onTap;
-  final Color? color;
 
-  const AppCard({
-    super.key,
-    required this.child,
-    this.padding,
-    this.onTap,
-    this.color,
-  });
+  const AppCard({super.key, required this.child, this.padding});
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        padding: padding ?? const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: color ?? AppTheme.bgCard,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppTheme.border, width: 0.5),
+    final cs = Theme.of(context).colorScheme;
+    return Container(
+      width: double.infinity,
+      padding: padding ?? const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: cs.onSurface.withOpacity(0.08),
+          width: 0.5,
         ),
-        child: child,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.06),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
+      child: child,
     );
   }
 }

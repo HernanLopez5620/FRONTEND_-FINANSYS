@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../../core/env/app_env.dart';
 import '../../core/errors/app_errors.dart';
+import '../../core/session/session_events.dart';
 import '../../domain/ports/storage_port.dart';
 
 class HttpClient {
@@ -30,7 +31,17 @@ class HttpClient {
     final body = jsonDecode(response.body) as Map<String, dynamic>;
     switch (response.statusCode) {
       case 401:
+        // Sesión única: el servidor avisa si esta sesión fue reemplazada o cerrada
+        final code = body['code'];
+        if (code == 'SESION_REEMPLAZADA' || code == 'SESION_CERRADA') {
+          final msg = (body['msg'] ?? 'Tu sesión ya no es válida') as String;
+          SessionEvents.onInvalid?.call(code as String, msg);
+          throw SessionReplacedError(msg, code);
+        }
         throw UnauthorizedError(body['msg'] ?? 'No autorizado');
+      case 403:
+        throw ForbiddenError(
+            body['msg'] ?? 'No tienes permiso para esta acción');
       case 404:
         throw NotFoundError(body['msg'] ?? 'No encontrado');
       case 409:

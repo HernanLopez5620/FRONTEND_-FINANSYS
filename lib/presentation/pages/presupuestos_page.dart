@@ -3,7 +3,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../core/theme/app_theme.dart';
 import '../providers/presupuesto_provider.dart';
 import '../providers/categoria_provider.dart';
 import '../components/ui/app_spinner.dart';
@@ -45,12 +44,16 @@ class _PresupuestosPageState extends State<PresupuestosPage> {
   Widget build(BuildContext context) {
     final presuP = context.watch<PresupuestoProvider>();
 
+    // Obtenemos los colores dinámicos del tema actual
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+
     return Scaffold(
-      backgroundColor: AppTheme.bgPage,
+      backgroundColor: theme.scaffoldBackgroundColor, // ← Dinámico
       floatingActionButton: FloatingActionButton(
         onPressed: _showAdd,
-        backgroundColor: AppTheme.primary,
-        child: const Icon(Icons.add_rounded, color: Colors.white),
+        backgroundColor: cs.primary, // ← Dinámico
+        child: Icon(Icons.add_rounded, color: cs.onPrimary),
       ),
       body: presuP.loading
           ? const AppSpinner()
@@ -68,18 +71,20 @@ class _PresupuestosPageState extends State<PresupuestosPage> {
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: AppTheme.bgCard,
+                        color: theme.cardColor, // ← Dinámico
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: AppTheme.border, width: 0.5),
+                        border: Border.all(
+                            color: theme.dividerColor,
+                            width: 0.5), // ← Dinámico
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Presupuesto del mes',
+                          Text('Presupuesto del mes',
                               style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
-                                  color: AppTheme.textDark)),
+                                  color: cs.onSurface)), // ← Dinámico
                           const SizedBox(height: 16),
                           ...presuP.presupuestos.map(
                             (p) => BudgetBarWidget(item: p),

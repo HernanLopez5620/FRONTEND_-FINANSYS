@@ -35,6 +35,10 @@ import 'application/usecases/convert_currency_usecase.dart';
 import 'application/usecases/update_profile_usecase.dart';
 import 'infrastructure/api/compra_extranjera_api_adapter.dart';
 import 'application/usecases/compra_extranjera_usecase.dart';
+import 'application/usecases/update_tema_usecase.dart';
+import 'application/usecases/check_session_usecase.dart';
+import 'infrastructure/api/admin_api_adapter.dart';
+import 'application/usecases/admin_usecases.dart';
 
 class Container {
   static const bool useMock =
@@ -62,7 +66,8 @@ class Container {
   static final loginUseCase = LoginUseCase(_authPort);
   static final registerUseCase = RegisterUseCase(_authPort);
   static final getProfileUseCase = GetProfileUseCase(_authPort, storage);
-  static final logoutUseCase = LogoutUseCase(storage);
+  static final logoutUseCase = LogoutUseCase(storage, _authPort);
+  static final checkSessionUseCase = CheckSessionUseCase(_authPort);
   static final listUsersUseCase = ListUsersUseCase(_authPort);
 
   // ── Gastos ──
@@ -101,4 +106,14 @@ class Container {
       GuardarCompraUseCase(_compraExtranjeraPort);
   static final eliminarCompraUseCase =
       EliminarCompraUseCase(_compraExtranjeraPort);
+
+  //-- Cambio de temas (claro, oscuro, opera gx)--
+  static final updateTemaUseCase = UpdateTemaUseCase(_authPort);
+
+  // ── Panel de administrador ──
+  static final _adminPort = AdminApiAdapter(_http);
+  static final resumenAdminUseCase = ResumenAdminUseCase(_adminPort);
+  static final listarUsuariosAdminUseCase =
+      ListarUsuariosAdminUseCase(_adminPort);
+  static final listarLogsAdminUseCase = ListarLogsAdminUseCase(_adminPort);
 }

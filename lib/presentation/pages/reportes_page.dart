@@ -38,16 +38,18 @@ class _ReportesPageState extends State<ReportesPage>
   @override
   Widget build(BuildContext context) {
     final gastoP = context.watch<GastoProvider>();
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
 
     return Column(children: [
       // Tabs
       Container(
-        color: AppTheme.bgCard,
+        color: theme.cardColor, // ← Dinámico
         child: TabBar(
           controller: _tabCtrl,
-          labelColor: AppTheme.primary,
-          unselectedLabelColor: AppTheme.textGrey,
-          indicatorColor: AppTheme.primary,
+          labelColor: cs.primary, // ← Dinámico
+          unselectedLabelColor: cs.onSurfaceVariant, // ← Dinámico
+          indicatorColor: cs.primary, // ← Dinámico
           indicatorWeight: 2.5,
           tabs: const [
             Tab(text: 'Por categoría'),
@@ -70,11 +72,11 @@ class _ReportesPageState extends State<ReportesPage>
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('Distribución de gastos',
+                            Text('Distribución de gastos',
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600,
-                                    color: AppTheme.textDark)),
+                                    color: cs.onSurface)), // ← Dinámico
                             const SizedBox(height: 16),
                             gastoP.porCategoria.isEmpty
                                 ? const AppEmptyState(
@@ -91,13 +93,14 @@ class _ReportesPageState extends State<ReportesPage>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('Detalle por categoría',
+                              Text('Detalle por categoría',
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
-                                      color: AppTheme.textDark)),
+                                      color: cs.onSurface)), // ← Dinámico
                               const SizedBox(height: 12),
                               ...gastoP.porCategoria.asMap().entries.map((e) {
+                                // Se mantiene la paleta original para los iconos/categorías
                                 final color = AppTheme.categoryColors[
                                     e.key % AppTheme.categoryColors.length];
                                 return Padding(
@@ -119,16 +122,17 @@ class _ReportesPageState extends State<ReportesPage>
                                     const SizedBox(width: 10),
                                     Expanded(
                                       child: Text(e.value.nombre,
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                               fontSize: 13,
                                               fontWeight: FontWeight.w500,
-                                              color: AppTheme.textDark)),
+                                              color:
+                                                  cs.onSurface)), // ← Dinámico
                                     ),
                                     Text(Formatters.toCurrency(e.value.total),
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w600,
-                                            color: AppTheme.textDark)),
+                                            color: cs.onSurface)), // ← Dinámico
                                   ]),
                                 );
                               }),
@@ -146,11 +150,11 @@ class _ReportesPageState extends State<ReportesPage>
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('Ingresos vs. Gastos',
+                            Text('Ingresos vs. Gastos',
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600,
-                                    color: AppTheme.textDark)),
+                                    color: cs.onSurface)), // ← Dinámico
                             const SizedBox(height: 16),
                             gastoP.comparacion.isEmpty
                                 ? const AppEmptyState(
@@ -167,40 +171,45 @@ class _ReportesPageState extends State<ReportesPage>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('Comparativa mensual',
+                              Text('Comparativa mensual',
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
-                                      color: AppTheme.textDark)),
+                                      color: cs.onSurface)), // ← Dinámico
                               const SizedBox(height: 12),
                               // Header
                               Row(children: [
                                 const SizedBox(width: 48),
                                 Expanded(
                                     child: Text('Ingresos',
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                             fontSize: 11,
-                                            color: AppTheme.textGrey,
+                                            color: cs
+                                                .onSurfaceVariant, // ← Dinámico
                                             fontWeight: FontWeight.w500),
                                         textAlign: TextAlign.right)),
                                 const SizedBox(width: 12),
                                 Expanded(
                                     child: Text('Gastos',
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                             fontSize: 11,
-                                            color: AppTheme.textGrey,
+                                            color: cs
+                                                .onSurfaceVariant, // ← Dinámico
                                             fontWeight: FontWeight.w500),
                                         textAlign: TextAlign.right)),
                                 const SizedBox(width: 12),
                                 Expanded(
                                     child: Text('Balance',
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                             fontSize: 11,
-                                            color: AppTheme.textGrey,
+                                            color: cs
+                                                .onSurfaceVariant, // ← Dinámico
                                             fontWeight: FontWeight.w500),
                                         textAlign: TextAlign.right)),
                               ]),
-                              const Divider(color: AppTheme.border, height: 20),
+                              Divider(
+                                  color: theme.dividerColor,
+                                  height: 20), // ← Dinámico
                               ...gastoP.comparacion.map((item) {
                                 final isPositive = item.balance >= 0;
                                 return Padding(
@@ -211,14 +220,15 @@ class _ReportesPageState extends State<ReportesPage>
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 6, vertical: 4),
                                       decoration: BoxDecoration(
-                                        color: AppTheme.surface,
+                                        color: cs.surfaceVariant ??
+                                            theme.cardColor, // ← Dinámico
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       child: Text(item.mesLabel,
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                               fontSize: 10,
                                               fontWeight: FontWeight.w600,
-                                              color: AppTheme.primary),
+                                              color: cs.primary), // ← Dinámico
                                           textAlign: TextAlign.center),
                                     ),
                                     const SizedBox(width: 8),
@@ -226,9 +236,9 @@ class _ReportesPageState extends State<ReportesPage>
                                         child: Text(
                                             Formatters.toShortCurrency(
                                                 item.ingresos),
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                                 fontSize: 12,
-                                                color: AppTheme.primary,
+                                                color: cs.primary, // ← Dinámico
                                                 fontWeight: FontWeight.w500),
                                             textAlign: TextAlign.right)),
                                     const SizedBox(width: 12),
@@ -236,9 +246,9 @@ class _ReportesPageState extends State<ReportesPage>
                                         child: Text(
                                             Formatters.toShortCurrency(
                                                 item.gastos),
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                                 fontSize: 12,
-                                                color: AppTheme.danger,
+                                                color: cs.error, // ← Dinámico
                                                 fontWeight: FontWeight.w500),
                                             textAlign: TextAlign.right)),
                                     const SizedBox(width: 12),
@@ -249,8 +259,8 @@ class _ReportesPageState extends State<ReportesPage>
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w600,
                                                 color: isPositive
-                                                    ? AppTheme.primary
-                                                    : AppTheme.danger),
+                                                    ? cs.primary
+                                                    : cs.error), // ← Dinámico
                                             textAlign: TextAlign.right)),
                                   ]),
                                 );

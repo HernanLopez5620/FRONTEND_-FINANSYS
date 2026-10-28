@@ -17,7 +17,7 @@ class BudgetBarWidget extends StatelessWidget {
         ? AppTheme.danger
         : item.porcentaje > 0.8
             ? AppTheme.warning
-            : AppTheme.primary;
+            : Theme.of(context).colorScheme.primary;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),

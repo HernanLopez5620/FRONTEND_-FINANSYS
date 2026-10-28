@@ -3,10 +3,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../core/theme/app_theme.dart';
 import '../providers/auth_provider.dart';
 import '../providers/gasto_provider.dart';
 import '../providers/categoria_provider.dart';
+import '../providers/inactividad_provider.dart';
 import '../components/layout/app_header.dart';
 import '../components/layout/app_nav_bar.dart';
 import '../components/ui/app_spinner.dart';
@@ -15,13 +15,16 @@ import '../components/ui/app_card.dart';
 import '../components/charts/bar_chart_widget.dart';
 import '../components/charts/donut_chart_widget.dart';
 import '../components/modals/gasto_form_modal.dart';
+import '../widgets/inactividad_detector.dart';
+import '../widgets/inactividad_overlay.dart';
 import 'gastos_page.dart';
 import 'categorias_page.dart';
 import 'presupuestos_page.dart';
 import 'reportes_page.dart';
-import 'profile_page.dart'; // ← nuevo
+import 'profile_page.dart';
+import 'admin_page.dart';
+import 'divisas_page.dart';
 import '../../domain/entities/gasto_entity.dart';
-import 'divisas_page.dart'; // ← nuevo import
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -32,11 +35,27 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   int _currentIndex = 0;
+  late final InactividadProvider _inactividad;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _loadData());
+    _inactividad = context.read<InactividadProvider>();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadData();
+      // Inicia el timer de inactividad
+      context.read<InactividadProvider>().iniciar(() {
+        context.read<AuthProvider>().logout();
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    // Al salir del dashboard (cerrar sesión) se apaga el control de inactividad.
+    // Se difiere para no notificar mientras el árbol se está desmontando.
+    Future.microtask(_inactividad.detener);
+    super.dispose();
   }
 
   Future<void> _loadData() async {
@@ -56,10 +75,17 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
+  void _verAdmin() {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => const AdminPage()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final auth = context.watch<AuthProvider>();
     final gastoP = context.watch<GastoProvider>();
+    final cs = Theme.of(context).colorScheme;
 
     final pages = [
       _HomeTab(onRefresh: _loadData),
@@ -67,52 +93,58 @@ class _DashboardPageState extends State<DashboardPage> {
       const ReportesPage(),
       const CategoriasPage(),
       const PresupuestosPage(),
-      const DivisasPage(), // ← nuevo
+      const DivisasPage(),
     ];
 
-    return Scaffold(
-      backgroundColor: AppTheme.bgPage,
-      body: Column(children: [
-        SafeArea(
-          bottom: false,
-          child: AppHeader(
-            resumen: gastoP.resumen,
-            selectedMonth: gastoP.selectedMonth,
-            username: auth.user?.username ?? '',
-            onMonthChanged: (m) => gastoP.setMonth(m),
-            onLogout: _logout,
-            onVerPerfil: _verPerfil, // ← nuevo
-          ),
-        ),
-        Expanded(
-          child: IndexedStack(index: _currentIndex, children: pages),
-        ),
-      ]),
-      bottomNavigationBar: AppNavBar(
-        currentIndex: _currentIndex,
-        onTap: (i) => setState(() => _currentIndex = i),
-      ),
-      floatingActionButton: _currentIndex == 0 || _currentIndex == 1
-          ? FloatingActionButton.extended(
-              onPressed: () => showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                ),
-                builder: (_) => const GastoFormModal(),
+    return InactividadDetector(
+      child: InactividadOverlay(
+        child: Scaffold(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          body: Column(children: [
+            SafeArea(
+              bottom: false,
+              child: AppHeader(
+                resumen: gastoP.resumen,
+                selectedMonth: gastoP.selectedMonth,
+                username: auth.user?.username ?? '',
+                onMonthChanged: (m) => gastoP.setMonth(m),
+                onLogout: _logout,
+                onVerPerfil: _verPerfil,
+                onVerAdmin: auth.user?.esAdmin == true ? _verAdmin : null,
               ),
-              backgroundColor: AppTheme.primary,
-              icon: const Icon(Icons.add_rounded, color: Colors.white),
-              label: const Text('Registrar',
-                  style: TextStyle(color: Colors.white)),
-            )
-          : null,
+            ),
+            Expanded(
+              child: IndexedStack(index: _currentIndex, children: pages),
+            ),
+          ]),
+          bottomNavigationBar: AppNavBar(
+            currentIndex: _currentIndex,
+            onTap: (i) => setState(() => _currentIndex = i),
+          ),
+          floatingActionButton: _currentIndex == 0 || _currentIndex == 1
+              ? FloatingActionButton.extended(
+                  onPressed: () => showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: Theme.of(context).cardColor,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(20)),
+                    ),
+                    builder: (_) => const GastoFormModal(),
+                  ),
+                  backgroundColor: cs.primary,
+                  icon: Icon(Icons.add_rounded, color: cs.onPrimary),
+                  label:
+                      Text('Registrar', style: TextStyle(color: cs.onPrimary)),
+                )
+              : null,
+        ),
+      ),
     );
   }
 }
 
-// ── Home Tab ──
 class _HomeTab extends StatelessWidget {
   final VoidCallback onRefresh;
   const _HomeTab({required this.onRefresh});
@@ -120,9 +152,10 @@ class _HomeTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gastoP = context.watch<GastoProvider>();
+    final cs = Theme.of(context).colorScheme;
 
     return RefreshIndicator(
-      color: AppTheme.primary,
+      color: cs.primary,
       onRefresh: () async => onRefresh(),
       child: gastoP.loading
           ? const AppSpinner()
@@ -134,11 +167,11 @@ class _HomeTab extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Comparación mensual',
+                        Text('Comparación mensual',
                             style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600,
-                                color: AppTheme.textDark)),
+                                color: cs.onSurface)),
                         const SizedBox(height: 16),
                         BarChartWidget(data: gastoP.comparacion),
                       ],
@@ -151,11 +184,11 @@ class _HomeTab extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Gastos por categoría',
+                        Text('Gastos por categoría',
                             style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600,
-                                color: AppTheme.textDark)),
+                                color: cs.onSurface)),
                         const SizedBox(height: 16),
                         DonutChartWidget(data: gastoP.porCategoria),
                       ],
@@ -166,20 +199,21 @@ class _HomeTab extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Últimos movimientos',
+                    Text('Últimos movimientos',
                         style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
-                            color: AppTheme.textDark)),
+                            color: cs.onSurface)),
                     TextButton(
                       onPressed: () {},
-                      child: const Text('Ver todos'),
+                      child: Text('Ver todos',
+                          style: TextStyle(color: cs.primary)),
                     ),
                   ],
                 ),
                 const SizedBox(height: 8),
                 if (gastoP.gastos.isEmpty)
-                  const AppEmptyState(
+                  AppEmptyState(
                     icon: Icons.receipt_long_outlined,
                     title: 'Sin movimientos este mes',
                     subtitle: 'Toca + para registrar el primero',
@@ -197,7 +231,6 @@ class _HomeTab extends StatelessWidget {
   }
 }
 
-// ── Fila de gasto en el home ──
 class _GastoRow extends StatelessWidget {
   final GastoEntity gasto;
   final VoidCallback onDelete;
@@ -206,20 +239,24 @@ class _GastoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       decoration: BoxDecoration(
-        color: AppTheme.bgCard,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppTheme.border, width: 0.5),
+        border: Border.all(color: cs.onSurface.withOpacity(0.08), width: 0.5),
       ),
       child: Row(children: [
         Container(
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: gasto.esGasto ? AppTheme.dangerSurface : AppTheme.surface,
+            color: gasto.esGasto
+                ? Colors.red.withOpacity(0.15)
+                : cs.primary.withOpacity(0.15),
             borderRadius: BorderRadius.circular(11),
           ),
           child: Center(
@@ -228,35 +265,67 @@ class _GastoRow extends StatelessWidget {
         ),
         const SizedBox(width: 12),
         Expanded(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              gasto.descripcion.isNotEmpty
-                  ? gasto.descripcion
-                  : gasto.categoria ?? '',
-              style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: AppTheme.textDark),
-            ),
-            Text('${gasto.fecha.day}/${gasto.fecha.month}/${gasto.fecha.year}',
-                style: const TextStyle(fontSize: 11, color: AppTheme.textGrey)),
-          ],
-        )),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                gasto.descripcion.isNotEmpty
+                    ? gasto.descripcion
+                    : gasto.categoria ?? '',
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: cs.onSurface),
+              ),
+              Text(
+                  '${gasto.fecha.day}/${gasto.fecha.month}/${gasto.fecha.year}',
+                  style: TextStyle(
+                      fontSize: 11, color: cs.onSurface.withOpacity(0.5))),
+            ],
+          ),
+        ),
         Text(
           '${gasto.esGasto ? '-' : '+'}${gasto.monto.toStringAsFixed(0)}',
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w600,
-            color: gasto.esGasto ? AppTheme.danger : AppTheme.primaryLight,
+            color: gasto.esGasto ? Colors.red.shade400 : Colors.green.shade400,
           ),
         ),
         const SizedBox(width: 8),
         GestureDetector(
-          onTap: onDelete,
-          child: const Icon(Icons.close_rounded,
-              size: 16, color: AppTheme.textHint),
+          onTap: () async {
+            final nombre = gasto.descripcion.isNotEmpty
+                ? gasto.descripcion
+                : gasto.categoria ?? 'este movimiento';
+            final ok = await showDialog<bool>(
+              context: context,
+              builder: (_) => AlertDialog(
+                backgroundColor: Theme.of(context).cardColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16)),
+                title: Text('Eliminar movimiento',
+                    style: TextStyle(color: cs.onSurface)),
+                content: Text('¿Seguro que quieres eliminar "$nombre"?',
+                    style: TextStyle(color: cs.onSurface.withOpacity(0.7))),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, false),
+                    child:
+                        Text('Cancelar', style: TextStyle(color: cs.primary)),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, true),
+                    child: const Text('Eliminar',
+                        style: TextStyle(color: Colors.red)),
+                  ),
+                ],
+              ),
+            );
+            if (ok == true) onDelete();
+          },
+          child: Icon(Icons.close_rounded,
+              size: 16, color: cs.onSurface.withOpacity(0.4)),
         ),
       ]),
     );
