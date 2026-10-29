@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/formatters.dart';
 import '../providers/gasto_provider.dart';
+import '../providers/reporte_provider.dart';
+import '../components/ui/app_toast.dart';
 import '../components/ui/app_spinner.dart';
 import '../components/ui/app_card.dart';
 import '../components/ui/app_empty_state.dart';
@@ -45,17 +47,23 @@ class _ReportesPageState extends State<ReportesPage>
       // Tabs
       Container(
         color: theme.cardColor, // ← Dinámico
-        child: TabBar(
-          controller: _tabCtrl,
-          labelColor: cs.primary, // ← Dinámico
-          unselectedLabelColor: cs.onSurfaceVariant, // ← Dinámico
-          indicatorColor: cs.primary, // ← Dinámico
-          indicatorWeight: 2.5,
-          tabs: const [
-            Tab(text: 'Por categoría'),
-            Tab(text: 'Mensual'),
-          ],
-        ),
+        child: Row(children: [
+          Expanded(
+            child: TabBar(
+              controller: _tabCtrl,
+              labelColor: cs.primary, // ← Dinámico
+              unselectedLabelColor: cs.onSurfaceVariant, // ← Dinámico
+              indicatorColor: cs.primary, // ← Dinámico
+              indicatorWeight: 2.5,
+              tabs: const [
+                Tab(text: 'Por categoría'),
+                Tab(text: 'Mensual'),
+              ],
+            ),
+          ),
+          // Descarga del reporte del mes que está seleccionado arriba
+          _BotonExportar(mes: gastoP.selectedMonth),
+        ]),
       ),
 
       Expanded(
@@ -274,5 +282,74 @@ class _ReportesPageState extends State<ReportesPage>
               ),
       ),
     ]);
+  }
+}
+
+// ── Botón "Exportar" (PDF / Excel) del mes seleccionado ──
+class _BotonExportar extends StatelessWidget {
+  final DateTime mes;
+  const _BotonExportar({required this.mes});
+
+  Future<void> _exportar(BuildContext context, String formato) async {
+    final p = context.read<ReporteProvider>();
+    final ok =
+        await p.exportar(formato: formato, mes: mes.month, anio: mes.year);
+    if (!context.mounted) return;
+    AppToast.show(
+      context,
+      ok
+          ? 'Reporte descargado (${formato == 'pdf' ? 'PDF' : 'Excel'})'
+          : (p.error ?? 'No se pudo exportar el reporte'),
+      type: ok ? ToastType.success : ToastType.error,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
+    return Consumer<ReporteProvider>(
+      builder: (_, p, __) {
+        if (p.exportando) {
+          return const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(strokeWidth: 2.5),
+            ),
+          );
+        }
+        return PopupMenuButton<String>(
+          tooltip: 'Exportar reporte',
+          icon: Icon(Icons.file_download_outlined, color: cs.primary),
+          onSelected: (formato) => _exportar(context, formato),
+          itemBuilder: (_) => [
+            PopupMenuItem<String>(
+              enabled: false,
+              child: Text('Reporte de ${Formatters.toMonthYear(mes)}',
+                  style: const TextStyle(fontWeight: FontWeight.w600)),
+            ),
+            const PopupMenuDivider(),
+            const PopupMenuItem<String>(
+              value: 'pdf',
+              child: Row(children: [
+                Icon(Icons.picture_as_pdf_outlined, size: 18),
+                SizedBox(width: 10),
+                Text('Descargar PDF'),
+              ]),
+            ),
+            const PopupMenuItem<String>(
+              value: 'xlsx',
+              child: Row(children: [
+                Icon(Icons.table_chart_outlined, size: 18),
+                SizedBox(width: 10),
+                Text('Descargar Excel'),
+              ]),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

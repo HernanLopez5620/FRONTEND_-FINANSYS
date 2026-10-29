@@ -40,6 +40,8 @@ import 'application/usecases/check_session_usecase.dart';
 import 'application/usecases/check_username_usecase.dart';
 import 'infrastructure/api/admin_api_adapter.dart';
 import 'application/usecases/admin_usecases.dart';
+import 'infrastructure/api/reporte_export_api_adapter.dart';
+import 'application/usecases/exportar_reporte_usecase.dart';
 
 class Container {
   static const bool useMock =
@@ -109,8 +111,13 @@ class Container {
   static final eliminarCompraUseCase =
       EliminarCompraUseCase(_compraExtranjeraPort);
 
-  // ── Cambio de temas (claro, oscuro, opera gx) ──
+  //-- Cambio de temas (claro, oscuro, opera gx)--
   static final updateTemaUseCase = UpdateTemaUseCase(_authPort);
+
+  // ── Exportación de reportes (PDF / Excel) ──
+  static final _reporteExportPort = ReporteExportApiAdapter(_http);
+  static final exportarReporteUseCase =
+      ExportarReporteUseCase(_reporteExportPort);
 
   // ── Panel de administrador ──
   static final _adminPort = AdminApiAdapter(_http);

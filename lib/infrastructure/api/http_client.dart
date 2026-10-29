@@ -4,6 +4,7 @@
 // SOLID-SRP: única responsabilidad — ejecutar peticiones HTTP.
 
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import '../../core/env/app_env.dart';
 import '../../core/errors/app_errors.dart';
@@ -66,6 +67,31 @@ class HttpClient {
           .get(Uri.parse('${AppEnv.apiBaseUrl}$path'), headers: headers)
           .timeout(_timeout);
       return _parseResponse(response);
+    } on AppError {
+      rethrow;
+    } catch (_) {
+      throw const NetworkError();
+    }
+  }
+
+  // ── GET de un archivo (PDF, Excel...) — devuelve los bytes ──
+  Future<Uint8List> getBytes(
+    String path, {
+    bool requiresAuth = true,
+  }) async {
+    try {
+      final headers = await _buildHeaders(requiresAuth: requiresAuth);
+      final response = await http
+          .get(Uri.parse('${AppEnv.apiBaseUrl}$path'), headers: headers)
+          .timeout(
+              const Duration(seconds: 60)); // generar el archivo puede tardar
+      if (response.statusCode >= 400) {
+        // Los errores llegan como JSON { ok:false, msg }: _parseResponse los traduce
+        final body = _parseResponse(response);
+        throw AppError(body['msg'] ?? 'No se pudo generar el archivo',
+            statusCode: response.statusCode);
+      }
+      return response.bodyBytes;
     } on AppError {
       rethrow;
     } catch (_) {

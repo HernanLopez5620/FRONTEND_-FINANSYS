@@ -46,6 +46,12 @@ String describirAccion(String metodo, String ruta, int? status) {
     base = 'Editó un movimiento';
   } else if (m == 'DELETE' && es(r'^/gastos/\d+$')) {
     base = 'Eliminó un movimiento';
+  } else if (m == 'GET' && es(r'^/gastos/reportes/exportar')) {
+    base = ruta.contains('formato=pdf')
+        ? 'Descargó un reporte en PDF'
+        : ruta.contains('formato=xlsx')
+            ? 'Descargó un reporte en Excel'
+            : 'Descargó un reporte';
   } else if (m == 'GET' && es(r'^/gastos/reportes')) {
     base = 'Consultó reportes';
   } else if (m == 'GET' && es(r'^/gastos')) {
