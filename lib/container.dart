@@ -42,6 +42,8 @@ import 'infrastructure/api/admin_api_adapter.dart';
 import 'application/usecases/admin_usecases.dart';
 import 'infrastructure/api/reporte_export_api_adapter.dart';
 import 'application/usecases/exportar_reporte_usecase.dart';
+import 'infrastructure/api/backup_api_adapter.dart';
+import 'application/usecases/descargar_backup_usecase.dart';
 
 class Container {
   static const bool useMock =
@@ -118,6 +120,9 @@ class Container {
   static final _reporteExportPort = ReporteExportApiAdapter(_http);
   static final exportarReporteUseCase =
       ExportarReporteUseCase(_reporteExportPort);
+
+  static final _backupPort = BackupApiAdapter(_http);
+  static final descargarBackupUseCase = DescargarBackupUseCase(_backupPort);
 
   // ── Panel de administrador ──
   static final _adminPort = AdminApiAdapter(_http);

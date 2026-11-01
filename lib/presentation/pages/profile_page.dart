@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/auth_provider.dart';
+import '../providers/backup_provider.dart';
 import '../providers/tema_provider.dart';
 import '../components/ui/app_toast.dart';
 import '../widgets/inactividad_overlay.dart';
@@ -415,6 +416,71 @@ class _ProfilePageState extends State<ProfilePage> {
                           'Gamer',
                         ),
                       ],
+                    );
+                  },
+                ),
+
+                const SizedBox(height: 32),
+
+                // ─────────────────────────────
+                // Mis datos (copia de seguridad)
+                // ─────────────────────────────
+                _titulo(
+                  context,
+                  'Mis datos',
+                ),
+
+                Text(
+                  'Descarga una copia de tus datos (perfil, categorías, '
+                  'movimientos, presupuestos y compras en el extranjero) en un '
+                  'archivo JSON. No incluye contraseñas.',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: cs.onSurfaceVariant,
+                  ),
+                ),
+
+                const SizedBox(height: 12),
+
+                Consumer<BackupProvider>(
+                  builder: (_, backup, __) {
+                    return OutlinedButton.icon(
+                      onPressed: backup.descargando
+                          ? null
+                          : () async {
+                              final ok = await backup.descargar();
+                              if (!mounted) return;
+                              AppToast.show(
+                                context,
+                                ok
+                                    ? 'Copia de seguridad descargada'
+                                    : (backup.error ??
+                                        'No se pudo descargar la copia'),
+                                type: ok ? ToastType.success : ToastType.error,
+                              );
+                            },
+                      icon: backup.descargando
+                          ? SizedBox(
+                              width: 18,
+                              height: 18,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: cs.onSurface,
+                              ),
+                            )
+                          : const Icon(Icons.download_rounded),
+                      label: Text(
+                        backup.descargando
+                            ? 'Generando...'
+                            : 'Descargar mis datos',
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: cs.onSurface,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
                     );
                   },
                 ),

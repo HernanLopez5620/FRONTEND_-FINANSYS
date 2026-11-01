@@ -16,6 +16,7 @@ import 'presentation/pages/dashboard_page.dart';
 import 'presentation/providers/inactividad_provider.dart';
 import 'presentation/providers/admin_provider.dart';
 import 'presentation/providers/reporte_provider.dart';
+import 'presentation/providers/backup_provider.dart';
 import 'presentation/widgets/inactividad_detector.dart';
 import 'presentation/widgets/inactividad_overlay.dart';
 
@@ -50,6 +51,7 @@ class FinanSysApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => InactividadProvider()),
         ChangeNotifierProvider(create: (_) => AdminProvider()),
         ChangeNotifierProvider(create: (_) => ReporteProvider()),
+        ChangeNotifierProvider(create: (_) => BackupProvider()),
       ],
       child: Consumer<TemaProvider>(
         builder: (_, temaP, __) => InactividadDetector(
