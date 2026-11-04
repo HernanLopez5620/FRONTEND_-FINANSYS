@@ -19,6 +19,9 @@ abstract class AuthPort {
     required String password,
   });
 
+  // Google: recibe el ID token de Google; el backend lo verifica
+  Future<({UserEntity user, String token})> loginWithGoogle(String credential);
+
   Future<UserEntity> getProfile();
   Future<List<UserEntity>> getUsers();
 

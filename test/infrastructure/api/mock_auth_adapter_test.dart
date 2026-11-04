@@ -1,12 +1,19 @@
 // Prueba unitaria de MockAuthAdapter
 // Se verifica que el adaptador mock retorna datos
-// con la estructura correcta que el sistema espera
+// con la estructura correcta que el sistema espera.
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:finansys/infrastructure/api/mock_auth_adapter.dart';
 import 'package:finansys/infrastructure/storage/local_storage_adapter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  setUp(() {
+    SharedPreferences.setMockInitialValues({});
+  });
+
   group('MockAuthAdapter', () {
     late MockAuthAdapter adapter;
 

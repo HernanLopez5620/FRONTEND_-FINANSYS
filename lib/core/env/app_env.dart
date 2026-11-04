@@ -15,6 +15,13 @@ class AppEnv {
     defaultValue: 'finansys_jwt_token',
   );
 
+  // ID de cliente de Google (Google Cloud Console → Credenciales → Aplicación web).
+  // No es secreto. Si queda vacío, el botón "Continuar con Google" no se muestra.
+  static const String googleClientId = String.fromEnvironment(
+    'GOOGLE_CLIENT_ID',
+    defaultValue: '',
+  );
+
   static const String appName = String.fromEnvironment(
     'APP_NAME',
     defaultValue: 'FinanSys',

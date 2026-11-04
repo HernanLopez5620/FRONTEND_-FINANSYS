@@ -48,6 +48,22 @@ class AuthApiAdapter implements AuthPort {
   }
 
   @override
+  Future<({UserEntity user, String token})> loginWithGoogle(
+    String credential,
+  ) async {
+    final res = await _http.post(
+      '/users/google',
+      {'credential': credential},
+      requiresAuth: false,
+    );
+
+    return (
+      user: UserEntity.fromJson(res['user'] ?? {}),
+      token: res['token'] as String,
+    );
+  }
+
+  @override
   Future<UserEntity> getProfile() async {
     final res = await _http.get(
       '/users/profile',

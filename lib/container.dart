@@ -44,6 +44,7 @@ import 'infrastructure/api/reporte_export_api_adapter.dart';
 import 'application/usecases/exportar_reporte_usecase.dart';
 import 'infrastructure/api/backup_api_adapter.dart';
 import 'application/usecases/descargar_backup_usecase.dart';
+import 'application/usecases/login_google_usecase.dart';
 
 class Container {
   static const bool useMock =
@@ -69,6 +70,7 @@ class Container {
 
   // ── Auth ──
   static final loginUseCase = LoginUseCase(_authPort);
+  static final loginGoogleUseCase = LoginGoogleUseCase(_authPort);
   static final registerUseCase = RegisterUseCase(_authPort);
   static final getProfileUseCase = GetProfileUseCase(_authPort, storage);
   static final logoutUseCase = LogoutUseCase(storage, _authPort);

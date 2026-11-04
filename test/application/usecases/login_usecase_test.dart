@@ -35,6 +35,11 @@ class MockAuthPort implements AuthPort {
       throw UnimplementedError();
 
   @override
+  Future<({UserEntity user, String token})> loginWithGoogle(
+          String credential) async =>
+      throw UnimplementedError();
+
+  @override
   Future<UserEntity> getProfile() async => throw UnimplementedError();
 
   @override

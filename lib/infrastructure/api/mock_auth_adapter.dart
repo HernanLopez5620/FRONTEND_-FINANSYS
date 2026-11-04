@@ -113,6 +113,24 @@ class MockAuthAdapter implements AuthPort {
   }
 
   @override
+  Future<({UserEntity user, String token})> loginWithGoogle(
+    String credential,
+  ) async {
+    await Future.delayed(const Duration(milliseconds: 600));
+    await _storage.saveToken(_mockToken);
+
+    return (
+      user: const UserEntity(
+        uid: 1,
+        email: 'juan@ejemplo.com',
+        nombre: 'Juan García',
+        username: 'juangarcia123',
+      ),
+      token: _mockToken,
+    );
+  }
+
+  @override
   Future<void> forgotPassword({
     required String email,
   }) async {

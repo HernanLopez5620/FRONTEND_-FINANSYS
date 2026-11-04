@@ -8,6 +8,7 @@ import '../../core/theme/app_theme.dart';
 import '../../container.dart' as AppContainer;
 import '../providers/auth_provider.dart';
 import '../components/ui/app_toast.dart';
+import '../widgets/google_sign_in_button.dart';
 import 'terminos_page.dart';
 import 'politica_datos_page.dart';
 
@@ -287,6 +288,8 @@ class _LoginFormState extends State<_LoginForm> {
                   : const Text('Ingresar'),
             ),
           ),
+          const SizedBox(height: 20),
+          const GoogleSignInButton(),
         ],
       ),
     );

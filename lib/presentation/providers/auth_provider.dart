@@ -178,6 +178,51 @@ class AuthProvider extends ChangeNotifier {
   }
 
   // ─────────────────────────────────────────────
+  // Login con Google
+  // ─────────────────────────────────────────────
+
+  /// Recibe el ID token de Google; el backend lo verifica y abre (o crea)
+  /// la cuenta. Respeta la sesión única igual que el login normal.
+  Future<bool> loginConGoogle(String credential) async {
+    _loading = true;
+    _error = null;
+    _aviso = null;
+
+    notifyListeners();
+
+    try {
+      final result =
+          await AppContainer.Container.loginGoogleUseCase.execute(credential);
+
+      _user = result.user;
+      _isAuthenticated = true;
+
+      await AppContainer.Container.storage.saveToken(result.token);
+      _token = result.token;
+
+      try {
+        final fullUser =
+            await AppContainer.Container.getProfileUseCase.execute();
+        if (fullUser != null) {
+          _user = fullUser;
+        }
+      } catch (_) {
+        // Si falla la recarga del perfil, conservamos los datos del login.
+      }
+
+      _iniciarLatido();
+
+      return true;
+    } catch (e) {
+      _error = e.toString();
+      return false;
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
+  }
+
+  // ─────────────────────────────────────────────
   // Registro
   // ─────────────────────────────────────────────
 
