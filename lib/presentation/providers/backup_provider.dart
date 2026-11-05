@@ -4,6 +4,7 @@
 import 'package:flutter/foundation.dart';
 import '../../container.dart' as AppContainer;
 import '../../infrastructure/files/file_saver.dart';
+import '../errors/error_translator.dart';
 
 class BackupProvider extends ChangeNotifier {
   bool _descargando = false;
@@ -13,14 +14,14 @@ class BackupProvider extends ChangeNotifier {
   String? get error => _error;
 
   /// Descarga el archivo .json con los datos del usuario. true si se guardó.
-  Future<bool> descargar() async {
+  Future<bool> descargar({required String idioma}) async {
     if (_descargando) return false;
     _descargando = true;
     _error = null;
     notifyListeners();
     try {
-      final bytes =
-          await AppContainer.Container.descargarBackupUseCase.execute();
+      final bytes = await AppContainer.Container.descargarBackupUseCase
+          .execute(locale: idioma);
       final h = DateTime.now();
       final fecha = '${h.year}-${h.month.toString().padLeft(2, '0')}-'
           '${h.day.toString().padLeft(2, '0')}';
@@ -28,7 +29,7 @@ class BackupProvider extends ChangeNotifier {
           bytes, 'FinanSys_backup_$fecha.json', 'application/json');
       return true;
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorTranslator.message(e);
       return false;
     } finally {
       _descargando = false;
@@ -36,4 +37,3 @@ class BackupProvider extends ChangeNotifier {
     }
   }
 }
-

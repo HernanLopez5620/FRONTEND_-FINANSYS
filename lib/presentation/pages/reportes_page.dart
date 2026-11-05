@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../l10n/l10n.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/formatters.dart';
 import '../providers/gasto_provider.dart';
@@ -55,9 +56,9 @@ class _ReportesPageState extends State<ReportesPage>
               unselectedLabelColor: cs.onSurfaceVariant, // ← Dinámico
               indicatorColor: cs.primary, // ← Dinámico
               indicatorWeight: 2.5,
-              tabs: const [
-                Tab(text: 'Por categoría'),
-                Tab(text: 'Mensual'),
+              tabs: [
+                Tab(text: context.l10n.reportTabByCategory),
+                Tab(text: context.l10n.reportTabMonthly),
               ],
             ),
           ),
@@ -80,16 +81,16 @@ class _ReportesPageState extends State<ReportesPage>
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Distribución de gastos',
+                            Text(context.l10n.reportDistribution,
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600,
                                     color: cs.onSurface)), // ← Dinámico
                             const SizedBox(height: 16),
                             gastoP.porCategoria.isEmpty
-                                ? const AppEmptyState(
+                                ? AppEmptyState(
                                     icon: Icons.pie_chart_outline,
-                                    title: 'Sin datos este mes',
+                                    title: context.l10n.reportNoDataMonth,
                                   )
                                 : DonutChartWidget(data: gastoP.porCategoria),
                           ],
@@ -101,7 +102,7 @@ class _ReportesPageState extends State<ReportesPage>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Detalle por categoría',
+                              Text(context.l10n.reportDetailByCategory,
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
@@ -158,16 +159,16 @@ class _ReportesPageState extends State<ReportesPage>
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Ingresos vs. Gastos',
+                            Text(context.l10n.reportIncomeVsExpenses,
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600,
                                     color: cs.onSurface)), // ← Dinámico
                             const SizedBox(height: 16),
                             gastoP.comparacion.isEmpty
-                                ? const AppEmptyState(
+                                ? AppEmptyState(
                                     icon: Icons.bar_chart_outlined,
-                                    title: 'Sin datos',
+                                    title: context.l10n.reportNoData,
                                   )
                                 : BarChartWidget(data: gastoP.comparacion),
                           ],
@@ -179,7 +180,7 @@ class _ReportesPageState extends State<ReportesPage>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Comparativa mensual',
+                              Text(context.l10n.reportMonthlyComparison,
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
@@ -189,7 +190,7 @@ class _ReportesPageState extends State<ReportesPage>
                               Row(children: [
                                 const SizedBox(width: 48),
                                 Expanded(
-                                    child: Text('Ingresos',
+                                    child: Text(context.l10n.reportIncome,
                                         style: TextStyle(
                                             fontSize: 11,
                                             color: cs
@@ -198,7 +199,7 @@ class _ReportesPageState extends State<ReportesPage>
                                         textAlign: TextAlign.right)),
                                 const SizedBox(width: 12),
                                 Expanded(
-                                    child: Text('Gastos',
+                                    child: Text(context.l10n.reportExpenses,
                                         style: TextStyle(
                                             fontSize: 11,
                                             color: cs
@@ -207,7 +208,7 @@ class _ReportesPageState extends State<ReportesPage>
                                         textAlign: TextAlign.right)),
                                 const SizedBox(width: 12),
                                 Expanded(
-                                    child: Text('Balance',
+                                    child: Text(context.l10n.reportBalance,
                                         style: TextStyle(
                                             fontSize: 11,
                                             color: cs
@@ -292,14 +293,19 @@ class _BotonExportar extends StatelessWidget {
 
   Future<void> _exportar(BuildContext context, String formato) async {
     final p = context.read<ReporteProvider>();
-    final ok =
-        await p.exportar(formato: formato, mes: mes.month, anio: mes.year);
+    final ok = await p.exportar(
+      formato: formato,
+      mes: mes.month,
+      anio: mes.year,
+      idioma: Localizations.localeOf(context).languageCode,
+      prefijoArchivo: context.l10n.reportFilePrefix,
+    );
     if (!context.mounted) return;
     AppToast.show(
       context,
       ok
-          ? 'Reporte descargado (${formato == 'pdf' ? 'PDF' : 'Excel'})'
-          : (p.error ?? 'No se pudo exportar el reporte'),
+          ? context.l10n.reportDownloaded(formato == 'pdf' ? 'PDF' : 'Excel')
+          : (p.error ?? context.l10n.reportExportFailed),
       type: ok ? ToastType.success : ToastType.error,
     );
   }
@@ -321,30 +327,31 @@ class _BotonExportar extends StatelessWidget {
           );
         }
         return PopupMenuButton<String>(
-          tooltip: 'Exportar reporte',
+          tooltip: context.l10n.reportExportTooltip,
           icon: Icon(Icons.file_download_outlined, color: cs.primary),
           onSelected: (formato) => _exportar(context, formato),
           itemBuilder: (_) => [
             PopupMenuItem<String>(
               enabled: false,
-              child: Text('Reporte de ${Formatters.toMonthYear(mes)}',
+              child: Text(
+                  context.l10n.reportOfMonth(Formatters.toMonthYear(mes)),
                   style: const TextStyle(fontWeight: FontWeight.w600)),
             ),
             const PopupMenuDivider(),
-            const PopupMenuItem<String>(
+            PopupMenuItem<String>(
               value: 'pdf',
               child: Row(children: [
-                Icon(Icons.picture_as_pdf_outlined, size: 18),
-                SizedBox(width: 10),
-                Text('Descargar PDF'),
+                const Icon(Icons.picture_as_pdf_outlined, size: 18),
+                const SizedBox(width: 10),
+                Text(context.l10n.reportDownloadPdf),
               ]),
             ),
-            const PopupMenuItem<String>(
+            PopupMenuItem<String>(
               value: 'xlsx',
               child: Row(children: [
-                Icon(Icons.table_chart_outlined, size: 18),
-                SizedBox(width: 10),
-                Text('Descargar Excel'),
+                const Icon(Icons.table_chart_outlined, size: 18),
+                const SizedBox(width: 10),
+                Text(context.l10n.reportDownloadExcel),
               ]),
             ),
           ],

@@ -4,6 +4,7 @@
 import 'package:flutter/foundation.dart';
 import '../../container.dart';
 import '../../domain/entities/admin_entities.dart';
+import '../errors/error_translator.dart';
 
 class AdminProvider extends ChangeNotifier {
   AdminResumen? _resumen;
@@ -33,7 +34,7 @@ class AdminProvider extends ChangeNotifier {
     try {
       _resumen = await Container.resumenAdminUseCase.execute();
     } catch (e) {
-      _errorResumen = e.toString();
+      _errorResumen = ErrorTranslator.message(e);
     } finally {
       _cargandoResumen = false;
       notifyListeners();
@@ -57,7 +58,7 @@ class AdminProvider extends ChangeNotifier {
       _usuarios = lista;
     } catch (e) {
       if (gen != _genUsuarios) return;
-      _errorUsuarios = e.toString();
+      _errorUsuarios = ErrorTranslator.message(e);
     } finally {
       if (gen == _genUsuarios) {
         _cargandoUsuarios = false;

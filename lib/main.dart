@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
+
+import 'l10n/l10n.dart';
 
 import 'presentation/providers/auth_provider.dart';
 import 'presentation/providers/gasto_provider.dart';
@@ -17,6 +20,7 @@ import 'presentation/providers/inactividad_provider.dart';
 import 'presentation/providers/admin_provider.dart';
 import 'presentation/providers/reporte_provider.dart';
 import 'presentation/providers/backup_provider.dart';
+import 'presentation/providers/idioma_provider.dart';
 import 'presentation/widgets/inactividad_detector.dart';
 import 'presentation/widgets/inactividad_overlay.dart';
 
@@ -29,17 +33,25 @@ void main() async {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
   ));
-  await initializeDateFormatting('es', null);
-  runApp(const FinanSysApp());
+  // Datos de fechas para todos los idiomas disponibles
+  for (final l in IdiomaProvider.soportados) {
+    await initializeDateFormatting(l.languageCode, null);
+  }
+  // Idioma guardado por el usuario (antes de dibujar la primera pantalla)
+  final idioma = IdiomaProvider();
+  await idioma.cargar();
+  runApp(FinanSysApp(idioma: idioma));
 }
 
 class FinanSysApp extends StatelessWidget {
-  const FinanSysApp({super.key});
+  final IdiomaProvider idioma;
+  const FinanSysApp({super.key, required this.idioma});
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider.value(value: idioma),
         ChangeNotifierProvider(create: (_) => TemaProvider()),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => GastoProvider()),
@@ -53,11 +65,20 @@ class FinanSysApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ReporteProvider()),
         ChangeNotifierProvider(create: (_) => BackupProvider()),
       ],
-      child: Consumer<TemaProvider>(
-        builder: (_, temaP, __) => InactividadDetector(
+      child: Consumer2<TemaProvider, IdiomaProvider>(
+        builder: (_, temaP, idiomaP, __) => InactividadDetector(
           child: MaterialApp(
-            title: 'FinanSys',
+            onGenerateTitle: (ctx) => ctx.l10n.appTitle,
             debugShowCheckedModeBanner: false,
+            // Idioma activo (se cambia desde el selector, sin recargar)
+            locale: idiomaP.locale,
+            supportedLocales: AppLocalizations.supportedLocales,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
             theme: temaP.themeData,
             // Envolvemos la pantalla inicial con el overlay de inactividad
             home: const InactividadOverlay(child: _AuthGate()),

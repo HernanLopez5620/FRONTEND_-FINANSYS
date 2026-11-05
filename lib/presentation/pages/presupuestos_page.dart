@@ -2,6 +2,7 @@
 // SOLID-SRP: única responsabilidad — listar y crear presupuestos.
 
 import 'package:flutter/material.dart';
+import '../../l10n/l10n.dart';
 import 'package:provider/provider.dart';
 import '../providers/presupuesto_provider.dart';
 import '../providers/categoria_provider.dart';
@@ -60,9 +61,9 @@ class _PresupuestosPageState extends State<PresupuestosPage> {
           : presuP.presupuestos.isEmpty
               ? AppEmptyState(
                   icon: Icons.savings_outlined,
-                  title: 'Sin presupuestos',
-                  subtitle: 'Define límites por categoría',
-                  actionLabel: 'Crear presupuesto',
+                  title: context.l10n.budgetEmptyTitle,
+                  subtitle: context.l10n.budgetEmptySubtitle,
+                  actionLabel: context.l10n.budgetCreate,
                   onAction: _showAdd,
                 )
               : ListView(
@@ -80,7 +81,7 @@ class _PresupuestosPageState extends State<PresupuestosPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Presupuesto del mes',
+                          Text(context.l10n.budgetMonthTitle,
                               style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,

@@ -14,9 +14,10 @@ class ReporteExportApiAdapter implements ReporteExportPort {
     required String formato,
     required int mes,
     required int anio,
+    required String locale,
   }) {
     return _http.getBytes(
-      '/gastos/reportes/exportar?formato=$formato&mes=$mes&anio=$anio',
+      '/gastos/reportes/exportar?formato=$formato&mes=$mes&anio=$anio&locale=$locale',
     );
   }
 }

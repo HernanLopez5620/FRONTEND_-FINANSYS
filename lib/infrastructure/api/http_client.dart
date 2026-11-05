@@ -27,31 +27,35 @@ class HttpClient {
     return headers;
   }
 
-  // ── Parsea { ok, data } o { ok, msg } del backend ──
+  // ── Parsea { ok, data } o { ok, code, params, msg } del backend ──
   Map<String, dynamic> _parseResponse(http.Response response) {
     final body = jsonDecode(response.body) as Map<String, dynamic>;
+    final code = body['code'] as String?;
+    final rawParams = body['params'];
+    final params =
+        rawParams is Map<String, dynamic> ? rawParams : <String, dynamic>{};
+    final msg = body['msg'] as String?;
     switch (response.statusCode) {
       case 401:
         // Sesión única: el servidor avisa si esta sesión fue reemplazada o cerrada
-        final code = body['code'];
         if (code == 'SESION_REEMPLAZADA' || code == 'SESION_CERRADA') {
-          final msg = (body['msg'] ?? 'Tu sesión ya no es válida') as String;
-          SessionEvents.onInvalid?.call(code as String, msg);
-          throw SessionReplacedError(msg, code);
+          final m = msg ?? 'Tu sesión ya no es válida';
+          SessionEvents.onInvalid?.call(code!, m);
+          throw SessionReplacedError(m, code!);
         }
-        throw UnauthorizedError(body['msg'] ?? 'No autorizado');
+        throw UnauthorizedError(msg ?? 'No autorizado', code, params);
       case 403:
         throw ForbiddenError(
-            body['msg'] ?? 'No tienes permiso para esta acción');
+            msg ?? 'No tienes permiso para esta acción', code, params);
       case 404:
-        throw NotFoundError(body['msg'] ?? 'No encontrado');
+        throw NotFoundError(msg ?? 'No encontrado', code, params);
       case 409:
-        throw ConflictError(body['msg'] ?? 'Ya existe');
+        throw ConflictError(msg ?? 'Ya existe', code, params);
       case 400:
-        throw ValidationError(body['msg'] ?? 'Datos inválidos');
+        throw ValidationError(msg ?? 'Datos inválidos', code, params);
     }
     if (response.statusCode >= 500) {
-      throw ServerError(body['msg'] ?? 'Error del servidor');
+      throw ServerError(msg ?? 'Error del servidor', code, params);
     }
     return body;
   }
@@ -87,8 +91,8 @@ class HttpClient {
               const Duration(seconds: 60)); // generar el archivo puede tardar
       if (response.statusCode >= 400) {
         // Los errores llegan como JSON { ok:false, msg }: _parseResponse los traduce
-        final body = _parseResponse(response);
-        throw AppError(body['msg'] ?? 'No se pudo generar el archivo',
+        _parseResponse(response); // lanza el error tipado (con code/params)
+        throw AppError('No se pudo generar el archivo',
             statusCode: response.statusCode);
       }
       return response.bodyBytes;

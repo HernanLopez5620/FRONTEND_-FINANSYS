@@ -2,6 +2,7 @@
 // SOLID-SRP: única responsabilidad — listar y gestionar movimientos.
 
 import 'package:flutter/material.dart';
+import '../../l10n/l10n.dart';
 import 'package:provider/provider.dart';
 import '../providers/gasto_provider.dart';
 import '../components/ui/app_spinner.dart';
@@ -59,10 +60,10 @@ class _GastosPageState extends State<GastosPage> {
                       ),
                       child: Text(
                         f == 'todos'
-                            ? 'Todos'
+                            ? context.l10n.gastosFilterAll
                             : f == 'gasto'
-                                ? 'Gastos'
-                                : 'Ingresos',
+                                ? context.l10n.gastosFilterExpenses
+                                : context.l10n.gastosFilterIncome,
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
@@ -96,10 +97,10 @@ class _GastosPageState extends State<GastosPage> {
     }
 
     if (filtered.isEmpty) {
-      return const AppEmptyState(
+      return AppEmptyState(
         icon: Icons.receipt_long_outlined,
-        title: 'Sin movimientos',
-        subtitle: 'Toca + para registrar uno',
+        title: context.l10n.gastosEmptyTitle,
+        subtitle: context.l10n.gastosEmptySubtitle,
       );
     }
 
@@ -127,18 +128,20 @@ class _GastosPageState extends State<GastosPage> {
           confirmDismiss: (_) async => await showDialog<bool>(
             context: context,
             builder: (_) => AlertDialog(
-              title: const Text('Eliminar movimiento'),
-              content: Text(
-                  '¿Seguro que quieres eliminar "${g.descripcion.isNotEmpty ? g.descripcion : g.categoria ?? 'este movimiento'}"?'),
+              title: Text(context.l10n.gastosDeleteTitle),
+              content: Text(context.l10n.gastosDeleteConfirm(
+                  g.descripcion.isNotEmpty
+                      ? g.descripcion
+                      : (g.categoria ?? context.l10n.gastosThisMovement))),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context, false),
-                  child: const Text('Cancelar'),
+                  child: Text(context.l10n.commonCancel),
                 ),
                 TextButton(
                   onPressed: () => Navigator.pop(context, true),
                   child: Text(
-                    'Eliminar',
+                    context.l10n.commonDelete,
                     style: TextStyle(color: cs.error), // ← Dinámico
                   ),
                 ),

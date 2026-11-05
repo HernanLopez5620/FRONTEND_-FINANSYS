@@ -2,13 +2,12 @@
 // SOLID-SRP: orquesta las secciones del dashboard principal.
 
 import 'package:flutter/material.dart';
+import '../../l10n/l10n.dart';
 import 'package:provider/provider.dart';
-
 import '../providers/auth_provider.dart';
 import '../providers/gasto_provider.dart';
 import '../providers/categoria_provider.dart';
 import '../providers/inactividad_provider.dart';
-
 import '../components/layout/app_header.dart';
 import '../components/layout/app_nav_bar.dart';
 import '../components/ui/app_spinner.dart';
@@ -19,7 +18,6 @@ import '../components/charts/donut_chart_widget.dart';
 import '../components/modals/gasto_form_modal.dart';
 import '../widgets/inactividad_detector.dart';
 import '../widgets/inactividad_overlay.dart';
-
 import 'gastos_page.dart';
 import 'categorias_page.dart';
 import 'presupuestos_page.dart';
@@ -27,7 +25,6 @@ import 'reportes_page.dart';
 import 'profile_page.dart';
 import 'admin_page.dart';
 import 'divisas_page.dart';
-
 import '../../domain/entities/gasto_entity.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -44,12 +41,9 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   void initState() {
     super.initState();
-
     _inactividad = context.read<InactividadProvider>();
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadData();
-
       // Inicia el timer de inactividad
       context.read<InactividadProvider>().iniciar(() {
         context.read<AuthProvider>().logout();
@@ -78,17 +72,13 @@ class _DashboardPageState extends State<DashboardPage> {
 
   void _verPerfil() {
     Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => const ProfilePage(),
-      ),
+      MaterialPageRoute(builder: (_) => const ProfilePage()),
     );
   }
 
   void _verAdmin() {
     Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => const AdminPage(),
-      ),
+      MaterialPageRoute(builder: (_) => const AdminPage()),
     );
   }
 
@@ -111,28 +101,23 @@ class _DashboardPageState extends State<DashboardPage> {
       child: InactividadOverlay(
         child: Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          body: Column(
-            children: [
-              SafeArea(
-                bottom: false,
-                child: AppHeader(
-                  resumen: gastoP.resumen,
-                  selectedMonth: gastoP.selectedMonth,
-                  username: auth.user?.username ?? '',
-                  onMonthChanged: (m) => gastoP.setMonth(m),
-                  onLogout: _logout,
-                  onVerPerfil: _verPerfil,
-                  onVerAdmin: auth.user?.esAdmin == true ? _verAdmin : null,
-                ),
+          body: Column(children: [
+            SafeArea(
+              bottom: false,
+              child: AppHeader(
+                resumen: gastoP.resumen,
+                selectedMonth: gastoP.selectedMonth,
+                username: auth.user?.username ?? '',
+                onMonthChanged: (m) => gastoP.setMonth(m),
+                onLogout: _logout,
+                onVerPerfil: _verPerfil,
+                onVerAdmin: auth.user?.esAdmin == true ? _verAdmin : null,
               ),
-              Expanded(
-                child: IndexedStack(
-                  index: _currentIndex,
-                  children: pages,
-                ),
-              ),
-            ],
-          ),
+            ),
+            Expanded(
+              child: IndexedStack(index: _currentIndex, children: pages),
+            ),
+          ]),
           bottomNavigationBar: AppNavBar(
             currentIndex: _currentIndex,
             onTap: (i) => setState(() => _currentIndex = i),
@@ -144,23 +129,15 @@ class _DashboardPageState extends State<DashboardPage> {
                     isScrollControlled: true,
                     backgroundColor: Theme.of(context).cardColor,
                     shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(20),
-                      ),
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(20)),
                     ),
                     builder: (_) => const GastoFormModal(),
                   ),
                   backgroundColor: cs.primary,
-                  icon: Icon(
-                    Icons.add_rounded,
-                    color: cs.onPrimary,
-                  ),
-                  label: Text(
-                    'Registrar',
-                    style: TextStyle(
-                      color: cs.onPrimary,
-                    ),
-                  ),
+                  icon: Icon(Icons.add_rounded, color: cs.onPrimary),
+                  label: Text(context.l10n.dashRegister,
+                      style: TextStyle(color: cs.onPrimary)),
                 )
               : null,
         ),
@@ -171,10 +148,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
 class _HomeTab extends StatelessWidget {
   final VoidCallback onRefresh;
-
-  const _HomeTab({
-    required this.onRefresh,
-  });
+  const _HomeTab({required this.onRefresh});
 
   @override
   Widget build(BuildContext context) {
@@ -194,18 +168,13 @@ class _HomeTab extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Comparación mensual',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: cs.onSurface,
-                          ),
-                        ),
+                        Text(context.l10n.dashMonthlyComparison,
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: cs.onSurface)),
                         const SizedBox(height: 16),
-                        BarChartWidget(
-                          data: gastoP.comparacion,
-                        ),
+                        BarChartWidget(data: gastoP.comparacion),
                       ],
                     ),
                   ),
@@ -216,18 +185,13 @@ class _HomeTab extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Gastos por categoría',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: cs.onSurface,
-                          ),
-                        ),
+                        Text(context.l10n.dashExpensesByCategory,
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: cs.onSurface)),
                         const SizedBox(height: 16),
-                        DonutChartWidget(
-                          data: gastoP.porCategoria,
-                        ),
+                        DonutChartWidget(data: gastoP.porCategoria),
                       ],
                     ),
                   ),
@@ -236,22 +200,15 @@ class _HomeTab extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Últimos movimientos',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: cs.onSurface,
-                      ),
-                    ),
+                    Text(context.l10n.dashLatestMovements,
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: cs.onSurface)),
                     TextButton(
                       onPressed: () {},
-                      child: Text(
-                        'Ver todos',
-                        style: TextStyle(
-                          color: cs.primary,
-                        ),
-                      ),
+                      child: Text(context.l10n.dashSeeAll,
+                          style: TextStyle(color: cs.primary)),
                     ),
                   ],
                 ),
@@ -259,17 +216,15 @@ class _HomeTab extends StatelessWidget {
                 if (gastoP.gastos.isEmpty)
                   AppEmptyState(
                     icon: Icons.receipt_long_outlined,
-                    title: 'Sin movimientos este mes',
-                    subtitle: 'Toca + para registrar el primero',
+                    title: context.l10n.dashNoMovementsMonth,
+                    subtitle: context.l10n.dashTapPlusFirst,
                   )
                 else
-                  ...gastoP.gastos.take(6).map(
-                        (g) => _GastoRow(
-                          gasto: g,
-                          onDelete: () =>
-                              context.read<GastoProvider>().deleteExpense(g.id),
-                        ),
-                      ),
+                  ...gastoP.gastos.take(6).map((g) => _GastoRow(
+                        gasto: g,
+                        onDelete: () =>
+                            context.read<GastoProvider>().deleteExpense(g.id),
+                      )),
                 const SizedBox(height: 80),
               ],
             ),
@@ -281,10 +236,7 @@ class _GastoRow extends StatelessWidget {
   final GastoEntity gasto;
   final VoidCallback onDelete;
 
-  const _GastoRow({
-    required this.gasto,
-    required this.onDelete,
-  });
+  const _GastoRow({required this.gasto, required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -292,131 +244,91 @@ class _GastoRow extends StatelessWidget {
 
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.symmetric(
-        horizontal: 14,
-        vertical: 12,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(
-          color: cs.onSurface.withOpacity(0.08),
-          width: 0.5,
-        ),
+        border: Border.all(color: cs.onSurface.withOpacity(0.08), width: 0.5),
       ),
-      child: Row(
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: gasto.esGasto
-                  ? Colors.red.withOpacity(0.15)
-                  : cs.primary.withOpacity(0.15),
-              borderRadius: BorderRadius.circular(11),
-            ),
-            child: Center(
-              child: Text(
-                gasto.icono ?? '📦',
-                style: const TextStyle(fontSize: 18),
-              ),
-            ),
+      child: Row(children: [
+        Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            color: gasto.esGasto
+                ? Colors.red.withOpacity(0.15)
+                : cs.primary.withOpacity(0.15),
+            borderRadius: BorderRadius.circular(11),
           ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  gasto.descripcion.isNotEmpty
-                      ? gasto.descripcion
-                      : gasto.categoria ?? '',
-                  style: TextStyle(
+          child: Center(
+              child: Text(gasto.icono ?? '📦',
+                  style: const TextStyle(fontSize: 18))),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                gasto.descripcion.isNotEmpty
+                    ? gasto.descripcion
+                    : gasto.categoria ?? '',
+                style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
-                    color: cs.onSurface,
-                  ),
-                ),
-                Text(
+                    color: cs.onSurface),
+              ),
+              Text(
                   '${gasto.fecha.day}/${gasto.fecha.month}/${gasto.fecha.year}',
                   style: TextStyle(
-                    fontSize: 11,
-                    color: cs.onSurface.withOpacity(0.5),
-                  ),
-                ),
-              ],
-            ),
+                      fontSize: 11, color: cs.onSurface.withOpacity(0.5))),
+            ],
           ),
-          Text(
-            '${gasto.esGasto ? '-' : '+'}${gasto.monto.toStringAsFixed(0)}',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color:
-                  gasto.esGasto ? Colors.red.shade400 : Colors.green.shade400,
-            ),
+        ),
+        Text(
+          '${gasto.esGasto ? '-' : '+'}${gasto.monto.toStringAsFixed(0)}',
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: gasto.esGasto ? Colors.red.shade400 : Colors.green.shade400,
           ),
-          const SizedBox(width: 8),
-          GestureDetector(
-            onTap: () async {
-              final nombre = gasto.descripcion.isNotEmpty
-                  ? gasto.descripcion
-                  : gasto.categoria ?? 'este movimiento';
-
-              final ok = await showDialog<bool>(
-                context: context,
-                builder: (_) => AlertDialog(
-                  backgroundColor: Theme.of(context).cardColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+        ),
+        const SizedBox(width: 8),
+        GestureDetector(
+          onTap: () async {
+            final nombre = gasto.descripcion.isNotEmpty
+                ? gasto.descripcion
+                : gasto.categoria ?? context.l10n.gastosThisMovement;
+            final ok = await showDialog<bool>(
+              context: context,
+              builder: (_) => AlertDialog(
+                backgroundColor: Theme.of(context).cardColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16)),
+                title: Text(context.l10n.gastosDeleteTitle,
+                    style: TextStyle(color: cs.onSurface)),
+                content: Text(context.l10n.gastosDeleteConfirm(nombre),
+                    style: TextStyle(color: cs.onSurface.withOpacity(0.7))),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, false),
+                    child: Text(context.l10n.commonCancel,
+                        style: TextStyle(color: cs.primary)),
                   ),
-                  title: Text(
-                    'Eliminar movimiento',
-                    style: TextStyle(
-                      color: cs.onSurface,
-                    ),
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, true),
+                    child: Text(context.l10n.commonDelete,
+                        style: const TextStyle(color: Colors.red)),
                   ),
-                  content: Text(
-                    '¿Seguro que quieres eliminar "$nombre"?',
-                    style: TextStyle(
-                      color: cs.onSurface.withOpacity(0.7),
-                    ),
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, false),
-                      child: Text(
-                        'Cancelar',
-                        style: TextStyle(
-                          color: cs.primary,
-                        ),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, true),
-                      child: const Text(
-                        'Eliminar',
-                        style: TextStyle(
-                          color: Colors.red,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-
-              if (ok == true) {
-                onDelete();
-              }
-            },
-            child: Icon(
-              Icons.close_rounded,
-              size: 16,
-              color: cs.onSurface.withOpacity(0.4),
-            ),
-          ),
-        ],
-      ),
+                ],
+              ),
+            );
+            if (ok == true) onDelete();
+          },
+          child: Icon(Icons.close_rounded,
+              size: 16, color: cs.onSurface.withOpacity(0.4)),
+        ),
+      ]),
     );
   }
 }

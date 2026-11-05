@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import '../../../l10n/l10n.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../domain/entities/gasto_entity.dart';
 import '../../../domain/entities/categoria_entity.dart';
@@ -75,8 +76,8 @@ class _GastoFormModalState extends State<GastoFormModal>
     bool ok;
     if (_selectedCategoria == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Selecciona una categoría'),
+        SnackBar(
+          content: Text(context.l10n.gastoFormSelectCategory),
           backgroundColor: AppTheme.warning,
         ),
       );
@@ -118,7 +119,9 @@ class _GastoFormModalState extends State<GastoFormModal>
       ),
       child: Column(mainAxisSize: MainAxisSize.min, children: [
         Text(
-          widget.gasto != null ? 'Editar movimiento' : 'Nuevo movimiento',
+          widget.gasto != null
+              ? context.l10n.gastoFormEdit
+              : context.l10n.gastoFormNew,
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 16),
@@ -138,7 +141,10 @@ class _GastoFormModalState extends State<GastoFormModal>
               color: AppTheme.primary,
               borderRadius: BorderRadius.circular(8),
             ),
-            tabs: const [Tab(text: 'Gasto'), Tab(text: 'Ingreso')],
+            tabs: [
+              Tab(text: context.l10n.gastoFormTabExpense),
+              Tab(text: context.l10n.gastoFormTabIncome),
+            ],
           ),
         ),
         const SizedBox(height: 16),
@@ -150,8 +156,8 @@ class _GastoFormModalState extends State<GastoFormModal>
           inputFormatters: [
             FilteringTextInputFormatter.allow(RegExp(r'[\d.,]'))
           ],
-          decoration: const InputDecoration(
-            labelText: 'Monto',
+          decoration: InputDecoration(
+            labelText: context.l10n.gastoFormAmount,
             prefixText: '\$ ',
           ),
           style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
@@ -161,8 +167,9 @@ class _GastoFormModalState extends State<GastoFormModal>
         // Descripción
         TextFormField(
           controller: _descCtrl,
-          decoration: const InputDecoration(
-            labelText: 'Descripción (opcional)',
+          decoration: InputDecoration(
+            labelText: context.l10n.gastoFormDescription,
+            // ignore: prefer_const_constructors
             prefixIcon:
                 Icon(Icons.notes_rounded, size: 20, color: AppTheme.textGrey),
           ),
@@ -181,14 +188,14 @@ class _GastoFormModalState extends State<GastoFormModal>
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Categoría',
+                Text(context.l10n.gastoFormCategory,
                     style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: AppTheme.textGrey)),
                 const SizedBox(height: 8),
                 catsfiltradas.isEmpty
-                    ? const Text('Sin categorías para este tipo',
+                    ? Text(context.l10n.gastoFormNoCategories,
                         style:
                             TextStyle(color: AppTheme.textGrey, fontSize: 13))
                     : Wrap(
@@ -277,7 +284,9 @@ class _GastoFormModalState extends State<GastoFormModal>
                   height: 22,
                   child: CircularProgressIndicator(
                       color: Colors.white, strokeWidth: 2.5))
-              : Text(widget.gasto != null ? 'Actualizar' : 'Guardar'),
+              : Text(widget.gasto != null
+                  ? context.l10n.gastoFormUpdate
+                  : context.l10n.commonSave),
         ),
       ]),
     );

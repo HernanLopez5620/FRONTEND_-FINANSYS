@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'dart:async';
 import '../../domain/entities/tasa_cambio_entity.dart';
 import '../../container.dart';
+import '../errors/error_translator.dart';
 
 class DivisaProvider extends ChangeNotifier {
   TasaCambioEntity? _tasa;
@@ -25,7 +26,7 @@ class DivisaProvider extends ChangeNotifier {
     try {
       _tasa = await Container.getExchangeRateUseCase.execute();
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorTranslator.message(e);
     } finally {
       _loading = false;
       notifyListeners();
@@ -64,7 +65,7 @@ class DivisaProvider extends ChangeNotifier {
         a: a,
       );
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorTranslator.message(e);
     } finally {
       _loading = false;
       notifyListeners();

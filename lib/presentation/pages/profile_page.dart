@@ -4,8 +4,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../l10n/l10n.dart';
 import '../providers/auth_provider.dart';
 import '../providers/backup_provider.dart';
+import '../widgets/language_switcher.dart';
 import '../providers/tema_provider.dart';
 import '../components/ui/app_toast.dart';
 import '../widgets/inactividad_overlay.dart';
@@ -79,13 +81,13 @@ class _ProfilePageState extends State<ProfilePage> {
 
       AppToast.show(
         context,
-        'Perfil actualizado',
+        context.l10n.profileUpdated,
         type: ToastType.success,
       );
     } else {
       AppToast.show(
         context,
-        auth.error ?? 'No se pudo actualizar el perfil',
+        auth.error ?? context.l10n.profileUpdateError,
         type: ToastType.error,
       );
     }
@@ -112,7 +114,7 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
-          title: const Text('Mi perfil'),
+          title: Text(context.l10n.profileTitle),
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
@@ -200,8 +202,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     child: Text(
                       user?.activo == true
-                          ? '✅ Cuenta activa'
-                          : '❌ Cuenta inactiva',
+                          ? context.l10n.profileAccountActive
+                          : context.l10n.profileAccountInactive,
                       style: TextStyle(
                         color: user?.activo == true
                             ? Colors.green.shade600
@@ -217,7 +219,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   const SizedBox(height: 6),
                   Center(
                     child: Text(
-                      'Miembro desde ${_formatDate(user!.createdAt!)}',
+                      context.l10n
+                          .profileMemberSince(_formatDate(user!.createdAt!)),
                       style: TextStyle(
                         color: cs.onSurfaceVariant,
                         fontSize: 12,
@@ -233,14 +236,14 @@ class _ProfilePageState extends State<ProfilePage> {
                 // ─────────────────────────────
                 _titulo(
                   context,
-                  'Datos personales',
+                  context.l10n.profilePersonalData,
                 ),
 
                 TextFormField(
                   controller: _nombreCtrl,
                   textCapitalization: TextCapitalization.words,
                   decoration: InputDecoration(
-                    labelText: 'Nombre completo',
+                    labelText: context.l10n.authFullName,
                     prefixIcon: const Icon(
                       Icons.badge_outlined,
                     ),
@@ -250,7 +253,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   validator: (v) {
                     if (v == null || v.trim().isEmpty) {
-                      return 'Ingresa tu nombre';
+                      return context.l10n.authNameRequired;
                     }
 
                     return null;
@@ -262,7 +265,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 TextFormField(
                   controller: _usernameCtrl,
                   decoration: InputDecoration(
-                    labelText: 'Usuario',
+                    labelText: context.l10n.profileUsername,
                     prefixIcon: const Icon(
                       Icons.person_outline_rounded,
                     ),
@@ -272,7 +275,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   validator: (v) {
                     if (v == null || v.trim().isEmpty) {
-                      return 'Ingresa un nombre de usuario';
+                      return context.l10n.profileUsernameRequired;
                     }
 
                     return null;
@@ -286,14 +289,14 @@ class _ProfilePageState extends State<ProfilePage> {
                 // ─────────────────────────────
                 _titulo(
                   context,
-                  'Cambiar contraseña (opcional)',
+                  context.l10n.profileChangePasswordOptional,
                 ),
 
                 TextFormField(
                   controller: _passCtrl,
                   obscureText: _obscure,
                   decoration: InputDecoration(
-                    labelText: 'Nueva contraseña',
+                    labelText: context.l10n.profileNewPassword,
                     prefixIcon: const Icon(
                       Icons.lock_outline_rounded,
                     ),
@@ -319,7 +322,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     }
 
                     if (v.length < 6) {
-                      return 'Mínimo 6 caracteres';
+                      return context.l10n.authPasswordMin;
                     }
 
                     return null;
@@ -332,7 +335,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   controller: _confirmCtrl,
                   obscureText: _obscure,
                   decoration: InputDecoration(
-                    labelText: 'Confirmar contraseña',
+                    labelText: context.l10n.authConfirmPassword,
                     prefixIcon: const Icon(
                       Icons.lock_outline_rounded,
                     ),
@@ -346,7 +349,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     }
 
                     if (v != _passCtrl.text) {
-                      return 'Las contraseñas no coinciden';
+                      return context.l10n.authPasswordsMismatch;
                     }
 
                     return null;
@@ -379,8 +382,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             strokeWidth: 2.5,
                           ),
                         )
-                      : const Text(
-                          'Guardar cambios',
+                      : Text(
+                          context.l10n.profileSaveChanges,
                         ),
                 ),
 
@@ -391,7 +394,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 // ─────────────────────────────
                 _titulo(
                   context,
-                  'Apariencia',
+                  context.l10n.profileAppearance,
                 ),
 
                 Consumer<TemaProvider>(
@@ -403,17 +406,17 @@ class _ProfilePageState extends State<ProfilePage> {
                         _chipTema(
                           temaP,
                           'claro',
-                          'Claro',
+                          context.l10n.profileThemeLight,
                         ),
                         _chipTema(
                           temaP,
                           'oscuro',
-                          'Oscuro',
+                          context.l10n.profileThemeDark,
                         ),
                         _chipTema(
                           temaP,
                           'operagx',
-                          'Gamer',
+                          context.l10n.profileThemeGamer,
                         ),
                       ],
                     );
@@ -423,17 +426,27 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(height: 32),
 
                 // ─────────────────────────────
+                // Idioma
+                // ─────────────────────────────
+                _titulo(
+                  context,
+                  context.l10n.profileLanguage,
+                ),
+
+                const LanguageSwitcher(),
+
+                const SizedBox(height: 32),
+
+                // ─────────────────────────────
                 // Mis datos (copia de seguridad)
                 // ─────────────────────────────
                 _titulo(
                   context,
-                  'Mis datos',
+                  context.l10n.profileMyData,
                 ),
 
                 Text(
-                  'Descarga una copia de tus datos (perfil, categorías, '
-                  'movimientos, presupuestos y compras en el extranjero) en un '
-                  'archivo JSON. No incluye contraseñas.',
+                  context.l10n.profileBackupDescription,
                   style: TextStyle(
                     fontSize: 13,
                     color: cs.onSurfaceVariant,
@@ -448,14 +461,17 @@ class _ProfilePageState extends State<ProfilePage> {
                       onPressed: backup.descargando
                           ? null
                           : () async {
-                              final ok = await backup.descargar();
+                              final ok = await backup.descargar(
+                                idioma: Localizations.localeOf(context)
+                                    .languageCode,
+                              );
                               if (!mounted) return;
                               AppToast.show(
                                 context,
                                 ok
-                                    ? 'Copia de seguridad descargada'
+                                    ? context.l10n.profileBackupDownloaded
                                     : (backup.error ??
-                                        'No se pudo descargar la copia'),
+                                        context.l10n.profileBackupError),
                                 type: ok ? ToastType.success : ToastType.error,
                               );
                             },
@@ -471,8 +487,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           : const Icon(Icons.download_rounded),
                       label: Text(
                         backup.descargando
-                            ? 'Generando...'
-                            : 'Descargar mis datos',
+                            ? context.l10n.profileBackupGenerating
+                            : context.l10n.profileBackupDownload,
                       ),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: cs.onSurface,
@@ -492,7 +508,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 // ─────────────────────────────
                 _titulo(
                   context,
-                  'Información legal',
+                  context.l10n.profileLegalInfo,
                 ),
 
                 ListTile(
@@ -501,8 +517,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     Icons.description_outlined,
                     color: cs.primary,
                   ),
-                  title: const Text(
-                    'Términos y Condiciones',
+                  title: Text(
+                    context.l10n.authTermsLink,
                   ),
                   trailing: const Icon(
                     Icons.chevron_right_rounded,
@@ -522,8 +538,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     Icons.privacy_tip_outlined,
                     color: cs.primary,
                   ),
-                  title: const Text(
-                    'Política de tratamiento de datos',
+                  title: Text(
+                    context.l10n.profileDataPolicy,
                   ),
                   trailing: const Icon(
                     Icons.chevron_right_rounded,

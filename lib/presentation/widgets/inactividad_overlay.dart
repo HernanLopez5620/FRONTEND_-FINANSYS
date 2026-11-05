@@ -1,6 +1,7 @@
 // presentation/widgets/inactividad_overlay.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../l10n/l10n.dart';
 import '../providers/auth_provider.dart';
 import '../providers/inactividad_provider.dart';
 
@@ -67,14 +68,14 @@ class _ModalAviso extends StatelessWidget {
               Icon(Icons.access_time_rounded,
                   size: 56, color: Colors.orange.shade400),
               const SizedBox(height: 16),
-              Text('¿Sigues ahí?',
+              Text(context.l10n.sessionStillThereTitle,
                   style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                       color: cs.onSurface)),
               const SizedBox(height: 8),
               Text(
-                'Tu sesión se cerrará por inactividad en:',
+                context.l10n.sessionWillCloseIn,
                 style: TextStyle(
                     fontSize: 14, color: cs.onSurface.withOpacity(0.6)),
                 textAlign: TextAlign.center,
@@ -108,7 +109,7 @@ class _ModalAviso extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12)),
                   ),
-                  child: Text('Continuar sesión',
+                  child: Text(context.l10n.sessionContinueButton,
                       style: TextStyle(
                           color: cs.onPrimary,
                           fontSize: 16,
@@ -139,14 +140,14 @@ class _PantallaBloqueo extends StatelessWidget {
           children: [
             Icon(Icons.lock_outline_rounded, size: 72, color: cs.primary),
             const SizedBox(height: 24),
-            Text('Sesión cerrada',
+            Text(context.l10n.sessionClosedTitle,
                 style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: cs.onSurface)),
             const SizedBox(height: 8),
             Text(
-              'Tu sesión fue cerrada por inactividad.',
+              context.l10n.sessionClosedInactivity,
               style:
                   TextStyle(fontSize: 14, color: cs.onSurface.withOpacity(0.6)),
               textAlign: TextAlign.center,
@@ -160,12 +161,12 @@ class _PantallaBloqueo extends StatelessWidget {
                 border: Border.all(color: cs.primary.withOpacity(0.3)),
               ),
               child: Column(children: [
-                Text('Podrás ingresar en:',
+                Text(context.l10n.sessionCanLoginIn,
                     style: TextStyle(
                         fontSize: 13, color: cs.onSurface.withOpacity(0.6))),
                 const SizedBox(height: 8),
                 Text(
-                  '${inact.segundosBloqueo}s',
+                  context.l10n.sessionSecondsShort(inact.segundosBloqueo),
                   style: TextStyle(
                       fontSize: 40,
                       fontWeight: FontWeight.bold,
@@ -175,7 +176,7 @@ class _PantallaBloqueo extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'Por tu seguridad debes esperar antes de volver a iniciar sesión.',
+              context.l10n.sessionWaitSecurityNotice,
               style:
                   TextStyle(fontSize: 12, color: cs.onSurface.withOpacity(0.4)),
               textAlign: TextAlign.center,

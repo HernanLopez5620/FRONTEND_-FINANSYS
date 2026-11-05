@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 
 import '../../core/theme/app_theme.dart';
 import '../../container.dart' as AppContainer;
+import '../../l10n/l10n.dart';
+import '../widgets/language_switcher.dart';
 import '../providers/auth_provider.dart';
 import '../components/ui/app_toast.dart';
 import '../widgets/google_sign_in_button.dart';
@@ -35,6 +37,13 @@ class _AuthPageState extends State<AuthPage>
     super.dispose();
   }
 
+  String _textoAviso(BuildContext context, AvisoSesion aviso) {
+    if (aviso == AvisoSesion.reemplazada) {
+      return context.l10n.sessionReplacedNotice;
+    }
+    return context.l10n.sessionInvalidNotice;
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -44,6 +53,15 @@ class _AuthPageState extends State<AuthPage>
       body: SafeArea(
         child: Column(
           children: [
+            // ── Selector de idioma ──
+            const Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: EdgeInsets.only(top: 8, right: 16),
+                child: LanguageSwitcher(compact: true),
+              ),
+            ),
+
             // ── Aviso: la sesión se cerró porque se abrió en otra ventana ──
             Consumer<AuthProvider>(
               builder: (_, auth, __) => auth.aviso == null
@@ -71,7 +89,7 @@ class _AuthPageState extends State<AuthPage>
                           const SizedBox(width: 10),
                           Expanded(
                             child: Text(
-                              auth.aviso!,
+                              _textoAviso(context, auth.aviso!),
                               style: TextStyle(
                                 fontSize: 13,
                                 color: colorScheme.onSurface,
@@ -110,9 +128,9 @@ class _AuthPageState extends State<AuthPage>
                   color: colorScheme.primary,
                   borderRadius: BorderRadius.circular(9),
                 ),
-                tabs: const [
-                  Tab(text: 'Iniciar sesión'),
-                  Tab(text: 'Registrarse'),
+                tabs: [
+                  Tab(text: context.l10n.authLoginTab),
+                  Tab(text: context.l10n.authRegisterTab),
                 ],
               ),
             ),
@@ -158,7 +176,7 @@ class _AuthPageState extends State<AuthPage>
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Tus finanzas bajo control',
+                      context.l10n.authTagline,
                       style: TextStyle(
                         fontSize: 14,
                         color: colorScheme.onSurfaceVariant,
@@ -219,7 +237,7 @@ class _LoginFormState extends State<_LoginForm> {
     if (!ok && mounted) {
       AppToast.show(
         context,
-        context.read<AuthProvider>().error ?? 'Error al iniciar sesión',
+        context.read<AuthProvider>().error ?? context.l10n.authLoginError,
         type: ToastType.error,
       );
     }
@@ -237,22 +255,23 @@ class _LoginFormState extends State<_LoginForm> {
             controller: _emailCtrl,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
-              labelText: 'Correo o usuario',
+              labelText: context.l10n.authEmailOrUser,
               prefixIcon: Icon(
                 Icons.person_outline,
                 color: colorScheme.onSurfaceVariant,
                 size: 20,
               ),
             ),
-            validator: (v) =>
-                (v == null || v.isEmpty) ? 'Ingresa tu correo o usuario' : null,
+            validator: (v) => (v == null || v.isEmpty)
+                ? context.l10n.authEmailOrUserRequired
+                : null,
           ),
           const SizedBox(height: 14),
           TextFormField(
             controller: _passCtrl,
             obscureText: _obscure,
             decoration: InputDecoration(
-              labelText: 'Contraseña',
+              labelText: context.l10n.authPassword,
               prefixIcon: Icon(
                 Icons.lock_outline,
                 color: colorScheme.onSurfaceVariant,
@@ -269,8 +288,9 @@ class _LoginFormState extends State<_LoginForm> {
                 onPressed: () => setState(() => _obscure = !_obscure),
               ),
             ),
-            validator: (v) =>
-                (v == null || v.isEmpty) ? 'Ingresa tu contraseña' : null,
+            validator: (v) => (v == null || v.isEmpty)
+                ? context.l10n.authPasswordRequired
+                : null,
           ),
           const SizedBox(height: 20),
           Consumer<AuthProvider>(
@@ -285,7 +305,7 @@ class _LoginFormState extends State<_LoginForm> {
                         strokeWidth: 2.5,
                       ),
                     )
-                  : const Text('Ingresar'),
+                  : Text(context.l10n.authLoginButton),
             ),
           ),
           const SizedBox(height: 20),
@@ -337,7 +357,7 @@ class _RegisterFormState extends State<_RegisterForm> {
     if (!regex.hasMatch(value)) {
       setState(() {
         _usernameDisponible = false;
-        _usernameMsg = 'Solo letras, números y _ (3-20 caracteres)';
+        _usernameMsg = context.l10n.authUsernameHint;
         _checkingUsername = false;
       });
       return;
@@ -351,7 +371,9 @@ class _RegisterFormState extends State<_RegisterForm> {
     if (mounted) {
       setState(() {
         _usernameDisponible = result.disponible;
-        _usernameMsg = result.msg;
+        _usernameMsg = result.disponible
+            ? context.l10n.authUsernameAvailable
+            : context.l10n.authUsernameUnavailable;
         _checkingUsername = false;
       });
     }
@@ -360,9 +382,9 @@ class _RegisterFormState extends State<_RegisterForm> {
   Future<void> _register() async {
     if (!_aceptaTerminos || !_aceptaPolitica) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+        SnackBar(
           content: Text(
-            'Debes aceptar los Términos y la Política de Datos',
+            context.l10n.authMustAcceptTerms,
           ),
           backgroundColor: Colors.orange,
         ),
@@ -375,7 +397,7 @@ class _RegisterFormState extends State<_RegisterForm> {
     if (_usernameDisponible != true) {
       AppToast.show(
         context,
-        'El username no está disponible',
+        context.l10n.authUsernameUnavailable,
         type: ToastType.error,
       );
       return;
@@ -391,7 +413,7 @@ class _RegisterFormState extends State<_RegisterForm> {
     if (!ok && mounted) {
       AppToast.show(
         context,
-        context.read<AuthProvider>().error ?? 'Error al registrarse',
+        context.read<AuthProvider>().error ?? context.l10n.authRegisterError,
         type: ToastType.error,
       );
     }
@@ -411,15 +433,16 @@ class _RegisterFormState extends State<_RegisterForm> {
               controller: _nombreCtrl,
               textCapitalization: TextCapitalization.words,
               decoration: InputDecoration(
-                labelText: 'Nombre completo',
+                labelText: context.l10n.authFullName,
                 prefixIcon: Icon(
                   Icons.badge_outlined,
                   color: colorScheme.onSurfaceVariant,
                   size: 20,
                 ),
               ),
-              validator: (v) =>
-                  (v == null || v.isEmpty) ? 'Ingresa tu nombre' : null,
+              validator: (v) => (v == null || v.isEmpty)
+                  ? context.l10n.authNameRequired
+                  : null,
             ),
             const SizedBox(height: 12),
 
@@ -427,7 +450,7 @@ class _RegisterFormState extends State<_RegisterForm> {
             TextFormField(
               controller: _usernameCtrl,
               decoration: InputDecoration(
-                labelText: 'Usuario (ej: JuanCa123)',
+                labelText: context.l10n.authUsernameLabel,
                 prefixIcon: const Icon(
                   Icons.alternate_email,
                   color: AppTheme.textGrey,
@@ -456,7 +479,7 @@ class _RegisterFormState extends State<_RegisterForm> {
                             size: 20,
                           ),
                 helperText: _usernameMsg.isEmpty
-                    ? 'Solo letras, números y _ (3-20 caracteres)'
+                    ? context.l10n.authUsernameHint
                     : _usernameMsg,
                 helperStyle: TextStyle(
                   color: _usernameDisponible == null
@@ -467,8 +490,9 @@ class _RegisterFormState extends State<_RegisterForm> {
                 ),
               ),
               onChanged: _onUsernameChanged,
-              validator: (v) =>
-                  (v == null || v.isEmpty) ? 'Ingresa un usuario' : null,
+              validator: (v) => (v == null || v.isEmpty)
+                  ? context.l10n.authUsernameRequired
+                  : null,
             ),
             const SizedBox(height: 12),
 
@@ -477,15 +501,16 @@ class _RegisterFormState extends State<_RegisterForm> {
               controller: _emailCtrl,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                labelText: 'Correo electrónico',
+                labelText: context.l10n.authEmail,
                 prefixIcon: Icon(
                   Icons.email_outlined,
                   color: colorScheme.onSurfaceVariant,
                   size: 20,
                 ),
               ),
-              validator: (v) =>
-                  (v == null || !v.contains('@')) ? 'Correo inválido' : null,
+              validator: (v) => (v == null || !v.contains('@'))
+                  ? context.l10n.authEmailInvalid
+                  : null,
             ),
             const SizedBox(height: 12),
 
@@ -494,7 +519,7 @@ class _RegisterFormState extends State<_RegisterForm> {
               controller: _passCtrl,
               obscureText: _obscure,
               decoration: InputDecoration(
-                labelText: 'Contraseña',
+                labelText: context.l10n.authPassword,
                 prefixIcon: Icon(
                   Icons.lock_outline,
                   color: colorScheme.onSurfaceVariant,
@@ -511,8 +536,9 @@ class _RegisterFormState extends State<_RegisterForm> {
                   onPressed: () => setState(() => _obscure = !_obscure),
                 ),
               ),
-              validator: (v) =>
-                  (v != null && v.length < 6) ? 'Mínimo 6 caracteres' : null,
+              validator: (v) => (v != null && v.length < 6)
+                  ? context.l10n.authPasswordMin
+                  : null,
             ),
             const SizedBox(height: 12),
 
@@ -521,15 +547,16 @@ class _RegisterFormState extends State<_RegisterForm> {
               controller: _confirmCtrl,
               obscureText: true,
               decoration: InputDecoration(
-                labelText: 'Confirmar contraseña',
+                labelText: context.l10n.authConfirmPassword,
                 prefixIcon: Icon(
                   Icons.lock_outline,
                   color: colorScheme.onSurfaceVariant,
                   size: 20,
                 ),
               ),
-              validator: (v) =>
-                  v != _passCtrl.text ? 'Las contraseñas no coinciden' : null,
+              validator: (v) => v != _passCtrl.text
+                  ? context.l10n.authPasswordsMismatch
+                  : null,
             ),
 
             const SizedBox(height: 8),
@@ -567,11 +594,11 @@ class _RegisterFormState extends State<_RegisterForm> {
                               .withOpacity(0.7),
                         ),
                         children: [
-                          const TextSpan(
-                            text: 'He leído y acepto los ',
+                          TextSpan(
+                            text: context.l10n.authAcceptPrefix,
                           ),
                           TextSpan(
-                            text: 'Términos y Condiciones',
+                            text: context.l10n.authTermsLink,
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.primary,
                               fontWeight: FontWeight.w600,
@@ -619,11 +646,11 @@ class _RegisterFormState extends State<_RegisterForm> {
                               .withOpacity(0.7),
                         ),
                         children: [
-                          const TextSpan(
-                            text: 'Autorizo el ',
+                          TextSpan(
+                            text: context.l10n.authAuthorizePrefix,
                           ),
                           TextSpan(
-                            text: 'Tratamiento de mis Datos Personales',
+                            text: context.l10n.authPersonalDataLink,
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.primary,
                               fontWeight: FontWeight.w600,
@@ -652,7 +679,7 @@ class _RegisterFormState extends State<_RegisterForm> {
                           strokeWidth: 2.5,
                         ),
                       )
-                    : const Text('Registrarme'),
+                    : Text(context.l10n.authRegisterButton),
               ),
             ),
           ],

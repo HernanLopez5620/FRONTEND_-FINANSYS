@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import '../../../l10n/l10n.dart';
 import '../../providers/categoria_provider.dart';
 import '../../providers/presupuesto_provider.dart';
 
@@ -60,11 +61,12 @@ class _PresupuestoFormModalState extends State<PresupuestoFormModal> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Nuevo presupuesto',
+            Text(context.l10n.budgetFormTitle,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
             const SizedBox(height: 16),
             DropdownButtonFormField<int>(
-              decoration: const InputDecoration(labelText: 'Categoría'),
+              decoration:
+                  InputDecoration(labelText: context.l10n.budgetFormCategory),
               value: _selectedCategoriaId,
               items: cats
                   .map((c) => DropdownMenuItem(
@@ -83,8 +85,8 @@ class _PresupuestoFormModalState extends State<PresupuestoFormModal> {
               controller: _montoCtrl,
               keyboardType: TextInputType.number,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              decoration: const InputDecoration(
-                labelText: 'Monto límite',
+              decoration: InputDecoration(
+                labelText: context.l10n.budgetFormLimit,
                 prefixText: '\$ ',
               ),
             ),
@@ -97,7 +99,7 @@ class _PresupuestoFormModalState extends State<PresupuestoFormModal> {
                       height: 22,
                       child: CircularProgressIndicator(
                           color: Colors.white, strokeWidth: 2.5))
-                  : const Text('Guardar presupuesto'),
+                  : Text(context.l10n.budgetFormSave),
             ),
           ]),
     );

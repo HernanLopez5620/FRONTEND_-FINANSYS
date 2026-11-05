@@ -8,6 +8,6 @@ class DescargarBackupUseCase {
   final BackupPort _port;
   DescargarBackupUseCase(this._port);
 
-  Future<Uint8List> execute() => _port.descargar();
+  Future<Uint8List> execute({required String locale}) =>
+      _port.descargar(locale: locale);
 }
-

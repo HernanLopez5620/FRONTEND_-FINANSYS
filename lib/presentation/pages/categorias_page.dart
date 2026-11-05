@@ -2,6 +2,7 @@
 // SOLID-SRP: única responsabilidad — listar y crear categorías.
 
 import 'package:flutter/material.dart';
+import '../../l10n/l10n.dart';
 import 'package:provider/provider.dart';
 import '../providers/categoria_provider.dart';
 import '../components/ui/app_spinner.dart';
@@ -52,9 +53,9 @@ class _CategoriasPageState extends State<CategoriasPage> {
           : catP.categorias.isEmpty
               ? AppEmptyState(
                   icon: Icons.category_outlined,
-                  title: 'Sin categorías',
-                  subtitle: 'Crea tu primera categoría',
-                  actionLabel: 'Crear categoría',
+                  title: context.l10n.catEmptyTitle,
+                  subtitle: context.l10n.catEmptySubtitle,
+                  actionLabel: context.l10n.catCreate,
                   onAction: _showAdd,
                 )
               : GridView.builder(

@@ -1,6 +1,7 @@
 // presentation/pages/divisas_page.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../l10n/l10n.dart';
 
 import '../providers/divisa_provider.dart';
 import '../providers/compra_extranjera_provider.dart';
@@ -91,9 +92,9 @@ class _DivisasPageState extends State<DivisasPage> {
 
     if (nombre.isEmpty || conversion == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+        SnackBar(
           content: Text(
-            'Completa el nombre y realiza una conversión primero',
+            context.l10n.divisasFillNameFirst,
           ),
           backgroundColor: Colors.orange,
         ),
@@ -114,7 +115,7 @@ class _DivisasPageState extends State<DivisasPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          ok ? '✅ Compra guardada' : '❌ Error al guardar',
+          ok ? context.l10n.divisasSaved : context.l10n.divisasSaveError,
         ),
         backgroundColor: ok ? colorScheme.primary : colorScheme.error,
       ),
@@ -151,7 +152,7 @@ class _DivisasPageState extends State<DivisasPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Calculadora de divisas',
+                context.l10n.divisasCalcTitle,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
@@ -162,7 +163,7 @@ class _DivisasPageState extends State<DivisasPage> {
               const SizedBox(height: 4),
 
               Text(
-                'El resultado se actualiza automáticamente',
+                context.l10n.divisasAutoUpdate,
                 style: TextStyle(
                   fontSize: 11,
                   color: cs.onSurfaceVariant,
@@ -179,7 +180,7 @@ class _DivisasPageState extends State<DivisasPage> {
                     child: DropdownButtonFormField<String>(
                       value: _monedaOrigen,
                       decoration: InputDecoration(
-                        labelText: 'De',
+                        labelText: context.l10n.divisasFrom,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -225,7 +226,7 @@ class _DivisasPageState extends State<DivisasPage> {
                         fontWeight: FontWeight.w600,
                       ),
                       decoration: InputDecoration(
-                        labelText: 'Monto',
+                        labelText: context.l10n.divisasAmount,
                         prefixIcon: const Icon(
                           Icons.attach_money_rounded,
                         ),
@@ -285,7 +286,7 @@ class _DivisasPageState extends State<DivisasPage> {
                     child: DropdownButtonFormField<String>(
                       value: _monedaDestino,
                       decoration: InputDecoration(
-                        labelText: 'A',
+                        labelText: context.l10n.divisasTo,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -377,7 +378,7 @@ class _DivisasPageState extends State<DivisasPage> {
                 TextField(
                   controller: _nombreCtrl,
                   decoration: InputDecoration(
-                    labelText: 'Nombre de la compra (ej: Camiseta Nike)',
+                    labelText: context.l10n.divisasPurchaseNameLabel,
                     prefixIcon: const Icon(
                       Icons.shopping_bag_outlined,
                     ),
@@ -394,7 +395,7 @@ class _DivisasPageState extends State<DivisasPage> {
                   child: OutlinedButton.icon(
                     onPressed: _guardar,
                     icon: const Icon(Icons.save_outlined),
-                    label: const Text('Guardar compra'),
+                    label: Text(context.l10n.divisasSavePurchase),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: cs.primary,
                       side: BorderSide(
@@ -418,7 +419,7 @@ class _DivisasPageState extends State<DivisasPage> {
 
         // ── Lista de compras guardadas ──
         Text(
-          'Compras guardadas',
+          context.l10n.divisasSavedTitle,
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w600,
@@ -445,7 +446,7 @@ class _DivisasPageState extends State<DivisasPage> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Sin compras guardadas',
+                  context.l10n.divisasEmpty,
                   style: TextStyle(
                     color: cs.onSurfaceVariant,
                   ),
@@ -521,14 +522,13 @@ class _DivisasPageState extends State<DivisasPage> {
                             borderRadius: BorderRadius.circular(16),
                           ),
                           title: Text(
-                            'Eliminar compra',
+                            context.l10n.divisasDeleteTitle,
                             style: TextStyle(
                               color: cs.onSurface,
                             ),
                           ),
                           content: Text(
-                            '¿Seguro que quieres eliminar '
-                            '"${c.nombre}"?',
+                            context.l10n.divisasDeleteConfirm(c.nombre),
                             style: TextStyle(
                               color: cs.onSurfaceVariant,
                             ),
@@ -537,7 +537,7 @@ class _DivisasPageState extends State<DivisasPage> {
                             TextButton(
                               onPressed: () => Navigator.pop(context, false),
                               child: Text(
-                                'Cancelar',
+                                context.l10n.commonCancel,
                                 style: TextStyle(
                                   color: cs.primary,
                                 ),
@@ -546,7 +546,7 @@ class _DivisasPageState extends State<DivisasPage> {
                             TextButton(
                               onPressed: () => Navigator.pop(context, true),
                               child: Text(
-                                'Eliminar',
+                                context.l10n.commonDelete,
                                 style: TextStyle(
                                   color: cs.error,
                                 ),

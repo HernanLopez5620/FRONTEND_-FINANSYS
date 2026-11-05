@@ -4,6 +4,7 @@
 import 'package:flutter/foundation.dart';
 import '../../domain/entities/presupuesto_entity.dart';
 import '../../container.dart';
+import '../errors/error_translator.dart';
 
 class PresupuestoProvider extends ChangeNotifier {
   List<PresupuestoEntity> _presupuestos = [];
@@ -21,7 +22,7 @@ class PresupuestoProvider extends ChangeNotifier {
       _presupuestos = await Container.listBudgetsUseCase.execute(mes, anio);
       _error = null;
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorTranslator.message(e);
     } finally {
       _loading = false;
       notifyListeners();
@@ -44,7 +45,7 @@ class PresupuestoProvider extends ChangeNotifier {
       await loadBudgets(mes, anio);
       return true;
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorTranslator.message(e);
       notifyListeners();
       return false;
     }

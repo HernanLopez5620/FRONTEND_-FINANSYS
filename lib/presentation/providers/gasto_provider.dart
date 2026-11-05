@@ -7,6 +7,7 @@ import '../../domain/entities/resumen_mes_entity.dart';
 import '../../domain/entities/gasto_categoria_entity.dart';
 import '../../domain/entities/comparacion_mensual_entity.dart';
 import '../../container.dart';
+import '../errors/error_translator.dart';
 
 class GastoProvider extends ChangeNotifier {
   List<GastoEntity> _gastos = [];
@@ -44,7 +45,7 @@ class GastoProvider extends ChangeNotifier {
       _porCategoria = results[2] as List<GastoCategoriaEntity>;
       _comparacion = results[3] as List<ComparacionMensualEntity>;
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorTranslator.message(e);
     } finally {
       _loading = false;
       notifyListeners();
@@ -59,7 +60,7 @@ class GastoProvider extends ChangeNotifier {
       await loadAll();
       return true;
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorTranslator.message(e);
       notifyListeners();
       return false;
     }
@@ -71,7 +72,7 @@ class GastoProvider extends ChangeNotifier {
       await loadAll();
       return true;
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorTranslator.message(e);
       notifyListeners();
       return false;
     }

@@ -4,6 +4,7 @@
 import 'package:flutter/foundation.dart';
 import '../../container.dart';
 import '../../infrastructure/files/file_saver.dart';
+import '../errors/error_translator.dart';
 
 class ReporteProvider extends ChangeNotifier {
   static const _mimes = {
@@ -22,6 +23,8 @@ class ReporteProvider extends ChangeNotifier {
     required String formato,
     required int mes,
     required int anio,
+    required String idioma, // 'es' | 'en'
+    required String prefijoArchivo, // p. ej. FinanSys_reporte / FinanSys_report
   }) async {
     if (_exportando) return false;
     _exportando = true;
@@ -29,13 +32,13 @@ class ReporteProvider extends ChangeNotifier {
     notifyListeners();
     try {
       final bytes = await Container.exportarReporteUseCase
-          .execute(formato: formato, mes: mes, anio: anio);
+          .execute(formato: formato, mes: mes, anio: anio, locale: idioma);
       final nombre =
-          'FinanSys_reporte_$anio-${mes.toString().padLeft(2, '0')}.$formato';
+          '${prefijoArchivo}_$anio-${mes.toString().padLeft(2, '0')}.$formato';
       FileSaver.guardar(bytes, nombre, _mimes[formato]!);
       return true;
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorTranslator.message(e);
       return false;
     } finally {
       _exportando = false;

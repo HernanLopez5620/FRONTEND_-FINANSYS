@@ -1,5 +1,6 @@
 // presentation/components/layout/app_header.dart
 import 'package:flutter/material.dart';
+import '../../../l10n/l10n.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../domain/entities/resumen_mes_entity.dart';
@@ -49,7 +50,7 @@ class AppHeader extends StatelessWidget {
             Icon(Icons.person_outline_rounded,
                 size: 18, color: Theme.of(context).colorScheme.primary),
             const SizedBox(width: 10),
-            Text('Ver perfil',
+            Text(context.l10n.headerViewProfile,
                 style:
                     TextStyle(color: Theme.of(context).colorScheme.onSurface)),
           ]),
@@ -61,7 +62,7 @@ class AppHeader extends StatelessWidget {
               Icon(Icons.admin_panel_settings_outlined,
                   size: 18, color: Theme.of(context).colorScheme.primary),
               const SizedBox(width: 10),
-              Text('Administración',
+              Text(context.l10n.headerAdmin,
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.onSurface)),
             ]),
@@ -71,7 +72,8 @@ class AppHeader extends StatelessWidget {
           child: Row(children: [
             const Icon(Icons.logout_rounded, size: 18, color: Colors.red),
             const SizedBox(width: 10),
-            const Text('Cerrar sesión', style: TextStyle(color: Colors.red)),
+            Text(context.l10n.headerLogout,
+                style: const TextStyle(color: Colors.red)),
           ]),
         ),
       ],
@@ -91,13 +93,15 @@ class AppHeader extends StatelessWidget {
       builder: (ctx) => AlertDialog(
         backgroundColor: Theme.of(context).cardColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Text('Cerrar sesión', style: TextStyle(color: cs.onSurface)),
-        content: Text('¿Estás seguro que deseas cerrar sesión?',
+        title:
+            Text(ctx.l10n.headerLogout, style: TextStyle(color: cs.onSurface)),
+        content: Text(ctx.l10n.headerLogoutConfirm,
             style: TextStyle(color: cs.onSurface.withOpacity(0.7))),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
-            child: Text('Cancelar', style: TextStyle(color: cs.primary)),
+            child: Text(ctx.l10n.commonCancel,
+                style: TextStyle(color: cs.primary)),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
@@ -105,8 +109,8 @@ class AppHeader extends StatelessWidget {
               Navigator.of(ctx).pop();
               onLogout();
             },
-            child: const Text('Cerrar sesión',
-                style: TextStyle(color: Colors.white)),
+            child: Text(ctx.l10n.headerLogout,
+                style: const TextStyle(color: Colors.white)),
           ),
         ],
       ),
@@ -178,7 +182,7 @@ class AppHeader extends StatelessWidget {
         // ── Balance ──
         Center(
           child: Column(children: [
-            Text('Balance disponible',
+            Text(context.l10n.headerBalanceAvailable,
                 style:
                     TextStyle(color: onHeader.withOpacity(0.7), fontSize: 12)),
             const SizedBox(height: 4),
@@ -204,8 +208,9 @@ class AppHeader extends StatelessWidget {
                   const Icon(Icons.warning_rounded,
                       color: Colors.white, size: 12),
                   const SizedBox(width: 4),
-                  const Text('Tienes deudas este mes',
-                      style: TextStyle(color: Colors.white, fontSize: 11)),
+                  Text(context.l10n.headerDebtWarning,
+                      style:
+                          const TextStyle(color: Colors.white, fontSize: 11)),
                 ]),
               ),
             ],
@@ -218,7 +223,7 @@ class AppHeader extends StatelessWidget {
         Row(children: [
           _StatPill(
             icon: Icons.arrow_upward_rounded,
-            label: 'Ingresos',
+            label: context.l10n.headerIncome,
             value: Formatters.toShortCurrency(resumen?.ingresos ?? 0),
             color: const Color(0xFF2ECC71),
             onHeader: onHeader,
@@ -226,7 +231,7 @@ class AppHeader extends StatelessWidget {
           const SizedBox(width: 8),
           _StatPill(
             icon: Icons.arrow_downward_rounded,
-            label: 'Gastos',
+            label: context.l10n.headerExpenses,
             value: Formatters.toShortCurrency(resumen?.gastos ?? 0),
             color: const Color(0xFFFF6B6B),
             onHeader: onHeader,
@@ -234,7 +239,7 @@ class AppHeader extends StatelessWidget {
           const SizedBox(width: 8),
           _StatPill(
             icon: Icons.savings_outlined,
-            label: 'Ahorro',
+            label: context.l10n.headerSavings,
             value: '${(resumen?.savingsPercent ?? 0).toStringAsFixed(0)}%',
             color: const Color(0xFFFFD166),
             onHeader: onHeader,

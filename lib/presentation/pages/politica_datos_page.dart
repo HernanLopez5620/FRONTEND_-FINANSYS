@@ -1,6 +1,8 @@
 // presentation/pages/politica_datos_page.dart
 import 'package:flutter/material.dart';
 
+import '../../l10n/l10n.dart';
+
 class PoliticaDatosPage extends StatelessWidget {
   const PoliticaDatosPage({super.key});
 
@@ -10,20 +12,20 @@ class PoliticaDatosPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Política de Tratamiento de Datos'),
+        title: Text(context.l10n.legalPrivacyAppBarTitle),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Política de Tratamiento de Datos Personales',
+            Text(context.l10n.legalPrivacyTitle,
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: cs.onSurface)),
             const SizedBox(height: 4),
-            Text('Última actualización: octubre 2026',
+            Text(context.l10n.legalLastUpdated,
                 style: TextStyle(
                     fontSize: 12, color: cs.onSurface.withOpacity(0.5))),
             const SizedBox(height: 8),
@@ -34,7 +36,7 @@ class PoliticaDatosPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Text(
-                'De conformidad con la Ley 1581 de 2012 y el Decreto 1377 de 2013 de la República de Colombia, FinanSys informa su política de tratamiento de datos personales.',
+                context.l10n.legalPrivacyIntro,
                 style: TextStyle(
                     fontSize: 13,
                     color: cs.onSurface.withOpacity(0.8),
@@ -44,63 +46,53 @@ class PoliticaDatosPage extends StatelessWidget {
             const SizedBox(height: 24),
             _Seccion(
               numero: '1',
-              titulo: 'Responsable del Tratamiento',
-              contenido:
-                  'FinanSys, aplicación de gestión de finanzas personales desarrollada como proyecto académico por estudiantes de la Universidad de Cundinamarca, es responsable del tratamiento de los datos personales recopilados a través de esta plataforma.',
+              titulo: context.l10n.legalPrivacySection1Title,
+              contenido: context.l10n.legalPrivacySection1Body,
             ),
             _Seccion(
               numero: '2',
-              titulo: 'Datos Personales Recopilados',
-              contenido:
-                  'Recopilamos los siguientes datos personales:\n\n• Nombre completo\n• Nombre de usuario (username)\n• Correo electrónico\n• Contraseña (almacenada en formato cifrado con bcrypt)\n• Información financiera: ingresos, gastos, presupuestos y conversiones de divisas registradas por el usuario\n• Datos de actividad: fecha y hora de acceso, dirección IP',
+              titulo: context.l10n.legalPrivacySection2Title,
+              contenido: context.l10n.legalPrivacySection2Body,
             ),
             _Seccion(
               numero: '3',
-              titulo: 'Finalidad del Tratamiento',
-              contenido:
-                  'Los datos personales recopilados se utilizan exclusivamente para:\n\n• Autenticación y acceso seguro a la cuenta\n• Prestación del servicio de gestión financiera personal\n• Personalización de la experiencia del usuario\n• Monitoreo de seguridad y detección de accesos no autorizados\n• Mejora continua del servicio',
+              titulo: context.l10n.legalPrivacySection3Title,
+              contenido: context.l10n.legalPrivacySection3Body,
             ),
             _Seccion(
               numero: '4',
-              titulo: 'Derechos del Titular',
-              contenido:
-                  'Como titular de sus datos personales, usted tiene derecho a:\n\n• Conocer, actualizar y rectificar sus datos\n• Solicitar prueba de la autorización otorgada\n• Ser informado sobre el uso de sus datos\n• Revocar la autorización y solicitar la eliminación de sus datos\n• Acceder gratuitamente a sus datos personales\n\nPuede ejercer estos derechos directamente desde la configuración de su cuenta.',
+              titulo: context.l10n.legalPrivacySection4Title,
+              contenido: context.l10n.legalPrivacySection4Body,
             ),
             _Seccion(
               numero: '5',
-              titulo: 'Seguridad de los Datos',
-              contenido:
-                  'Implementamos medidas técnicas y organizativas para proteger sus datos:\n\n• Contraseñas cifradas con algoritmo bcrypt (salt rounds: 10)\n• Autenticación mediante tokens JWT con expiración de 24 horas\n• Cierre automático de sesión por inactividad\n• Registro de accesos y actividad para auditoría\n• Comunicación cifrada mediante HTTPS',
+              titulo: context.l10n.legalPrivacySection5Title,
+              contenido: context.l10n.legalPrivacySection5Body,
             ),
             _Seccion(
               numero: '6',
-              titulo: 'Compartición de Datos',
-              contenido:
-                  'Sus datos personales NO serán vendidos, arrendados ni compartidos con terceros con fines comerciales. Solo podrán ser divulgados en los siguientes casos:\n\n• Por orden judicial o requerimiento de autoridad competente\n• Cuando sea necesario para proteger los derechos de otros usuarios\n• Con proveedores de servicios técnicos estrictamente necesarios para el funcionamiento de la plataforma, bajo acuerdos de confidencialidad',
+              titulo: context.l10n.legalPrivacySection6Title,
+              contenido: context.l10n.legalPrivacySection6Body,
             ),
             _Seccion(
               numero: '7',
-              titulo: 'Retención de Datos',
-              contenido:
-                  'Sus datos se conservarán mientras mantenga una cuenta activa en FinanSys. Al eliminar su cuenta, todos sus datos personales y financieros serán eliminados permanentemente de nuestros servidores en un plazo máximo de 30 días.',
+              titulo: context.l10n.legalPrivacySection7Title,
+              contenido: context.l10n.legalPrivacySection7Body,
             ),
             _Seccion(
               numero: '8',
-              titulo: 'Cookies y Almacenamiento Local',
-              contenido:
-                  'FinanSys utiliza almacenamiento local del navegador (localStorage) exclusivamente para mantener la sesión del usuario mediante un token de autenticación. No utilizamos cookies de rastreo ni publicidad.',
+              titulo: context.l10n.legalPrivacySection8Title,
+              contenido: context.l10n.legalPrivacySection8Body,
             ),
             _Seccion(
               numero: '9',
-              titulo: 'Transferencias Internacionales',
-              contenido:
-                  'Los datos son almacenados en servidores locales o en servicios de nube con sede en jurisdicciones que cuentan con estándares adecuados de protección de datos. No realizamos transferencias internacionales de datos sin las garantías adecuadas.',
+              titulo: context.l10n.legalPrivacySection9Title,
+              contenido: context.l10n.legalPrivacySection9Body,
             ),
             _Seccion(
               numero: '10',
-              titulo: 'Cambios en la Política',
-              contenido:
-                  'Nos reservamos el derecho de actualizar esta política. Los cambios serán notificados a través de la aplicación. El uso continuado del servicio tras la notificación implica aceptación de la nueva política.',
+              titulo: context.l10n.legalPrivacySection10Title,
+              contenido: context.l10n.legalPrivacySection10Body,
             ),
             const SizedBox(height: 24),
             Container(
@@ -114,7 +106,7 @@ class PoliticaDatosPage extends StatelessWidget {
                 Icon(Icons.verified_user_outlined, color: cs.primary, size: 32),
                 const SizedBox(height: 8),
                 Text(
-                  'Al usar FinanSys usted autoriza el tratamiento de sus datos personales de acuerdo con esta política, en cumplimiento de la Ley 1581 de 2012.',
+                  context.l10n.legalPrivacyFooterNote,
                   style: TextStyle(
                       fontSize: 13,
                       color: cs.onSurface.withOpacity(0.8),
@@ -129,7 +121,7 @@ class PoliticaDatosPage extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () => Navigator.of(context).pop(true),
-                child: const Text('Entendido'),
+                child: Text(context.l10n.legalPrivacyAcceptButton),
               ),
             ),
             const SizedBox(height: 32),

@@ -1,0 +1,438 @@
+{
+  "@@locale": "en",
+  "commonCancel": "Cancel",
+  "commonSave": "Save",
+  "commonDelete": "Delete",
+  "commonEdit": "Edit",
+  "commonAccept": "Accept",
+  "commonClose": "Close",
+  "commonRetry": "Retry",
+  "commonContinue": "Continue",
+  "commonSearch": "Search",
+  "commonLoading": "Loading...",
+  "commonYes": "Yes",
+  "commonNo": "No",
+  "appTitle": "FinanSys",
+  "dashRegister": "Add",
+  "dashMonthlyComparison": "Monthly comparison",
+  "dashExpensesByCategory": "Expenses by category",
+  "dashLatestMovements": "Latest transactions",
+  "dashSeeAll": "See all",
+  "dashNoMovementsMonth": "No transactions this month",
+  "dashTapPlusFirst": "Tap + to add the first one",
+  "gastosFilterAll": "All",
+  "gastosFilterExpenses": "Expenses",
+  "gastosFilterIncome": "Income",
+  "gastosEmptyTitle": "No transactions",
+  "gastosEmptySubtitle": "Tap + to add one",
+  "gastosDeleteTitle": "Delete transaction",
+  "gastosDeleteConfirm": "Are you sure you want to delete \"{name}\"?",
+  "@gastosDeleteConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "gastosThisMovement": "this transaction",
+  "catEmptyTitle": "No categories",
+  "catEmptySubtitle": "Create your first category",
+  "catCreate": "Create category",
+  "budgetEmptyTitle": "No budgets",
+  "budgetEmptySubtitle": "Set limits per category",
+  "budgetCreate": "Create budget",
+  "budgetMonthTitle": "Budget for the month",
+  "headerViewProfile": "View profile",
+  "headerAdmin": "Administration",
+  "headerLogout": "Log out",
+  "headerLogoutConfirm": "Are you sure you want to log out?",
+  "headerDebtWarning": "You have debts this month",
+  "headerBalanceAvailable": "Available balance",
+  "headerIncome": "Income",
+  "headerExpenses": "Expenses",
+  "headerSavings": "Savings",
+  "navHome": "Home",
+  "navMovements": "Transactions",
+  "navReports": "Reports",
+  "navCategories": "Categories",
+  "navBudgets": "Budgets",
+  "navCurrencies": "Currencies",
+  "authLoginTab": "Log in",
+  "authRegisterTab": "Sign up",
+  "authTagline": "Your finances under control",
+  "authLoginError": "Login failed",
+  "authEmailOrUser": "Email or username",
+  "authEmailOrUserRequired": "Enter your email or username",
+  "authPassword": "Password",
+  "authPasswordRequired": "Enter your password",
+  "authLoginButton": "Log in",
+  "authUsernameHint": "Letters, numbers and _ only (3-20 characters)",
+  "authMustAcceptTerms": "You must accept the Terms and the Data Policy",
+  "authUsernameUnavailable": "The username is not available",
+  "authRegisterError": "Sign-up failed",
+  "authFullName": "Full name",
+  "authNameRequired": "Enter your name",
+  "authUsernameLabel": "Username (e.g. JuanCa123)",
+  "authUsernameRequired": "Enter a username",
+  "authEmail": "Email address",
+  "authEmailInvalid": "Invalid email",
+  "authPasswordMin": "At least 6 characters",
+  "authConfirmPassword": "Confirm password",
+  "authPasswordsMismatch": "Passwords do not match",
+  "authAcceptPrefix": "I have read and accept the ",
+  "authTermsLink": "Terms and Conditions",
+  "authAuthorizePrefix": "I authorize the ",
+  "authPersonalDataLink": "Processing of my Personal Data",
+  "authRegisterButton": "Sign me up",
+  "authGoogleLoginError": "Could not log in with Google",
+  "authGoogleLoadError": "Could not load Google sign-in",
+  "authOr": "or",
+  "authGoogleTermsNotice": "By continuing with Google you accept FinanSys' Terms and Data Policy.",
+  "sessionReplacedNotice": "Your account was opened in another window or device, so this session was closed.",
+  "sessionInvalidNotice": "Your session is no longer valid. Please log in again.",
+  "sessionStillThereTitle": "Are you still there?",
+  "sessionWillCloseIn": "Your session will close due to inactivity in:",
+  "sessionContinueButton": "Continue session",
+  "sessionClosedTitle": "Session closed",
+  "sessionClosedInactivity": "Your session was closed due to inactivity.",
+  "sessionCanLoginIn": "You will be able to log in in:",
+  "sessionSecondsShort": "{segundos}s",
+  "@sessionSecondsShort": {
+    "placeholders": {
+      "segundos": {
+        "type": "int"
+      }
+    }
+  },
+  "sessionWaitSecurityNotice": "For your security you must wait before logging in again.",
+  "profileTitle": "My profile",
+  "profileUpdated": "Profile updated",
+  "profileUpdateError": "Could not update the profile",
+  "profileAccountActive": "✅ Active account",
+  "profileAccountInactive": "❌ Inactive account",
+  "profileMemberSince": "Member since {fecha}",
+  "@profileMemberSince": {
+    "placeholders": {
+      "fecha": {
+        "type": "String"
+      }
+    }
+  },
+  "profilePersonalData": "Personal data",
+  "profileUsername": "Username",
+  "profileUsernameRequired": "Enter a username",
+  "profileChangePasswordOptional": "Change password (optional)",
+  "profileNewPassword": "New password",
+  "profileSaveChanges": "Save changes",
+  "profileAppearance": "Appearance",
+  "profileThemeLight": "Light",
+  "profileThemeDark": "Dark",
+  "profileThemeGamer": "Gamer",
+  "profileMyData": "My data",
+  "profileBackupDescription": "Download a copy of your data (profile, categories, transactions, budgets and foreign purchases) as a JSON file. It does not include passwords.",
+  "profileBackupDownloaded": "Backup downloaded",
+  "profileBackupError": "Could not download the backup",
+  "profileBackupGenerating": "Generating...",
+  "profileBackupDownload": "Download my data",
+  "profileLegalInfo": "Legal information",
+  "profileDataPolicy": "Data processing policy",
+  "profileLanguage": "Language",
+  "adminTitle": "Administration",
+  "adminRefreshTooltip": "Refresh",
+  "adminTabSummary": "Summary",
+  "adminTabUsers": "Users",
+  "adminTabActivity": "Activity",
+  "adminSummaryLoadError": "Could not load the summary",
+  "adminStatUsers": "Registered users",
+  "adminStatSessions": "Open sessions",
+  "adminStatNew7d": "New (7 days)",
+  "adminStatActive24h": "Active (24 h)",
+  "adminStatRequests24h": "Requests (24 h)",
+  "adminStatErrors24h": "Errors (24 h)",
+  "adminSecurityNote": "For security, this panel never shows passwords.",
+  "adminNoUsersFound": "No users found",
+  "adminSearchHint": "Search by name, username or email",
+  "adminUserCount": "{count, plural, =1{1 user} other{{count} users}}",
+  "@adminUserCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminAdminBadge": "Admin",
+  "adminOnline": "Online",
+  "adminActionsUnit": "actions",
+  "adminNoActivityYet": "No activity",
+  "adminAgoNow": "Just now",
+  "adminAgoMinutes": "{n} min ago",
+  "@adminAgoMinutes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "adminAgoHours": "{n} h ago",
+  "@adminAgoHours": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "adminAgoDays": "{n} d ago",
+  "@adminAgoDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "adminDetailUser": "User",
+  "adminDetailEmail": "Email",
+  "adminDetailRole": "Role",
+  "adminRoleAdmin": "Administrator",
+  "adminRoleUser": "User",
+  "adminDetailRegistered": "Registered",
+  "adminDetailStatus": "Status",
+  "adminDetailSession": "Session",
+  "adminSessionOpen": "Open",
+  "adminSessionClosed": "Closed",
+  "adminDetailActions": "Actions",
+  "adminActionsRegistered": "{count} recorded",
+  "@adminActionsRegistered": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminFilterAll": "All",
+  "adminFilterOnlyErrors": "Errors only",
+  "adminNoActivityRecorded": "No activity recorded",
+  "adminLoadMore": "Load more ({shown} of {total})",
+  "@adminLoadMore": {
+    "placeholders": {
+      "shown": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "adminTotalRecords": "{total} records in total",
+  "@adminTotalRecords": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "adminLogAnonymous": "No session (anonymous)",
+  "logLoginFailed": "Failed login attempt",
+  "logLoginOk": "Logged in",
+  "logRegisterFailed": "Failed sign-up",
+  "logRegisterOk": "Created their account",
+  "logLogout": "Logged out",
+  "logProfileView": "Viewed their profile",
+  "logProfileUpdate": "Updated their profile",
+  "logThemeChange": "Changed the theme",
+  "logCheckUsername": "Checked a username",
+  "logForgotPassword": "Requested a password reset",
+  "logResetPassword": "Reset their password",
+  "logUsersList": "Viewed the user list",
+  "logAdminPanel": "Viewed the admin panel",
+  "logMovementCreate": "Added a transaction",
+  "logMovementEdit": "Edited a transaction",
+  "logMovementDelete": "Deleted a transaction",
+  "logReportPdf": "Downloaded a PDF report",
+  "logReportExcel": "Downloaded an Excel report",
+  "logReportDownload": "Downloaded a report",
+  "logReportsView": "Viewed reports",
+  "logMovementsView": "Viewed their transactions",
+  "logCategoryCreate": "Created a category",
+  "logCategoryEdit": "Edited a category",
+  "logCategoryDelete": "Deleted a category",
+  "logCategoriesView": "Viewed their categories",
+  "logBudgetSave": "Saved a budget",
+  "logBudgetEdit": "Edited a budget",
+  "logBudgetDelete": "Deleted a budget",
+  "logBudgetsView": "Viewed their budgets",
+  "logForeignSave": "Saved a foreign purchase",
+  "logForeignDelete": "Deleted a foreign purchase",
+  "logForeignView": "Viewed their foreign purchases",
+  "logRatesView": "Viewed exchange rates",
+  "logWithError": "{base} (with error)",
+  "@logWithError": {
+    "placeholders": {
+      "base": {
+        "type": "String"
+      }
+    }
+  },
+  "divisasFillNameFirst": "Enter a name and run a conversion first",
+  "divisasSaved": "✅ Purchase saved",
+  "divisasSaveError": "❌ Could not save",
+  "divisasCalcTitle": "Currency calculator",
+  "divisasAutoUpdate": "The result updates automatically",
+  "divisasFrom": "From",
+  "divisasAmount": "Amount",
+  "divisasTo": "To",
+  "divisasPurchaseNameLabel": "Purchase name (e.g. Nike T-shirt)",
+  "divisasSavePurchase": "Save purchase",
+  "divisasSavedTitle": "Saved purchases",
+  "divisasEmpty": "No saved purchases",
+  "divisasDeleteTitle": "Delete purchase",
+  "divisasDeleteConfirm": "Are you sure you want to delete \"{nombre}\"?",
+  "@divisasDeleteConfirm": {
+    "placeholders": {
+      "nombre": {
+        "type": "String"
+      }
+    }
+  },
+  "reportTabByCategory": "By category",
+  "reportTabMonthly": "Monthly",
+  "reportDistribution": "Expense distribution",
+  "reportNoDataMonth": "No data this month",
+  "reportDetailByCategory": "Detail by category",
+  "reportIncomeVsExpenses": "Income vs. Expenses",
+  "reportNoData": "No data",
+  "reportMonthlyComparison": "Monthly comparison",
+  "reportIncome": "Income",
+  "reportExpenses": "Expenses",
+  "reportBalance": "Balance",
+  "reportDownloaded": "Report downloaded ({formato})",
+  "@reportDownloaded": {
+    "placeholders": {
+      "formato": {
+        "type": "String"
+      }
+    }
+  },
+  "reportExportFailed": "Could not export the report",
+  "reportExportTooltip": "Export report",
+  "reportOfMonth": "Report for {mes}",
+  "@reportOfMonth": {
+    "placeholders": {
+      "mes": {
+        "type": "String"
+      }
+    }
+  },
+  "reportDownloadPdf": "Download PDF",
+  "reportDownloadExcel": "Download Excel",
+  "reportFilePrefix": "FinanSys_report",
+  "gastoFormSelectCategory": "Select a category",
+  "gastoFormEdit": "Edit transaction",
+  "gastoFormNew": "New transaction",
+  "gastoFormTabExpense": "Expense",
+  "gastoFormTabIncome": "Income",
+  "gastoFormAmount": "Amount",
+  "gastoFormDescription": "Description (optional)",
+  "gastoFormCategory": "Category",
+  "gastoFormNoCategories": "No categories for this type",
+  "gastoFormUpdate": "Update",
+  "catFormTitle": "New category",
+  "catFormName": "Name",
+  "catFormType": "Type",
+  "catFormTypeExpense": "expense",
+  "catFormTypeIncome": "income",
+  "catFormIcon": "Icon",
+  "catFormColor": "Color",
+  "catFormCreate": "Create category",
+  "budgetFormTitle": "New budget",
+  "budgetFormCategory": "Category",
+  "budgetFormLimit": "Limit amount",
+  "budgetFormSave": "Save budget",
+  "chartIncome": "Income",
+  "chartExpenses": "Expenses",
+  "chartNoDataMonth": "No data this month",
+  "chartTotalMonth": "Total this month",
+  "legalTermsSection1Title": "Acceptance of the Terms",
+  "legalTermsSection1Body": "By creating an account on FinanSys, you agree to be bound by these Terms and Conditions. If you do not agree with any part of these terms, you will not be able to access the service.",
+  "legalTermsSection2Title": "Description of the Service",
+  "legalTermsSection2Body": "FinanSys is a personal finance management application that lets you record income, expenses and budgets and perform currency conversions. The service is provided \"as is\" and may be modified or discontinued at any time.",
+  "legalTermsSection3Title": "Registration and User Account",
+  "legalTermsSection3Body": "To use FinanSys you must create an account by providing truthful and up-to-date information. You are responsible for keeping your password confidential and for all activity that takes place under your account. You must notify us immediately of any unauthorized use.",
+  "legalTermsSection4Title": "Privacy and Data Processing",
+  "legalTermsSection4Body": "We collect and process your personal data in accordance with our Privacy Policy. Your financial data is private and will not be shared with third parties without your explicit consent, except where required by law. Passwords are stored encrypted and never in plain text.",
+  "legalTermsSection5Title": "Acceptable Use",
+  "legalTermsSection5Body": "You agree to use FinanSys only for lawful, personal purposes. The following is prohibited: attempting to access other users' accounts, reverse engineering the system, using the service for illegal activities, or attempting to compromise the security of the platform.",
+  "legalTermsSection6Title": "Limitation of Liability",
+  "legalTermsSection6Body": "FinanSys is not responsible for financial decisions made on the basis of the information shown in the application. Exchange rate information is indicative and may vary. We do not guarantee continuous availability of the service.",
+  "legalTermsSection7Title": "Intellectual Property",
+  "legalTermsSection7Body": "All content, design, code and features of FinanSys are the property of its developers. Reproducing, distributing or creating derivative works is not permitted without express written authorization.",
+  "legalTermsSection8Title": "Changes",
+  "legalTermsSection8Body": "We reserve the right to modify these terms at any time. Changes take effect when they are published in the application. Continued use of the service after the changes constitutes acceptance of the new terms.",
+  "legalTermsSection9Title": "Account Cancellation",
+  "legalTermsSection9Body": "You may cancel your account at any time. When you do, all your data will be permanently deleted from our servers. We reserve the right to suspend accounts that violate these terms.",
+  "legalTermsSection10Title": "Contact",
+  "legalTermsSection10Body": "For questions about these Terms and Conditions you can contact us through the application. We will do our best to respond within a reasonable time.",
+  "legalTermsAppBarTitle": "Terms and Conditions",
+  "legalTermsTitle": "Terms and Conditions of Use",
+  "legalLastUpdated": "Last updated: October 2026",
+  "legalTermsFooterNote": "By creating an account on FinanSys, you confirm that you have read, understood and accepted these Terms and Conditions in full.",
+  "legalTermsAcceptButton": "Understood, I accept the terms",
+  "legalPrivacySection1Title": "Data Controller",
+  "legalPrivacySection1Body": "FinanSys, a personal finance management application developed as an academic project by students of the Universidad de Cundinamarca, is responsible for the processing of the personal data collected through this platform.",
+  "legalPrivacySection2Title": "Personal Data Collected",
+  "legalPrivacySection2Body": "We collect the following personal data:\n\n• Full name\n• Username\n• Email address\n• Password (stored in encrypted form with bcrypt)\n• Financial information: income, expenses, budgets and currency conversions recorded by the user\n• Activity data: date and time of access, IP address",
+  "legalPrivacySection3Title": "Purpose of Processing",
+  "legalPrivacySection3Body": "The personal data collected is used exclusively for:\n\n• Authentication and secure access to the account\n• Providing the personal financial management service\n• Personalizing the user experience\n• Security monitoring and detection of unauthorized access\n• Continuous improvement of the service",
+  "legalPrivacySection4Title": "Data Subject Rights",
+  "legalPrivacySection4Body": "As the owner of your personal data, you have the right to:\n\n• Know, update and correct your data\n• Request proof of the authorization granted\n• Be informed about how your data is used\n• Revoke the authorization and request the deletion of your data\n• Access your personal data free of charge\n\nYou can exercise these rights directly from your account settings.",
+  "legalPrivacySection5Title": "Data Security",
+  "legalPrivacySection5Body": "We implement technical and organizational measures to protect your data:\n\n• Passwords encrypted with the bcrypt algorithm (salt rounds: 10)\n• Authentication through JWT tokens that expire after 24 hours\n• Automatic logout after inactivity\n• Access and activity logging for auditing\n• Encrypted communication over HTTPS",
+  "legalPrivacySection6Title": "Data Sharing",
+  "legalPrivacySection6Body": "Your personal data will NOT be sold, leased or shared with third parties for commercial purposes. It may only be disclosed in the following cases:\n\n• By court order or request from a competent authority\n• When necessary to protect the rights of other users\n• With technical service providers strictly necessary for the operation of the platform, under confidentiality agreements",
+  "legalPrivacySection7Title": "Data Retention",
+  "legalPrivacySection7Body": "Your data will be kept as long as you maintain an active account on FinanSys. When you delete your account, all your personal and financial data will be permanently deleted from our servers within a maximum of 30 days.",
+  "legalPrivacySection8Title": "Cookies and Local Storage",
+  "legalPrivacySection8Body": "FinanSys uses the browser's local storage (localStorage) exclusively to keep the user's session through an authentication token. We do not use tracking or advertising cookies.",
+  "legalPrivacySection9Title": "International Transfers",
+  "legalPrivacySection9Body": "Data is stored on local servers or on cloud services based in jurisdictions that have adequate data protection standards. We do not carry out international data transfers without adequate safeguards.",
+  "legalPrivacySection10Title": "Changes to the Policy",
+  "legalPrivacySection10Body": "We reserve the right to update this policy. Changes will be notified through the application. Continued use of the service after notification implies acceptance of the new policy.",
+  "legalPrivacyAppBarTitle": "Data Processing Policy",
+  "legalPrivacyTitle": "Personal Data Processing Policy",
+  "legalPrivacyIntro": "In accordance with Law 1581 of 2012 and Decree 1377 of 2013 of the Republic of Colombia, FinanSys sets out its personal data processing policy.",
+  "legalPrivacyFooterNote": "By using FinanSys you authorize the processing of your personal data in accordance with this policy, in compliance with Law 1581 of 2012.",
+  "legalPrivacyAcceptButton": "Understood",
+  "errValidationMissingFields": "Required information is missing: {fields}",
+  "errValidationUsernameFormat": "Invalid username: only letters, numbers and _ (3-20 characters)",
+  "errValidationPasswordMin": "The password must be at least {min} characters long",
+  "errValidationNothingToUpdate": "You must send at least one field to update",
+  "errValidationInvalidTheme": "Invalid theme",
+  "errValidationInvalidFormat": "Invalid format: use PDF or Excel",
+  "errValidationInvalidMonth": "Invalid month (1 to 12)",
+  "errValidationInvalidYear": "Invalid year",
+  "errValidationInvalidUid": "Invalid user identifier",
+  "errAuthUserNotFound": "User not found",
+  "errAuthWrongPassword": "Incorrect password",
+  "errAuthTokenMissing": "You are not signed in",
+  "errAuthTokenInvalid": "Your session is not valid. Please sign in again.",
+  "errSesionCerrada": "Your session is no longer valid. Please sign in again.",
+  "errSesionReemplazada": "Your account was opened in another window or device, so this session was closed.",
+  "errAuthSessionCheckFailed": "The session could not be verified",
+  "errAuthForbiddenAdminOnly": "Access for administrators only",
+  "errAuthAccountDisabled": "Account disabled",
+  "errAuthResetLinkInvalid": "The link is invalid or has expired",
+  "errAuthGoogleTokenMissing": "The Google token is missing",
+  "errAuthGoogleTokenInvalid": "Invalid or expired Google token",
+  "errAuthGoogleEmailUnverified": "Your Google email is not verified",
+  "errAuthGoogleNotConfigured": "Google sign-in is not configured on the server",
+  "errConflictEmailTaken": "The email is already registered",
+  "errConflictUsernameTaken": "The username is already taken",
+  "errNotFoundExpense": "Expense not found",
+  "errNotFoundRoute": "Resource not found",
+  "errRateLimitDaily": "Daily limit reached ({limit} requests). Try again tomorrow.",
+  "errExternalRateFetchFailed": "Error fetching the exchange rate",
+  "errExternalConvertFailed": "Error converting the currency",
+  "errInternalError": "Internal server error",
+  "errNetwork": "No connection. Check that the server is running.",
+  "errUnknown": "An unexpected error occurred",
+  "authUsernameAvailable": "Username available"
+}

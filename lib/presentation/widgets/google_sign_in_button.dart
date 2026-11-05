@@ -11,6 +11,7 @@ import 'package:google_sign_in_web/web_only.dart' as web;
 import 'package:provider/provider.dart';
 
 import '../../core/env/app_env.dart';
+import '../../l10n/l10n.dart';
 import '../components/ui/app_toast.dart';
 import '../providers/auth_provider.dart';
 
@@ -54,7 +55,7 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
     if (!ok && mounted) {
       AppToast.show(
         context,
-        auth.error ?? 'No se pudo iniciar sesión con Google',
+        auth.error ?? context.l10n.authGoogleLoginError,
         type: ToastType.error,
       );
     }
@@ -86,7 +87,7 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
         }
         if (snap.hasError) {
           return Text(
-            'No se pudo cargar el inicio con Google',
+            context.l10n.authGoogleLoadError,
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 12, color: cs.onSurfaceVariant),
           );
@@ -99,7 +100,7 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: Text(
-                    'o',
+                    context.l10n.authOr,
                     style: TextStyle(color: cs.onSurfaceVariant),
                   ),
                 ),
@@ -110,8 +111,7 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
             Center(child: web.renderButton()),
             const SizedBox(height: 8),
             Text(
-              'Al continuar con Google aceptas los Términos y la '
-              'Política de datos de FinanSys.',
+              context.l10n.authGoogleTermsNotice,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 11, color: cs.onSurfaceVariant),
             ),

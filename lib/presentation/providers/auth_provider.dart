@@ -6,6 +6,7 @@ import '../../core/errors/app_errors.dart';
 import '../../core/session/session_events.dart';
 import '../../domain/entities/user_entity.dart';
 import '../../container.dart' as AppContainer;
+import '../errors/error_translator.dart';
 
 // SOLID-SRP: gestiona únicamente el estado de autenticación.
 //
@@ -13,15 +14,11 @@ import '../../container.dart' as AppContainer;
 // si la misma cuenta se abre en otra ventana o dispositivo,
 // esta sesión se cierra automáticamente y se muestra un aviso.
 
+/// Motivo del aviso que se muestra en el login (la UI lo traduce).
+enum AvisoSesion { reemplazada, cerrada }
+
 class AuthProvider extends ChangeNotifier {
   static const _intervaloLatido = Duration(seconds: 20);
-
-  static const _msgReemplazada =
-      'Tu cuenta se abrió en otra ventana o dispositivo, '
-      'por eso se cerró esta sesión.';
-
-  static const _msgCerrada =
-      'Tu sesión ya no es válida. Inicia sesión de nuevo.';
 
   UserEntity? _user;
 
@@ -42,7 +39,7 @@ class AuthProvider extends ChangeNotifier {
 
   // Mensaje que se muestra en el login cuando la sesión
   // fue cerrada por otra ventana/dispositivo.
-  String? _aviso;
+  AvisoSesion? _aviso;
 
   AuthProvider() {
     // El cliente HTTP nos avisa cuando el servidor invalida
@@ -64,7 +61,7 @@ class AuthProvider extends ChangeNotifier {
 
   /// Mensaje que se muestra en el login cuando la sesión
   /// fue cerrada por otra ventana o dispositivo.
-  String? get aviso => _aviso;
+  AvisoSesion? get aviso => _aviso;
 
   // ─────────────────────────────────────────────
   // Avisos
@@ -109,7 +106,7 @@ class AuthProvider extends ChangeNotifier {
       _user = null;
 
       if (e.code == 'SESION_REEMPLAZADA') {
-        _aviso = _msgReemplazada;
+        _aviso = AvisoSesion.reemplazada;
       }
     } catch (_) {
       _isAuthenticated = false;
@@ -169,7 +166,7 @@ class AuthProvider extends ChangeNotifier {
 
       return true;
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorTranslator.message(e);
       return false;
     } finally {
       _loading = false;
@@ -214,7 +211,7 @@ class AuthProvider extends ChangeNotifier {
 
       return true;
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorTranslator.message(e);
       return false;
     } finally {
       _loading = false;
@@ -261,7 +258,7 @@ class AuthProvider extends ChangeNotifier {
 
       return true;
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorTranslator.message(e);
       return false;
     } finally {
       _loading = false;
@@ -310,7 +307,7 @@ class AuthProvider extends ChangeNotifier {
 
       return true;
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorTranslator.message(e);
       return false;
     } finally {
       _loading = false;
@@ -331,7 +328,9 @@ class AuthProvider extends ChangeNotifier {
     if (!_isAuthenticated) return;
 
     _expulsar(
-      code == 'SESION_REEMPLAZADA' ? _msgReemplazada : _msgCerrada,
+      code == 'SESION_REEMPLAZADA'
+          ? AvisoSesion.reemplazada
+          : AvisoSesion.cerrada,
     );
   }
 
@@ -339,7 +338,7 @@ class AuthProvider extends ChangeNotifier {
   ///
   /// No toca la sesión activa del servidor.
   /// Deja el aviso para mostrarlo en el login.
-  Future<void> _expulsar(String mensaje) async {
+  Future<void> _expulsar(AvisoSesion aviso) async {
     if (!_isAuthenticated) return;
 
     _detenerLatido();
@@ -358,7 +357,7 @@ class AuthProvider extends ChangeNotifier {
     _user = null;
     _token = null;
     _isAuthenticated = false;
-    _aviso = mensaje;
+    _aviso = aviso;
 
     notifyListeners();
   }
@@ -419,7 +418,7 @@ class AuthProvider extends ChangeNotifier {
 
       // Otra pestaña/dispositivo inició una nueva sesión.
       if (guardado != _token) {
-        await _expulsar(_msgReemplazada);
+        await _expulsar(AvisoSesion.reemplazada);
         return;
       }
 

@@ -2,6 +2,7 @@
 import 'package:flutter/foundation.dart';
 import '../../domain/entities/compra_extranjera_entity.dart';
 import '../../container.dart';
+import '../errors/error_translator.dart';
 
 class CompraExtranjeraProvider extends ChangeNotifier {
   List<CompraExtranjeraEntity> _compras = [];
@@ -19,7 +20,7 @@ class CompraExtranjeraProvider extends ChangeNotifier {
     try {
       _compras = await Container.listarComprasUseCase.execute();
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorTranslator.message(e);
     } finally {
       _loading = false;
       notifyListeners();
@@ -45,7 +46,7 @@ class CompraExtranjeraProvider extends ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorTranslator.message(e);
       notifyListeners();
       return false;
     }
@@ -57,7 +58,7 @@ class CompraExtranjeraProvider extends ChangeNotifier {
       _compras.removeWhere((c) => c.id == id);
       notifyListeners();
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorTranslator.message(e);
       notifyListeners();
     }
   }

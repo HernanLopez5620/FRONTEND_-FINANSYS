@@ -6,6 +6,7 @@
 import 'package:flutter/foundation.dart';
 import '../../container.dart';
 import '../../domain/entities/admin_entities.dart';
+import '../errors/error_translator.dart';
 
 class LogsController extends ChangeNotifier {
   static const _porPagina = 30;
@@ -70,7 +71,7 @@ class LogsController extends ChangeNotifier {
       _logs = pagina == 1 ? res.logs : [..._logs, ...res.logs];
     } catch (e) {
       if (gen != _gen) return;
-      _error = e.toString();
+      _error = ErrorTranslator.message(e);
     } finally {
       if (gen == _gen) {
         _cargando = false;

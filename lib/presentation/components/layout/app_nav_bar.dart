@@ -2,6 +2,7 @@
 // SOLID-SRP: única responsabilidad — barra de navegación inferior.
 
 import 'package:flutter/material.dart';
+import '../../../l10n/l10n.dart';
 
 class AppNavBar extends StatelessWidget {
   final int currentIndex;
@@ -40,36 +41,36 @@ class AppNavBar extends StatelessWidget {
         unselectedLabelStyle: const TextStyle(fontSize: 11),
         type: BottomNavigationBarType.fixed,
         elevation: 0,
-        items: const [
+        items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
             activeIcon: Icon(Icons.home_rounded),
-            label: 'Inicio',
+            label: context.l10n.navHome,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.receipt_long_outlined),
             activeIcon: Icon(Icons.receipt_long_rounded),
-            label: 'Movimientos',
+            label: context.l10n.navMovements,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.bar_chart_outlined),
             activeIcon: Icon(Icons.bar_chart_rounded),
-            label: 'Reportes',
+            label: context.l10n.navReports,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.category_outlined),
             activeIcon: Icon(Icons.category_rounded),
-            label: 'Categorías',
+            label: context.l10n.navCategories,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.savings_outlined),
             activeIcon: Icon(Icons.savings_rounded),
-            label: 'Presupuestos',
+            label: context.l10n.navBudgets,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.currency_exchange_outlined),
             activeIcon: Icon(Icons.currency_exchange_rounded),
-            label: 'Divisas',
+            label: context.l10n.navCurrencies,
           ),
         ],
       ),

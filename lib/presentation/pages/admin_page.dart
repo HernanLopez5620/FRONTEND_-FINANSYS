@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/log_descripcion.dart';
 import '../../domain/entities/admin_entities.dart';
+import '../../l10n/l10n.dart';
 import '../providers/admin_logs_controller.dart';
 import '../providers/admin_provider.dart';
 import '../providers/auth_provider.dart';
@@ -18,13 +19,13 @@ final _fechaHora = DateFormat('dd/MM/yyyy HH:mm:ss');
 final _fechaCorta = DateFormat('dd/MM HH:mm:ss');
 final _soloFecha = DateFormat('dd/MM/yyyy');
 
-String _hace(DateTime? d) {
-  if (d == null) return 'Sin actividad';
+String _hace(AppLocalizations l10n, DateTime? d) {
+  if (d == null) return l10n.adminNoActivityYet;
   final dif = DateTime.now().difference(d);
-  if (dif.inSeconds < 60) return 'Hace un momento';
-  if (dif.inMinutes < 60) return 'Hace ${dif.inMinutes} min';
-  if (dif.inHours < 24) return 'Hace ${dif.inHours} h';
-  if (dif.inDays < 30) return 'Hace ${dif.inDays} d';
+  if (dif.inSeconds < 60) return l10n.adminAgoNow;
+  if (dif.inMinutes < 60) return l10n.adminAgoMinutes(dif.inMinutes);
+  if (dif.inHours < 24) return l10n.adminAgoHours(dif.inHours);
+  if (dif.inDays < 30) return l10n.adminAgoDays(dif.inDays);
   return _soloFecha.format(d);
 }
 
@@ -86,10 +87,10 @@ class _AdminPageState extends State<AdminPage>
       child: Scaffold(
         backgroundColor: theme.scaffoldBackgroundColor,
         appBar: AppBar(
-          title: const Text('Administración'),
+          title: Text(context.l10n.adminTitle),
           actions: [
             IconButton(
-              tooltip: 'Actualizar',
+              tooltip: context.l10n.adminRefreshTooltip,
               icon: const Icon(Icons.refresh_rounded),
               onPressed: _admin.cargarTodo,
             ),
@@ -99,10 +100,16 @@ class _AdminPageState extends State<AdminPage>
             labelColor: fg,
             unselectedLabelColor: fg.withOpacity(0.65),
             indicatorColor: fg,
-            tabs: const [
-              Tab(icon: Icon(Icons.dashboard_outlined), text: 'Resumen'),
-              Tab(icon: Icon(Icons.people_outline_rounded), text: 'Usuarios'),
-              Tab(icon: Icon(Icons.history_rounded), text: 'Actividad'),
+            tabs: [
+              Tab(
+                  icon: const Icon(Icons.dashboard_outlined),
+                  text: context.l10n.adminTabSummary),
+              Tab(
+                  icon: const Icon(Icons.people_outline_rounded),
+                  text: context.l10n.adminTabUsers),
+              Tab(
+                  icon: const Icon(Icons.history_rounded),
+                  text: context.l10n.adminTabActivity),
             ],
           ),
         ),
@@ -134,7 +141,7 @@ class _ResumenTab extends StatelessWidget {
     if (a.resumen == null) {
       return _Mensaje(
         icono: Icons.error_outline_rounded,
-        texto: a.errorResumen ?? 'No se pudo cargar el resumen',
+        texto: a.errorResumen ?? context.l10n.adminSummaryLoadError,
         onReintentar: a.cargarResumen,
       );
     }
@@ -159,27 +166,27 @@ class _ResumenTab extends StatelessWidget {
               _StatCard(
                   icono: Icons.people_alt_rounded,
                   valor: r.totalUsuarios,
-                  etiqueta: 'Usuarios registrados'),
+                  etiqueta: context.l10n.adminStatUsers),
               _StatCard(
                   icono: Icons.login_rounded,
                   valor: r.sesionesAbiertas,
-                  etiqueta: 'Sesiones abiertas'),
+                  etiqueta: context.l10n.adminStatSessions),
               _StatCard(
                   icono: Icons.person_add_alt_1_rounded,
                   valor: r.nuevos7d,
-                  etiqueta: 'Nuevos (7 días)'),
+                  etiqueta: context.l10n.adminStatNew7d),
               _StatCard(
                   icono: Icons.bolt_rounded,
                   valor: r.activos24h,
-                  etiqueta: 'Activos (24 h)'),
+                  etiqueta: context.l10n.adminStatActive24h),
               _StatCard(
                   icono: Icons.swap_vert_rounded,
                   valor: r.requests24h,
-                  etiqueta: 'Peticiones (24 h)'),
+                  etiqueta: context.l10n.adminStatRequests24h),
               _StatCard(
                   icono: Icons.warning_amber_rounded,
                   valor: r.errores24h,
-                  etiqueta: 'Errores (24 h)',
+                  etiqueta: context.l10n.adminStatErrors24h,
                   color: r.errores24h > 0 ? AppTheme.warning : null),
             ],
           ),
@@ -190,7 +197,7 @@ class _ResumenTab extends StatelessWidget {
             const SizedBox(width: 8),
             Expanded(
               child: Text(
-                'Por seguridad, este panel nunca muestra contraseñas.',
+                context.l10n.adminSecurityNote,
                 style: TextStyle(
                     fontSize: 12, color: cs.onSurface.withOpacity(0.5)),
               ),
@@ -235,7 +242,9 @@ class _StatCard extends StatelessWidget {
           Icon(icono, color: c, size: 26),
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
-              NumberFormat.decimalPattern('es').format(valor),
+              NumberFormat.decimalPattern(
+                      Localizations.localeOf(context).languageCode)
+                  .format(valor),
               style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.w700,
@@ -294,9 +303,9 @@ class _UsuariosTabState extends State<_UsuariosTab> {
         onReintentar: a.cargarUsuarios,
       );
     } else if (a.usuarios.isEmpty) {
-      lista = const _Mensaje(
+      lista = _Mensaje(
         icono: Icons.search_off_rounded,
-        texto: 'No se encontraron usuarios',
+        texto: context.l10n.adminNoUsersFound,
       );
     } else {
       lista = RefreshIndicator(
@@ -317,7 +326,7 @@ class _UsuariosTabState extends State<_UsuariosTab> {
           controller: _ctrl,
           onChanged: _alEscribir,
           decoration: InputDecoration(
-            hintText: 'Buscar por nombre, usuario o correo',
+            hintText: context.l10n.adminSearchHint,
             prefixIcon: const Icon(Icons.search_rounded),
             suffixIcon: _ctrl.text.isEmpty
                 ? null
@@ -338,7 +347,7 @@ class _UsuariosTabState extends State<_UsuariosTab> {
         child: Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            '${a.usuarios.length} usuario${a.usuarios.length == 1 ? '' : 's'}',
+            context.l10n.adminUserCount(a.usuarios.length),
             style:
                 TextStyle(fontSize: 12, color: cs.onSurface.withOpacity(0.55)),
           ),
@@ -423,7 +432,7 @@ class _UsuarioTile extends StatelessWidget {
                         color: cs.primary.withOpacity(0.15),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: Text('Admin',
+                      child: Text(context.l10n.adminAdminBadge,
                           style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w700,
@@ -440,7 +449,9 @@ class _UsuarioTile extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  u.enLinea ? 'En línea' : _hace(u.ultimaActividad),
+                  u.enLinea
+                      ? context.l10n.adminOnline
+                      : _hace(context.l10n, u.ultimaActividad),
                   style: TextStyle(
                       fontSize: 11,
                       color: u.enLinea
@@ -456,7 +467,7 @@ class _UsuarioTile extends StatelessWidget {
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                     color: cs.onSurface)),
-            Text('acciones',
+            Text(context.l10n.adminActionsUnit,
                 style: TextStyle(
                     fontSize: 10, color: cs.onSurface.withOpacity(0.5))),
           ]),
@@ -512,14 +523,27 @@ class _UsuarioLogsPage extends StatelessWidget {
             ),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              dato('Usuario', '@${u.username}'),
-              dato('Correo', u.email),
-              dato('Rol', u.esAdmin ? 'Administrador' : 'Usuario'),
-              dato('Registrado',
+              dato(context.l10n.adminDetailUser, '@${u.username}'),
+              dato(context.l10n.adminDetailEmail, u.email),
+              dato(
+                  context.l10n.adminDetailRole,
+                  u.esAdmin
+                      ? context.l10n.adminRoleAdmin
+                      : context.l10n.adminRoleUser),
+              dato(context.l10n.adminDetailRegistered,
                   u.createdAt == null ? '—' : _soloFecha.format(u.createdAt!)),
-              dato('Estado', u.enLinea ? 'En línea' : _hace(u.ultimaActividad)),
-              dato('Sesión', u.sesionAbierta ? 'Abierta' : 'Cerrada'),
-              dato('Acciones', '${u.totalAcciones} registradas'),
+              dato(
+                  context.l10n.adminDetailStatus,
+                  u.enLinea
+                      ? context.l10n.adminOnline
+                      : _hace(context.l10n, u.ultimaActividad)),
+              dato(
+                  context.l10n.adminDetailSession,
+                  u.sesionAbierta
+                      ? context.l10n.adminSessionOpen
+                      : context.l10n.adminSessionClosed),
+              dato(context.l10n.adminDetailActions,
+                  context.l10n.adminActionsRegistered(u.totalAcciones)),
             ]),
           ),
           Expanded(child: AdminLogsView(uid: u.uid)),
@@ -567,7 +591,7 @@ class _AdminLogsViewState extends State<AdminLogsView> {
       child: Row(children: [
         for (final m in metodos) ...[
           ChoiceChip(
-            label: Text(m ?? 'Todos'),
+            label: Text(m ?? context.l10n.adminFilterAll),
             selected: _c.metodo == m,
             onSelected: (_) => _c.setMetodo(m),
           ),
@@ -575,7 +599,7 @@ class _AdminLogsViewState extends State<AdminLogsView> {
         ],
         FilterChip(
           avatar: const Icon(Icons.error_outline_rounded, size: 16),
-          label: const Text('Solo errores'),
+          label: Text(context.l10n.adminFilterOnlyErrors),
           selected: _c.soloErrores,
           onSelected: _c.setSoloErrores,
         ),
@@ -597,9 +621,9 @@ class _AdminLogsViewState extends State<AdminLogsView> {
       );
     }
     if (_c.logs.isEmpty) {
-      return const _Mensaje(
+      return _Mensaje(
         icono: Icons.inbox_outlined,
-        texto: 'Sin actividad registrada',
+        texto: context.l10n.adminNoActivityRecorded,
       );
     }
 
@@ -622,8 +646,8 @@ class _AdminLogsViewState extends State<AdminLogsView> {
                     ? const CircularProgressIndicator()
                     : OutlinedButton(
                         onPressed: _c.cargarMas,
-                        child: Text(
-                            'Cargar más (${_c.logs.length} de ${_c.total})'),
+                        child: Text(context.l10n.adminLoadMore(
+                            _c.logs.length.toString(), _c.total.toString())),
                       ),
               ),
             );
@@ -631,7 +655,7 @@ class _AdminLogsViewState extends State<AdminLogsView> {
           return Padding(
             padding: const EdgeInsets.only(top: 8),
             child: Center(
-              child: Text('${_c.total} registros en total',
+              child: Text(context.l10n.adminTotalRecords(_c.total.toString()),
                   style: TextStyle(
                       fontSize: 11, color: cs.onSurface.withOpacity(0.45))),
             ),
@@ -697,7 +721,8 @@ class _LogTile extends StatelessWidget {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
-              describirAccion(log.metodo, log.ruta, log.statusCode),
+              describirAccion(
+                  context.l10n, log.metodo, log.ruta, log.statusCode),
               style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
@@ -709,7 +734,7 @@ class _LogTile extends StatelessWidget {
                 child: Text(
                   log.username != null
                       ? '@${log.username}'
-                      : 'Sin sesión (anónimo)',
+                      : context.l10n.adminLogAnonymous,
                   style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
@@ -772,7 +797,7 @@ class _Mensaje extends StatelessWidget {
             OutlinedButton.icon(
               onPressed: () => onReintentar!(),
               icon: const Icon(Icons.refresh_rounded),
-              label: const Text('Reintentar'),
+              label: Text(context.l10n.commonRetry),
             ),
           ],
         ]),

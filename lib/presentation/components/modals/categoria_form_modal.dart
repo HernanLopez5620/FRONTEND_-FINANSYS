@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../l10n/l10n.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../domain/entities/categoria_entity.dart';
 import '../../providers/categoria_provider.dart';
@@ -85,14 +86,14 @@ class _CategoriaFormModalState extends State<CategoriaFormModal> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Nueva categoría',
+            Text(context.l10n.catFormTitle,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
             const SizedBox(height: 16),
 
             TextFormField(
               controller: _nombreCtrl,
-              decoration: const InputDecoration(
-                labelText: 'Nombre',
+              decoration: InputDecoration(
+                labelText: context.l10n.catFormName,
                 prefixIcon: Icon(Icons.label_outline,
                     size: 20, color: AppTheme.textGrey),
               ),
@@ -100,7 +101,7 @@ class _CategoriaFormModalState extends State<CategoriaFormModal> {
             const SizedBox(height: 14),
 
             // Tipo
-            const Text('Tipo',
+            Text(context.l10n.catFormType,
                 style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
@@ -129,7 +130,10 @@ class _CategoriaFormModalState extends State<CategoriaFormModal> {
                                   ),
                                 ),
                                 child: Center(
-                                    child: Text(t,
+                                    child: Text(
+                                        t == 'gasto'
+                                            ? context.l10n.catFormTypeExpense
+                                            : context.l10n.catFormTypeIncome,
                                         style: TextStyle(
                                           color: _selectedTipo == t
                                               ? AppTheme.primary
@@ -144,7 +148,7 @@ class _CategoriaFormModalState extends State<CategoriaFormModal> {
             const SizedBox(height: 14),
 
             // Ícono
-            const Text('Ícono',
+            Text(context.l10n.catFormIcon,
                 style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
@@ -181,7 +185,7 @@ class _CategoriaFormModalState extends State<CategoriaFormModal> {
             const SizedBox(height: 14),
 
             // Color
-            const Text('Color',
+            Text(context.l10n.catFormColor,
                 style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
@@ -223,7 +227,7 @@ class _CategoriaFormModalState extends State<CategoriaFormModal> {
                       height: 22,
                       child: CircularProgressIndicator(
                           color: Colors.white, strokeWidth: 2.5))
-                  : const Text('Crear categoría'),
+                  : Text(context.l10n.catFormCreate),
             ),
           ]),
     );

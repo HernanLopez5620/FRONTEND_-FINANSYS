@@ -4,6 +4,7 @@
 import 'package:flutter/foundation.dart';
 import '../../domain/entities/categoria_entity.dart';
 import '../../container.dart';
+import '../errors/error_translator.dart';
 
 class CategoriaProvider extends ChangeNotifier {
   List<CategoriaEntity> _categorias = [];
@@ -21,7 +22,7 @@ class CategoriaProvider extends ChangeNotifier {
       _categorias = await Container.listCategoriesUseCase.execute();
       _error = null;
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorTranslator.message(e);
     } finally {
       _loading = false;
       notifyListeners();
@@ -35,7 +36,7 @@ class CategoriaProvider extends ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorTranslator.message(e);
       notifyListeners();
       return false;
     }

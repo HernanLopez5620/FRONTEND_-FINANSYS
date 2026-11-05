@@ -2,7 +2,10 @@
 // Traduce una petición registrada en los logs ("POST /api/v1/gastos") a una
 // frase entendible para el administrador ("Registró un movimiento").
 
-String describirAccion(String metodo, String ruta, int? status) {
+import '../../l10n/l10n.dart';
+
+String describirAccion(
+    AppLocalizations l10n, String metodo, String ruta, int? status) {
   var p = ruta.split('?').first;
   if (p.startsWith('/api/v1')) p = p.substring('/api/v1'.length);
   if (p.length > 1 && p.endsWith('/')) p = p.substring(0, p.length - 1);
@@ -13,80 +16,80 @@ String describirAccion(String metodo, String ruta, int? status) {
 
   // ── Cuenta ──
   if (m == 'POST' && p == '/users/login') {
-    return fallo ? 'Intento de inicio de sesión fallido' : 'Inició sesión';
+    return fallo ? l10n.logLoginFailed : l10n.logLoginOk;
   }
   if (m == 'POST' && p == '/users/register') {
-    return fallo ? 'Registro fallido' : 'Creó su cuenta';
+    return fallo ? l10n.logRegisterFailed : l10n.logRegisterOk;
   }
 
   String base;
   if (m == 'POST' && p == '/users/logout') {
-    base = 'Cerró sesión';
+    base = l10n.logLogout;
   } else if (m == 'GET' && p == '/users/profile') {
-    base = 'Consultó su perfil';
+    base = l10n.logProfileView;
   } else if (m == 'PUT' && p == '/users/profile') {
-    base = 'Actualizó su perfil';
+    base = l10n.logProfileUpdate;
   } else if (m == 'PUT' && p == '/users/tema') {
-    base = 'Cambió el tema';
+    base = l10n.logThemeChange;
   } else if (m == 'GET' && es(r'^/users/check-username/')) {
-    base = 'Verificó un nombre de usuario';
+    base = l10n.logCheckUsername;
   } else if (m == 'POST' && p == '/users/forgot-password') {
-    base = 'Pidió restablecer su contraseña';
+    base = l10n.logForgotPassword;
   } else if (m == 'POST' && p == '/users/reset-password') {
-    base = 'Restableció su contraseña';
+    base = l10n.logResetPassword;
   } else if (m == 'GET' && p == '/users') {
-    base = 'Consultó la lista de usuarios';
+    base = l10n.logUsersList;
   } else if (es(r'^/admin')) {
-    base = 'Consultó el panel de administración';
+    base = l10n.logAdminPanel;
   }
   // ── Movimientos ──
   else if (m == 'POST' && p == '/gastos') {
-    base = 'Registró un movimiento';
+    base = l10n.logMovementCreate;
   } else if (m == 'PUT' && es(r'^/gastos/\d+$')) {
-    base = 'Editó un movimiento';
+    base = l10n.logMovementEdit;
   } else if (m == 'DELETE' && es(r'^/gastos/\d+$')) {
-    base = 'Eliminó un movimiento';
+    base = l10n.logMovementDelete;
   } else if (m == 'GET' && es(r'^/gastos/reportes/exportar')) {
     base = ruta.contains('formato=pdf')
-        ? 'Descargó un reporte en PDF'
+        ? l10n.logReportPdf
         : ruta.contains('formato=xlsx')
-            ? 'Descargó un reporte en Excel'
-            : 'Descargó un reporte';
+            ? l10n.logReportExcel
+            : l10n.logReportDownload;
   } else if (m == 'GET' && es(r'^/gastos/reportes')) {
-    base = 'Consultó reportes';
+    base = l10n.logReportsView;
   } else if (m == 'GET' && es(r'^/gastos')) {
-    base = 'Consultó sus movimientos';
+    base = l10n.logMovementsView;
   }
   // ── Categorías ──
   else if (es(r'^/categorias')) {
     base = switch (m) {
-      'POST' => 'Creó una categoría',
-      'PUT' => 'Editó una categoría',
-      'DELETE' => 'Eliminó una categoría',
-      _ => 'Consultó sus categorías',
+      'POST' => l10n.logCategoryCreate,
+      'PUT' => l10n.logCategoryEdit,
+      'DELETE' => l10n.logCategoryDelete,
+      _ => l10n.logCategoriesView,
     };
   }
   // ── Presupuestos ──
   else if (es(r'^/presupuestos')) {
     base = switch (m) {
-      'POST' => 'Guardó un presupuesto',
-      'PUT' => 'Editó un presupuesto',
-      'DELETE' => 'Eliminó un presupuesto',
-      _ => 'Consultó sus presupuestos',
+      'POST' => l10n.logBudgetSave,
+      'PUT' => l10n.logBudgetEdit,
+      'DELETE' => l10n.logBudgetDelete,
+      _ => l10n.logBudgetsView,
     };
   }
   // ── Divisas y compras extranjeras ──
   else if (es(r'^/compras-extranjeras')) {
     base = switch (m) {
-      'POST' => 'Guardó una compra extranjera',
-      'DELETE' => 'Eliminó una compra extranjera',
-      _ => 'Consultó sus compras extranjeras',
+      'POST' => l10n.logForeignSave,
+      'DELETE' => l10n.logForeignDelete,
+      _ => l10n.logForeignView,
     };
   } else if (es(r'^/divisas')) {
-    base = 'Consultó tasas de cambio';
+    base = l10n.logRatesView;
   } else {
     base = '$m $p';
   }
 
-  return fallo ? '$base (con error)' : base;
+  return fallo ? l10n.logWithError(base) : base;
 }

@@ -10,6 +10,6 @@ class BackupApiAdapter implements BackupPort {
   BackupApiAdapter(this._http);
 
   @override
-  Future<Uint8List> descargar() => _http.getBytes('/users/backup');
+  Future<Uint8List> descargar({required String locale}) =>
+      _http.getBytes('/users/backup?locale=$locale');
 }
-

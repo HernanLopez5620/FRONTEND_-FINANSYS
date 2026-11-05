@@ -13,10 +13,12 @@ class ExportarReporteUseCase {
     required String formato,
     required int mes,
     required int anio,
+    required String locale,
   }) {
     if (formato != 'pdf' && formato != 'xlsx') {
       throw const ValidationError("Formato no soportado: usa 'pdf' o 'xlsx'");
     }
-    return _port.exportar(formato: formato, mes: mes, anio: anio);
+    return _port.exportar(
+        formato: formato, mes: mes, anio: anio, locale: locale);
   }
 }

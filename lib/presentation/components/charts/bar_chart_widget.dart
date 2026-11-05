@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import '../../../l10n/l10n.dart';
 import '../../../domain/entities/comparacion_mensual_entity.dart';
 
 class BarChartWidget extends StatelessWidget {
@@ -15,6 +16,8 @@ class BarChartWidget extends StatelessWidget {
     final inColor = Colors.green.shade400;
     final gasColor = Colors.red.shade400;
     final textColor = cs.onSurface.withOpacity(0.6);
+    final incomeLabel = context.l10n.chartIncome;
+    final expensesLabel = context.l10n.chartExpenses;
 
     return SizedBox(
       height: 200,
@@ -26,7 +29,7 @@ class BarChartWidget extends StatelessWidget {
             touchTooltipData: BarTouchTooltipData(
               // Se eliminó 'getTooltipColor' para evitar el conflicto con la versión de fl_chart
               getTooltipItem: (group, gi, rod, ri) {
-                final label = ri == 0 ? 'Ingresos' : 'Gastos';
+                final label = ri == 0 ? incomeLabel : expensesLabel;
                 return BarTooltipItem(
                   '$label\n\$${rod.toY.toStringAsFixed(0)}',
                   TextStyle(

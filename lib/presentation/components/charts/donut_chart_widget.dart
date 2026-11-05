@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import '../../../l10n/l10n.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../domain/entities/gasto_categoria_entity.dart';
@@ -22,9 +23,9 @@ class _DonutChartWidgetState extends State<DonutChartWidget> {
   @override
   Widget build(BuildContext context) {
     if (widget.data.isEmpty) {
-      return const Center(
-        child: Text('Sin datos este mes',
-            style: TextStyle(color: AppTheme.textGrey)),
+      return Center(
+        child: Text(context.l10n.chartNoDataMonth,
+            style: const TextStyle(color: AppTheme.textGrey)),
       );
     }
 
@@ -76,8 +77,8 @@ class _DonutChartWidgetState extends State<DonutChartWidget> {
               ),
             ),
             const SizedBox(height: 2),
-            const Text('Total este mes',
-                style: TextStyle(fontSize: 11, color: AppTheme.textGrey)),
+            Text(context.l10n.chartTotalMonth,
+                style: const TextStyle(fontSize: 11, color: AppTheme.textGrey)),
             const SizedBox(height: 10),
             ...List.generate(
               dataList.take(5).length,
