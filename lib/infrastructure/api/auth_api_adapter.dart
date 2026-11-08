@@ -5,6 +5,7 @@
 import '../../domain/entities/user_entity.dart';
 import '../../domain/ports/auth_port.dart';
 import 'http_client.dart';
+import '../../core/utils/formatters.dart';
 
 class AuthApiAdapter implements AuthPort {
   final HttpClient _http;
@@ -139,6 +140,8 @@ class AuthApiAdapter implements AuthPort {
       '/users/forgot-password',
       {
         'email': email,
+        'idioma':
+            Formatters.idioma, // el correo se envía en el idioma de la app
       },
       requiresAuth: false,
     );

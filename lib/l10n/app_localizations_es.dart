@@ -1091,4 +1091,150 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get authUsernameAvailable => 'Usuario disponible';
+
+  @override
+  String get errValidationInvalidFrequency =>
+      'Frecuencia inválida: usa semanal, mensual o anual';
+
+  @override
+  String get errValidationInvalidAmount =>
+      'El monto debe ser un número mayor que cero';
+
+  @override
+  String get errValidationInvalidDate => 'Fecha inválida';
+
+  @override
+  String get errValidationInvalidType => 'Tipo inválido: usa gasto o ingreso';
+
+  @override
+  String get errNotFoundRecurring => 'Gasto recurrente no encontrado';
+
+  @override
+  String get recurTitle => 'Gastos recurrentes';
+
+  @override
+  String get recurOpenButton => 'Recurrentes';
+
+  @override
+  String get recurNew => 'Nuevo recurrente';
+
+  @override
+  String get recurEdit => 'Editar recurrente';
+
+  @override
+  String get recurEmptyTitle => 'Sin gastos recurrentes';
+
+  @override
+  String get recurEmptySubtitle =>
+      'Registra tu arriendo, suscripciones o salario una sola vez y se repetirán solos';
+
+  @override
+  String get recurFreqWeekly => 'Semanal';
+
+  @override
+  String get recurFreqMonthly => 'Mensual';
+
+  @override
+  String get recurFreqYearly => 'Anual';
+
+  @override
+  String recurNext(String date) {
+    return 'Próximo: $date';
+  }
+
+  @override
+  String recurEnds(String date) {
+    return 'Hasta $date';
+  }
+
+  @override
+  String get recurPaused => 'Pausado';
+
+  @override
+  String get recurPause => 'Pausar';
+
+  @override
+  String get recurResume => 'Reanudar';
+
+  @override
+  String get recurAmount => 'Monto';
+
+  @override
+  String get recurDescription => 'Descripción (ej: Arriendo)';
+
+  @override
+  String get recurCategory => 'Categoría';
+
+  @override
+  String get recurFrequency => 'Frecuencia';
+
+  @override
+  String get recurStartDate => 'Fecha de inicio';
+
+  @override
+  String get recurEndDate => 'Fecha fin (opcional)';
+
+  @override
+  String get recurNoEnd => 'Sin fecha fin';
+
+  @override
+  String get recurClearEnd => 'Quitar fecha fin';
+
+  @override
+  String recurDeleteConfirm(String name) {
+    return '¿Eliminar \"$name\"? Los movimientos ya registrados se conservan.';
+  }
+
+  @override
+  String get recurInvalidForm => 'Revisa el monto y la categoría';
+
+  @override
+  String recurGenerated(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Se registraron $count movimientos pendientes',
+      one: 'Se registró 1 movimiento pendiente',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get authForgotLink => '¿Olvidaste tu contraseña?';
+
+  @override
+  String get forgotTitle => 'Recuperar contraseña';
+
+  @override
+  String get forgotIntro =>
+      'Escribe tu correo y te enviaremos un enlace para crear una nueva contraseña.';
+
+  @override
+  String get forgotEmailLabel => 'Correo electrónico';
+
+  @override
+  String get forgotSend => 'Enviar enlace';
+
+  @override
+  String get forgotSent =>
+      'Si el correo está registrado, recibirás un enlace en unos minutos. Revisa también la carpeta de spam.';
+
+  @override
+  String get resetTitle => 'Nueva contraseña';
+
+  @override
+  String get resetNewPassword => 'Nueva contraseña';
+
+  @override
+  String get resetConfirm => 'Confirmar contraseña';
+
+  @override
+  String get resetSave => 'Guardar contraseña';
+
+  @override
+  String get resetSuccess =>
+      'Contraseña actualizada. Ya puedes iniciar sesión.';
+
+  @override
+  String get resetBackToLogin => 'Volver al inicio de sesión';
 }

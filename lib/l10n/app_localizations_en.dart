@@ -1089,4 +1089,149 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authUsernameAvailable => 'Username available';
+
+  @override
+  String get errValidationInvalidFrequency =>
+      'Invalid frequency: use weekly, monthly or yearly';
+
+  @override
+  String get errValidationInvalidAmount =>
+      'The amount must be a number greater than zero';
+
+  @override
+  String get errValidationInvalidDate => 'Invalid date';
+
+  @override
+  String get errValidationInvalidType => 'Invalid type: use expense or income';
+
+  @override
+  String get errNotFoundRecurring => 'Recurring expense not found';
+
+  @override
+  String get recurTitle => 'Recurring expenses';
+
+  @override
+  String get recurOpenButton => 'Recurring';
+
+  @override
+  String get recurNew => 'New recurring';
+
+  @override
+  String get recurEdit => 'Edit recurring';
+
+  @override
+  String get recurEmptyTitle => 'No recurring expenses';
+
+  @override
+  String get recurEmptySubtitle =>
+      'Add your rent, subscriptions or salary once and they will repeat on their own';
+
+  @override
+  String get recurFreqWeekly => 'Weekly';
+
+  @override
+  String get recurFreqMonthly => 'Monthly';
+
+  @override
+  String get recurFreqYearly => 'Yearly';
+
+  @override
+  String recurNext(String date) {
+    return 'Next: $date';
+  }
+
+  @override
+  String recurEnds(String date) {
+    return 'Until $date';
+  }
+
+  @override
+  String get recurPaused => 'Paused';
+
+  @override
+  String get recurPause => 'Pause';
+
+  @override
+  String get recurResume => 'Resume';
+
+  @override
+  String get recurAmount => 'Amount';
+
+  @override
+  String get recurDescription => 'Description (e.g. Rent)';
+
+  @override
+  String get recurCategory => 'Category';
+
+  @override
+  String get recurFrequency => 'Frequency';
+
+  @override
+  String get recurStartDate => 'Start date';
+
+  @override
+  String get recurEndDate => 'End date (optional)';
+
+  @override
+  String get recurNoEnd => 'No end date';
+
+  @override
+  String get recurClearEnd => 'Remove end date';
+
+  @override
+  String recurDeleteConfirm(String name) {
+    return 'Delete \"$name\"? Movements already recorded are kept.';
+  }
+
+  @override
+  String get recurInvalidForm => 'Check the amount and the category';
+
+  @override
+  String recurGenerated(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count pending movements were recorded',
+      one: '1 pending movement was recorded',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get authForgotLink => 'Forgot your password?';
+
+  @override
+  String get forgotTitle => 'Reset password';
+
+  @override
+  String get forgotIntro =>
+      'Enter your email and we will send you a link to create a new password.';
+
+  @override
+  String get forgotEmailLabel => 'Email';
+
+  @override
+  String get forgotSend => 'Send link';
+
+  @override
+  String get forgotSent =>
+      'If the email is registered, you will receive a link in a few minutes. Also check your spam folder.';
+
+  @override
+  String get resetTitle => 'New password';
+
+  @override
+  String get resetNewPassword => 'New password';
+
+  @override
+  String get resetConfirm => 'Confirm password';
+
+  @override
+  String get resetSave => 'Save password';
+
+  @override
+  String get resetSuccess => 'Password updated. You can now sign in.';
+
+  @override
+  String get resetBackToLogin => 'Back to sign in';
 }

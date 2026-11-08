@@ -455,5 +455,75 @@
   "errInternalError": "Error interno del servidor",
   "errNetwork": "Sin conexión. Verifica que el servidor esté corriendo.",
   "errUnknown": "Ocurrió un error inesperado",
-  "authUsernameAvailable": "Usuario disponible"
+  "authUsernameAvailable": "Usuario disponible",
+  "errValidationInvalidFrequency": "Frecuencia inválida: usa semanal, mensual o anual",
+  "errValidationInvalidAmount": "El monto debe ser un número mayor que cero",
+  "errValidationInvalidDate": "Fecha inválida",
+  "errValidationInvalidType": "Tipo inválido: usa gasto o ingreso",
+  "errNotFoundRecurring": "Gasto recurrente no encontrado",
+  "recurTitle": "Gastos recurrentes",
+  "recurOpenButton": "Recurrentes",
+  "recurNew": "Nuevo recurrente",
+  "recurEdit": "Editar recurrente",
+  "recurEmptyTitle": "Sin gastos recurrentes",
+  "recurEmptySubtitle": "Registra tu arriendo, suscripciones o salario una sola vez y se repetirán solos",
+  "recurFreqWeekly": "Semanal",
+  "recurFreqMonthly": "Mensual",
+  "recurFreqYearly": "Anual",
+  "recurNext": "Próximo: {date}",
+  "@recurNext": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "recurEnds": "Hasta {date}",
+  "@recurEnds": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "recurPaused": "Pausado",
+  "recurPause": "Pausar",
+  "recurResume": "Reanudar",
+  "recurAmount": "Monto",
+  "recurDescription": "Descripción (ej: Arriendo)",
+  "recurCategory": "Categoría",
+  "recurFrequency": "Frecuencia",
+  "recurStartDate": "Fecha de inicio",
+  "recurEndDate": "Fecha fin (opcional)",
+  "recurNoEnd": "Sin fecha fin",
+  "recurClearEnd": "Quitar fecha fin",
+  "recurDeleteConfirm": "¿Eliminar \"{name}\"? Los movimientos ya registrados se conservan.",
+  "@recurDeleteConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "recurInvalidForm": "Revisa el monto y la categoría",
+  "recurGenerated": "{count, plural, =1{Se registró 1 movimiento pendiente} other{Se registraron {count} movimientos pendientes}}",
+  "@recurGenerated": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "authForgotLink": "¿Olvidaste tu contraseña?",
+  "forgotTitle": "Recuperar contraseña",
+  "forgotIntro": "Escribe tu correo y te enviaremos un enlace para crear una nueva contraseña.",
+  "forgotEmailLabel": "Correo electrónico",
+  "forgotSend": "Enviar enlace",
+  "forgotSent": "Si el correo está registrado, recibirás un enlace en unos minutos. Revisa también la carpeta de spam.",
+  "resetTitle": "Nueva contraseña",
+  "resetNewPassword": "Nueva contraseña",
+  "resetConfirm": "Confirmar contraseña",
+  "resetSave": "Guardar contraseña",
+  "resetSuccess": "Contraseña actualizada. Ya puedes iniciar sesión.",
+  "resetBackToLogin": "Volver al inicio de sesión"
 }

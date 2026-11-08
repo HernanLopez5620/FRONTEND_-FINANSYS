@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import '../providers/gasto_provider.dart';
 import '../providers/categoria_provider.dart';
+import '../providers/gasto_recurrente_provider.dart';
 import '../providers/inactividad_provider.dart';
 import '../components/layout/app_header.dart';
 import '../components/layout/app_nav_bar.dart';
@@ -60,6 +61,14 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   Future<void> _loadData() async {
+    // Registra los gastos recurrentes que ya vencieron (no bloquea si falla)
+    final generados = await context.read<GastoRecurrenteProvider>().procesar();
+    if (generados > 0 && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(context.l10n.recurGenerated(generados))),
+      );
+    }
+    if (!mounted) return;
     await Future.wait([
       context.read<GastoProvider>().loadAll(),
       context.read<CategoriaProvider>().loadCategories(),

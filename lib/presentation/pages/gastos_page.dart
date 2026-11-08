@@ -8,6 +8,7 @@ import '../providers/gasto_provider.dart';
 import '../components/ui/app_spinner.dart';
 import '../components/ui/app_empty_state.dart';
 import '../components/modals/gasto_form_modal.dart';
+import 'gastos_recurrentes_page.dart';
 
 class GastosPage extends StatefulWidget {
   const GastosPage({super.key});
@@ -38,44 +39,55 @@ class _GastosPageState extends State<GastosPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 14, 16, 8),
             child: Row(
-              children: ['todos', 'gasto', 'ingreso'].map((f) {
-                return Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: GestureDetector(
-                    onTap: () => setState(() => _filter = f),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: _filter == f
-                            ? cs.primary
-                            : theme.cardColor, // ← Dinámico
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
+              children: [
+                ...['todos', 'gasto', 'ingreso'].map((f) {
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: GestureDetector(
+                      onTap: () => setState(() => _filter = f),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
+                        decoration: BoxDecoration(
                           color: _filter == f
                               ? cs.primary
-                              : theme.dividerColor, // ← Dinámico
-                          width: 0.5,
+                              : theme.cardColor, // ← Dinámico
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: _filter == f
+                                ? cs.primary
+                                : theme.dividerColor, // ← Dinámico
+                            width: 0.5,
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        f == 'todos'
-                            ? context.l10n.gastosFilterAll
-                            : f == 'gasto'
-                                ? context.l10n.gastosFilterExpenses
-                                : context.l10n.gastosFilterIncome,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: _filter == f
-                              ? cs.onPrimary
-                              : cs.onSurfaceVariant, // ← Dinámico
+                        child: Text(
+                          f == 'todos'
+                              ? context.l10n.gastosFilterAll
+                              : f == 'gasto'
+                                  ? context.l10n.gastosFilterExpenses
+                                  : context.l10n.gastosFilterIncome,
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: _filter == f
+                                ? cs.onPrimary
+                                : cs.onSurfaceVariant, // ← Dinámico
+                          ),
                         ),
                       ),
                     ),
+                  );
+                }),
+                const Spacer(),
+                IconButton(
+                  tooltip: context.l10n.recurOpenButton,
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (_) => const GastosRecurrentesPage()),
                   ),
-                );
-              }).toList(),
+                  icon: const Icon(Icons.repeat_rounded),
+                ),
+              ],
             ),
           ),
 

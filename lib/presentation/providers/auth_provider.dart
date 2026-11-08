@@ -283,6 +283,29 @@ class AuthProvider extends ChangeNotifier {
   }
 
   // ─────────────────────────────────────────────
+  // Recuperar contraseña (devuelven null si salió bien, o el mensaje de error ya traducido)
+  // ─────────────────────────────────────────────
+
+  Future<String?> solicitarRecuperacion(String email) async {
+    try {
+      await AppContainer.Container.solicitarRecuperacionUseCase.execute(email);
+      return null;
+    } catch (e) {
+      return ErrorTranslator.message(e);
+    }
+  }
+
+  Future<String?> restablecerContrasena(String token, String password) async {
+    try {
+      await AppContainer.Container.restablecerContrasenaUseCase
+          .execute(token: token, password: password);
+      return null;
+    } catch (e) {
+      return ErrorTranslator.message(e);
+    }
+  }
+
+  // ─────────────────────────────────────────────
   // Actualizar perfil
   // ─────────────────────────────────────────────
 

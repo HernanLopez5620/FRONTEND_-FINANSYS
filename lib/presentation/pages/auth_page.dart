@@ -13,6 +13,7 @@ import '../components/ui/app_toast.dart';
 import '../widgets/google_sign_in_button.dart';
 import 'terminos_page.dart';
 import 'politica_datos_page.dart';
+import 'recuperar_contrasena.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -292,7 +293,15 @@ class _LoginFormState extends State<_LoginForm> {
                 ? context.l10n.authPasswordRequired
                 : null,
           ),
-          const SizedBox(height: 20),
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton(
+              onPressed: () => mostrarOlvideMiContrasena(context,
+                  correoInicial: _emailCtrl.text.trim()),
+              child: Text(context.l10n.authForgotLink),
+            ),
+          ),
+          const SizedBox(height: 8),
           Consumer<AuthProvider>(
             builder: (_, auth, __) => ElevatedButton(
               onPressed: auth.loading ? null : _login,

@@ -2101,6 +2101,258 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Usuario disponible'**
   String get authUsernameAvailable;
+
+  /// No description provided for @errValidationInvalidFrequency.
+  ///
+  /// In es, this message translates to:
+  /// **'Frecuencia inválida: usa semanal, mensual o anual'**
+  String get errValidationInvalidFrequency;
+
+  /// No description provided for @errValidationInvalidAmount.
+  ///
+  /// In es, this message translates to:
+  /// **'El monto debe ser un número mayor que cero'**
+  String get errValidationInvalidAmount;
+
+  /// No description provided for @errValidationInvalidDate.
+  ///
+  /// In es, this message translates to:
+  /// **'Fecha inválida'**
+  String get errValidationInvalidDate;
+
+  /// No description provided for @errValidationInvalidType.
+  ///
+  /// In es, this message translates to:
+  /// **'Tipo inválido: usa gasto o ingreso'**
+  String get errValidationInvalidType;
+
+  /// No description provided for @errNotFoundRecurring.
+  ///
+  /// In es, this message translates to:
+  /// **'Gasto recurrente no encontrado'**
+  String get errNotFoundRecurring;
+
+  /// No description provided for @recurTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Gastos recurrentes'**
+  String get recurTitle;
+
+  /// No description provided for @recurOpenButton.
+  ///
+  /// In es, this message translates to:
+  /// **'Recurrentes'**
+  String get recurOpenButton;
+
+  /// No description provided for @recurNew.
+  ///
+  /// In es, this message translates to:
+  /// **'Nuevo recurrente'**
+  String get recurNew;
+
+  /// No description provided for @recurEdit.
+  ///
+  /// In es, this message translates to:
+  /// **'Editar recurrente'**
+  String get recurEdit;
+
+  /// No description provided for @recurEmptyTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Sin gastos recurrentes'**
+  String get recurEmptyTitle;
+
+  /// No description provided for @recurEmptySubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Registra tu arriendo, suscripciones o salario una sola vez y se repetirán solos'**
+  String get recurEmptySubtitle;
+
+  /// No description provided for @recurFreqWeekly.
+  ///
+  /// In es, this message translates to:
+  /// **'Semanal'**
+  String get recurFreqWeekly;
+
+  /// No description provided for @recurFreqMonthly.
+  ///
+  /// In es, this message translates to:
+  /// **'Mensual'**
+  String get recurFreqMonthly;
+
+  /// No description provided for @recurFreqYearly.
+  ///
+  /// In es, this message translates to:
+  /// **'Anual'**
+  String get recurFreqYearly;
+
+  /// No description provided for @recurNext.
+  ///
+  /// In es, this message translates to:
+  /// **'Próximo: {date}'**
+  String recurNext(String date);
+
+  /// No description provided for @recurEnds.
+  ///
+  /// In es, this message translates to:
+  /// **'Hasta {date}'**
+  String recurEnds(String date);
+
+  /// No description provided for @recurPaused.
+  ///
+  /// In es, this message translates to:
+  /// **'Pausado'**
+  String get recurPaused;
+
+  /// No description provided for @recurPause.
+  ///
+  /// In es, this message translates to:
+  /// **'Pausar'**
+  String get recurPause;
+
+  /// No description provided for @recurResume.
+  ///
+  /// In es, this message translates to:
+  /// **'Reanudar'**
+  String get recurResume;
+
+  /// No description provided for @recurAmount.
+  ///
+  /// In es, this message translates to:
+  /// **'Monto'**
+  String get recurAmount;
+
+  /// No description provided for @recurDescription.
+  ///
+  /// In es, this message translates to:
+  /// **'Descripción (ej: Arriendo)'**
+  String get recurDescription;
+
+  /// No description provided for @recurCategory.
+  ///
+  /// In es, this message translates to:
+  /// **'Categoría'**
+  String get recurCategory;
+
+  /// No description provided for @recurFrequency.
+  ///
+  /// In es, this message translates to:
+  /// **'Frecuencia'**
+  String get recurFrequency;
+
+  /// No description provided for @recurStartDate.
+  ///
+  /// In es, this message translates to:
+  /// **'Fecha de inicio'**
+  String get recurStartDate;
+
+  /// No description provided for @recurEndDate.
+  ///
+  /// In es, this message translates to:
+  /// **'Fecha fin (opcional)'**
+  String get recurEndDate;
+
+  /// No description provided for @recurNoEnd.
+  ///
+  /// In es, this message translates to:
+  /// **'Sin fecha fin'**
+  String get recurNoEnd;
+
+  /// No description provided for @recurClearEnd.
+  ///
+  /// In es, this message translates to:
+  /// **'Quitar fecha fin'**
+  String get recurClearEnd;
+
+  /// No description provided for @recurDeleteConfirm.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Eliminar \"{name}\"? Los movimientos ya registrados se conservan.'**
+  String recurDeleteConfirm(String name);
+
+  /// No description provided for @recurInvalidForm.
+  ///
+  /// In es, this message translates to:
+  /// **'Revisa el monto y la categoría'**
+  String get recurInvalidForm;
+
+  /// No description provided for @recurGenerated.
+  ///
+  /// In es, this message translates to:
+  /// **'{count, plural, =1{Se registró 1 movimiento pendiente} other{Se registraron {count} movimientos pendientes}}'**
+  String recurGenerated(int count);
+
+  /// No description provided for @authForgotLink.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Olvidaste tu contraseña?'**
+  String get authForgotLink;
+
+  /// No description provided for @forgotTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Recuperar contraseña'**
+  String get forgotTitle;
+
+  /// No description provided for @forgotIntro.
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe tu correo y te enviaremos un enlace para crear una nueva contraseña.'**
+  String get forgotIntro;
+
+  /// No description provided for @forgotEmailLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'Correo electrónico'**
+  String get forgotEmailLabel;
+
+  /// No description provided for @forgotSend.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar enlace'**
+  String get forgotSend;
+
+  /// No description provided for @forgotSent.
+  ///
+  /// In es, this message translates to:
+  /// **'Si el correo está registrado, recibirás un enlace en unos minutos. Revisa también la carpeta de spam.'**
+  String get forgotSent;
+
+  /// No description provided for @resetTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Nueva contraseña'**
+  String get resetTitle;
+
+  /// No description provided for @resetNewPassword.
+  ///
+  /// In es, this message translates to:
+  /// **'Nueva contraseña'**
+  String get resetNewPassword;
+
+  /// No description provided for @resetConfirm.
+  ///
+  /// In es, this message translates to:
+  /// **'Confirmar contraseña'**
+  String get resetConfirm;
+
+  /// No description provided for @resetSave.
+  ///
+  /// In es, this message translates to:
+  /// **'Guardar contraseña'**
+  String get resetSave;
+
+  /// No description provided for @resetSuccess.
+  ///
+  /// In es, this message translates to:
+  /// **'Contraseña actualizada. Ya puedes iniciar sesión.'**
+  String get resetSuccess;
+
+  /// No description provided for @resetBackToLogin.
+  ///
+  /// In es, this message translates to:
+  /// **'Volver al inicio de sesión'**
+  String get resetBackToLogin;
 }
 
 class _AppLocalizationsDelegate

@@ -1,0 +1,146 @@
+{
+  "VALIDATION_MISSING_FIELDS": {
+    "status": 400,
+    "msg": "Faltan datos requeridos: {fields}"
+  },
+  "VALIDATION_USERNAME_FORMAT": {
+    "status": 400,
+    "msg": "Username inválido: solo letras, números y _ (3-20 caracteres)"
+  },
+  "VALIDATION_PASSWORD_MIN": {
+    "status": 400,
+    "msg": "La contraseña debe tener mínimo {min} caracteres"
+  },
+  "VALIDATION_NOTHING_TO_UPDATE": {
+    "status": 400,
+    "msg": "Debes enviar al menos un campo para actualizar"
+  },
+  "VALIDATION_INVALID_THEME": {
+    "status": 400,
+    "msg": "Tema inválido"
+  },
+  "VALIDATION_INVALID_FORMAT": {
+    "status": 400,
+    "msg": "Formato inválido: usa 'pdf' o 'xlsx'"
+  },
+  "VALIDATION_INVALID_MONTH": {
+    "status": 400,
+    "msg": "Mes inválido (1 a 12)"
+  },
+  "VALIDATION_INVALID_YEAR": {
+    "status": 400,
+    "msg": "Año inválido"
+  },
+  "VALIDATION_INVALID_UID": {
+    "status": 400,
+    "msg": "uid inválido"
+  },
+  "AUTH_USER_NOT_FOUND": {
+    "status": 404,
+    "msg": "Usuario no encontrado"
+  },
+  "AUTH_WRONG_PASSWORD": {
+    "status": 401,
+    "msg": "Contraseña incorrecta"
+  },
+  "AUTH_TOKEN_MISSING": {
+    "status": 401,
+    "msg": "Token no encontrado"
+  },
+  "AUTH_TOKEN_INVALID": {
+    "status": 401,
+    "msg": "Token inválido"
+  },
+  "SESION_CERRADA": {
+    "status": 401,
+    "msg": "Tu sesión ya no es válida. Inicia sesión de nuevo."
+  },
+  "SESION_REEMPLAZADA": {
+    "status": 401,
+    "msg": "Tu cuenta se abrió en otra ventana o dispositivo, por eso se cerró esta sesión."
+  },
+  "AUTH_SESSION_CHECK_FAILED": {
+    "status": 500,
+    "msg": "Error verificando la sesión"
+  },
+  "AUTH_FORBIDDEN_ADMIN_ONLY": {
+    "status": 403,
+    "msg": "Acceso solo para administradores"
+  },
+  "AUTH_ACCOUNT_DISABLED": {
+    "status": 403,
+    "msg": "Cuenta desactivada"
+  },
+  "AUTH_RESET_LINK_INVALID": {
+    "status": 400,
+    "msg": "El enlace es inválido o ha expirado"
+  },
+  "AUTH_GOOGLE_TOKEN_MISSING": {
+    "status": 400,
+    "msg": "Falta el token de Google"
+  },
+  "AUTH_GOOGLE_TOKEN_INVALID": {
+    "status": 401,
+    "msg": "Token de Google inválido o vencido"
+  },
+  "AUTH_GOOGLE_EMAIL_UNVERIFIED": {
+    "status": 401,
+    "msg": "Tu correo de Google no está verificado"
+  },
+  "AUTH_GOOGLE_NOT_CONFIGURED": {
+    "status": 503,
+    "msg": "Inicio con Google no configurado en el servidor"
+  },
+  "CONFLICT_EMAIL_TAKEN": {
+    "status": 409,
+    "msg": "El correo ya está registrado"
+  },
+  "CONFLICT_USERNAME_TAKEN": {
+    "status": 409,
+    "msg": "El username ya está en uso"
+  },
+  "NOT_FOUND_EXPENSE": {
+    "status": 404,
+    "msg": "Gasto no encontrado"
+  },
+  "NOT_FOUND_ROUTE": {
+    "status": 404,
+    "msg": "Ruta no encontrada"
+  },
+  "RATE_LIMIT_DAILY": {
+    "status": 429,
+    "msg": "Límite diario alcanzado ({limit} requests). Intenta mañana."
+  },
+  "EXTERNAL_RATE_FETCH_FAILED": {
+    "status": 500,
+    "msg": "Error consultando tasa de cambio"
+  },
+  "EXTERNAL_CONVERT_FAILED": {
+    "status": 500,
+    "msg": "Error convirtiendo moneda"
+  },
+  "VALIDATION_INVALID_FREQUENCY": {
+    "status": 400,
+    "msg": "Frecuencia inválida: usa semanal, mensual o anual"
+  },
+  "VALIDATION_INVALID_AMOUNT": {
+    "status": 400,
+    "msg": "El monto debe ser un número mayor que cero"
+  },
+  "VALIDATION_INVALID_DATE": {
+    "status": 400,
+    "msg": "Fecha inválida (usa AAAA-MM-DD)"
+  },
+  "VALIDATION_INVALID_TYPE": {
+    "status": 400,
+    "msg": "Tipo inválido: usa gasto o ingreso"
+  },
+  "NOT_FOUND_RECURRING": {
+    "status": 404,
+    "msg": "Gasto recurrente no encontrado"
+  },
+  "INTERNAL_ERROR": {
+    "status": 500,
+    "msg": "Error interno del servidor"
+  }
+}

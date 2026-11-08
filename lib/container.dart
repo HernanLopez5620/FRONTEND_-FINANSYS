@@ -35,6 +35,9 @@ import 'application/usecases/convert_currency_usecase.dart';
 import 'application/usecases/update_profile_usecase.dart';
 import 'infrastructure/api/compra_extranjera_api_adapter.dart';
 import 'application/usecases/compra_extranjera_usecase.dart';
+import 'infrastructure/api/gasto_recurrente_api_adapter.dart';
+import 'application/usecases/gasto_recurrente_usecases.dart';
+import 'application/usecases/recuperar_contrasena_usecases.dart';
 import 'application/usecases/update_tema_usecase.dart';
 import 'application/usecases/check_session_usecase.dart';
 import 'application/usecases/check_username_usecase.dart';
@@ -115,8 +118,27 @@ class Container {
   static final eliminarCompraUseCase =
       EliminarCompraUseCase(_compraExtranjeraPort);
 
+  // ── Gastos recurrentes ──
+  static final _gastoRecurrentePort = GastoRecurrenteApiAdapter(_http);
+  static final listarGastosRecurrentesUseCase =
+      ListarGastosRecurrentesUseCase(_gastoRecurrentePort);
+  static final crearGastoRecurrenteUseCase =
+      CrearGastoRecurrenteUseCase(_gastoRecurrentePort);
+  static final actualizarGastoRecurrenteUseCase =
+      ActualizarGastoRecurrenteUseCase(_gastoRecurrentePort);
+  static final eliminarGastoRecurrenteUseCase =
+      EliminarGastoRecurrenteUseCase(_gastoRecurrentePort);
+  static final procesarGastosRecurrentesUseCase =
+      ProcesarGastosRecurrentesUseCase(_gastoRecurrentePort);
+
   //-- Cambio de temas (claro, oscuro, opera gx)--
   static final updateTemaUseCase = UpdateTemaUseCase(_authPort);
+
+  // ── Recuperar contraseña ──
+  static final solicitarRecuperacionUseCase =
+      SolicitarRecuperacionUseCase(_authPort);
+  static final restablecerContrasenaUseCase =
+      RestablecerContrasenaUseCase(_authPort);
 
   // ── Exportación de reportes (PDF / Excel) ──
   static final _reporteExportPort = ReporteExportApiAdapter(_http);

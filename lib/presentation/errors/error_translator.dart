@@ -46,6 +46,11 @@ class ErrorTranslator {
     'EXTERNAL_RATE_FETCH_FAILED',
     'EXTERNAL_CONVERT_FAILED',
     'INTERNAL_ERROR',
+    'VALIDATION_INVALID_FREQUENCY',
+    'VALIDATION_INVALID_AMOUNT',
+    'VALIDATION_INVALID_DATE',
+    'VALIDATION_INVALID_TYPE',
+    'NOT_FOUND_RECURRING',
     'NETWORK_ERROR',
   };
 
@@ -128,6 +133,16 @@ class ErrorTranslator {
         return l.errExternalConvertFailed;
       case 'INTERNAL_ERROR':
         return l.errInternalError;
+      case 'VALIDATION_INVALID_FREQUENCY':
+        return l.errValidationInvalidFrequency;
+      case 'VALIDATION_INVALID_AMOUNT':
+        return l.errValidationInvalidAmount;
+      case 'VALIDATION_INVALID_DATE':
+        return l.errValidationInvalidDate;
+      case 'VALIDATION_INVALID_TYPE':
+        return l.errValidationInvalidType;
+      case 'NOT_FOUND_RECURRING':
+        return l.errNotFoundRecurring;
       case 'NETWORK_ERROR':
         return l.errNetwork;
     }

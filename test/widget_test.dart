@@ -5,12 +5,13 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:finansys/main.dart';
+import 'package:finansys/presentation/providers/idioma_provider.dart';
 
 void main() {
   testWidgets('FinanSysApp se construye correctamente', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const FinanSysApp());
+    await tester.pumpWidget(FinanSysApp(idioma: IdiomaProvider()));
 
     // Permite que se complete el primer ciclo de construcción
     // de la aplicación y sus providers.

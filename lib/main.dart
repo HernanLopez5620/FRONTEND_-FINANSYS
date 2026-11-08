@@ -12,6 +12,8 @@ import 'presentation/providers/categoria_provider.dart';
 import 'presentation/providers/presupuesto_provider.dart';
 import 'presentation/providers/divisa_provider.dart';
 import 'presentation/providers/compra_extranjera_provider.dart';
+import 'presentation/providers/gasto_recurrente_provider.dart';
+import 'presentation/pages/recuperar_contrasena.dart';
 import 'presentation/providers/tema_provider.dart';
 import 'presentation/pages/auth_page.dart';
 import 'presentation/pages/dashboard_page.dart';
@@ -59,6 +61,7 @@ class FinanSysApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => PresupuestoProvider()),
         ChangeNotifierProvider(create: (_) => DivisaProvider()),
         ChangeNotifierProvider(create: (_) => CompraExtranjeraProvider()),
+        ChangeNotifierProvider(create: (_) => GastoRecurrenteProvider()),
         // Aquí se agregó el provider de inactividad
         ChangeNotifierProvider(create: (_) => InactividadProvider()),
         ChangeNotifierProvider(create: (_) => AdminProvider()),
@@ -98,10 +101,29 @@ class _AuthGate extends StatefulWidget {
 class _AuthGateState extends State<_AuthGate> {
   bool _checking = true;
 
+  /// Token del enlace del correo (.../reset-password?token=XXXX). Null si no se abrió ese enlace.
+  String? _resetToken;
+
   @override
   void initState() {
     super.initState();
+    _resetToken = _tokenDeRecuperacion();
     _checkAuth();
+  }
+
+  /// Lee el token tanto de la URL normal (/reset-password?token=..)
+  /// como de la forma con # (#/reset-password?token=..).
+  static String? _tokenDeRecuperacion() {
+    final uri = Uri.base;
+    if (uri.path.endsWith('/reset-password')) {
+      final t = uri.queryParameters['token'];
+      if (t != null && t.isNotEmpty) return t;
+    }
+    if (uri.fragment.startsWith('/reset-password')) {
+      final t = Uri.tryParse(uri.fragment)?.queryParameters['token'];
+      if (t != null && t.isNotEmpty) return t;
+    }
+    return null;
   }
 
   Future<void> _checkAuth() async {
@@ -137,6 +159,12 @@ class _AuthGateState extends State<_AuthGate> {
             ],
           ),
         ),
+      );
+    }
+    if (_resetToken != null) {
+      return ResetPasswordPage(
+        token: _resetToken!,
+        onDone: () => setState(() => _resetToken = null),
       );
     }
     return Consumer<AuthProvider>(
