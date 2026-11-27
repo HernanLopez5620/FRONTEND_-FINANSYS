@@ -749,7 +749,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get gastoFormCategory => 'Categoría';
 
   @override
-  String get gastoFormNoCategories => 'Sin categorías para este tipo';
+  String get gastoFormNoCategories =>
+      'No tienes categorías de este tipo. Ve a Categorías (menú de abajo) y crea una de gasto o de ingreso para poder registrarlo.';
 
   @override
   String get gastoFormUpdate => 'Actualizar';
@@ -1237,4 +1238,252 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get resetBackToLogin => 'Volver al inicio de sesión';
+
+  @override
+  String get budgetAlertsTitle => 'Alertas de presupuesto';
+
+  @override
+  String budgetAlertWarn(String categoria, int pct) {
+    return 'Presupuesto de $categoria: llevas el $pct %';
+  }
+
+  @override
+  String budgetAlertOver(String categoria, int pct) {
+    return 'Superaste tu presupuesto de $categoria ($pct %)';
+  }
+
+  @override
+  String get errNotFoundGoal => 'Meta de ahorro no encontrada';
+
+  @override
+  String get errNotFoundContribution => 'Movimiento de la meta no encontrado';
+
+  @override
+  String get errGoalInsufficientFunds =>
+      'El retiro supera lo ahorrado en la meta';
+
+  @override
+  String get goalsTitle => 'Metas de ahorro';
+
+  @override
+  String get goalsAccessSubtitle => 'Ahorra para eso que quieres lograr';
+
+  @override
+  String get goalsNew => 'Nueva meta';
+
+  @override
+  String get goalsEdit => 'Editar meta';
+
+  @override
+  String get goalsEmptyTitle => 'Aún no tienes metas';
+
+  @override
+  String get goalsEmptySubtitle =>
+      'Crea una meta, como un viaje o un fondo de emergencia, y ve sumando aportes.';
+
+  @override
+  String get goalsIcon => 'Ícono';
+
+  @override
+  String get goalsName => 'Nombre de la meta';
+
+  @override
+  String get goalsTarget => 'Monto objetivo';
+
+  @override
+  String goalsDeadline(String date) {
+    return 'Fecha límite: $date';
+  }
+
+  @override
+  String get goalsNoDeadline => 'Sin fecha límite';
+
+  @override
+  String get goalsClearDeadline => 'Quitar fecha límite';
+
+  @override
+  String get goalsInvalidForm => 'Escribe un nombre y un monto mayor que cero';
+
+  @override
+  String goalsProgress(String saved, String target, int pct) {
+    return '$saved de $target · $pct %';
+  }
+
+  @override
+  String get goalsCompleted => '¡Meta cumplida!';
+
+  @override
+  String get goalsOverdue => 'El plazo ya venció';
+
+  @override
+  String goalsSuggested(String amount) {
+    return 'Ahorra $amount al mes para llegar a tiempo';
+  }
+
+  @override
+  String get goalsDeposit => 'Aportar';
+
+  @override
+  String get goalsWithdraw => 'Retirar';
+
+  @override
+  String goalsDepositTitle(String name) {
+    return 'Aportar a $name';
+  }
+
+  @override
+  String goalsWithdrawTitle(String name) {
+    return 'Retirar de $name';
+  }
+
+  @override
+  String get goalsAmount => 'Monto';
+
+  @override
+  String get goalsNote => 'Nota (opcional)';
+
+  @override
+  String get goalsHistory => 'Historial';
+
+  @override
+  String get goalsHistoryEmpty => 'Aún no hay movimientos';
+
+  @override
+  String get goalsContribution => 'Aporte';
+
+  @override
+  String get goalsWithdrawal => 'Retiro';
+
+  @override
+  String goalsDeleteConfirm(String name) {
+    return '¿Eliminar la meta \"$name\"? Su historial también se borrará.';
+  }
+
+  @override
+  String get goalsDeleteMovementConfirm => '¿Eliminar este movimiento?';
+
+  @override
+  String get errImportInvalidFile =>
+      'No se pudo leer el archivo. Usa un .csv o un .xlsx válido (máximo 4 MB)';
+
+  @override
+  String errImportMissingColumns(String columns) {
+    return 'Faltan columnas obligatorias: $columns';
+  }
+
+  @override
+  String get errImportNoRows => 'El archivo no tiene filas para importar';
+
+  @override
+  String errImportTooManyRows(int max) {
+    return 'El archivo tiene demasiadas filas (máximo $max)';
+  }
+
+  @override
+  String get errImportInvalidCategory =>
+      'Una de las filas tiene una categoría que no existe';
+
+  @override
+  String get importTitle => 'Importar movimientos';
+
+  @override
+  String get importOpenButton => 'Importar desde CSV o Excel';
+
+  @override
+  String get importIntro =>
+      'Sube un archivo .csv o .xlsx (hasta 4 MB y 2000 filas). La primera fila debe tener los nombres de las columnas.';
+
+  @override
+  String get importColumns =>
+      'Columnas: fecha y monto son indispensables. También puedes incluir categoria (el nombre de una de tus categorías), descripcion y tipo (gasto o ingreso; si falta, se toma como gasto).';
+
+  @override
+  String get importTemplate => 'Descargar plantilla';
+
+  @override
+  String get importPick => 'Elegir archivo';
+
+  @override
+  String get importPickAnother => 'Elegir otro archivo';
+
+  @override
+  String importSummaryReady(int n) {
+    return '$n listas';
+  }
+
+  @override
+  String importSummaryErrors(int n) {
+    return '$n con errores';
+  }
+
+  @override
+  String importSummaryDuplicates(int n) {
+    return '$n duplicadas';
+  }
+
+  @override
+  String importUnmatched(String names) {
+    return 'Categorías del archivo que no coinciden con las tuyas: $names';
+  }
+
+  @override
+  String get importFallbackLabel => 'Usar esta categoría para ellas';
+
+  @override
+  String get importFallbackNone => 'No importar esas filas';
+
+  @override
+  String importIncludeDuplicates(int n) {
+    return 'Incluir las duplicadas ($n)';
+  }
+
+  @override
+  String importConfirm(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Importar $n movimientos',
+      one: 'Importar 1 movimiento',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importDone(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Se importaron $n movimientos',
+      one: 'Se importó 1 movimiento',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importMoreRows(int n) {
+    return 'y $n filas más';
+  }
+
+  @override
+  String importRowLabel(int n) {
+    return 'Fila $n';
+  }
+
+  @override
+  String get importDuplicateTag => 'Duplicada';
+
+  @override
+  String get importErrInvalidDate => 'fecha inválida';
+
+  @override
+  String get importErrFutureDate => 'fecha futura';
+
+  @override
+  String get importErrInvalidAmount => 'monto inválido';
+
+  @override
+  String get importErrInvalidType => 'tipo inválido';
+
+  @override
+  String get importErrUnknownCategory => 'categoría no encontrada';
 }

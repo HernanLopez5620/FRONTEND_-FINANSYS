@@ -9,6 +9,7 @@ import '../components/ui/app_spinner.dart';
 import '../components/ui/app_empty_state.dart';
 import '../components/modals/gasto_form_modal.dart';
 import 'gastos_recurrentes_page.dart';
+import 'importar_page.dart';
 
 class GastosPage extends StatefulWidget {
   const GastosPage({super.key});
@@ -86,6 +87,15 @@ class _GastosPageState extends State<GastosPage> {
                         builder: (_) => const GastosRecurrentesPage()),
                   ),
                   icon: const Icon(Icons.repeat_rounded),
+                ),
+                IconButton(
+                  tooltip: context.l10n.importOpenButton,
+                  onPressed: () async {
+                    await Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const ImportarPage()),
+                    );
+                  },
+                  icon: const Icon(Icons.upload_file_rounded),
                 ),
               ],
             ),

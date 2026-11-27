@@ -7,6 +7,7 @@ import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
 import 'app_localizations_es.dart';
+import 'app_localizations_pt.dart';
 
 // ignore_for_file: type=lint
 
@@ -95,7 +96,8 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
-    Locale('es')
+    Locale('es'),
+    Locale('pt')
   ];
 
   /// No description provided for @commonCancel.
@@ -1493,7 +1495,7 @@ abstract class AppLocalizations {
   /// No description provided for @gastoFormNoCategories.
   ///
   /// In es, this message translates to:
-  /// **'Sin categorías para este tipo'**
+  /// **'No tienes categorías de este tipo. Ve a Categorías (menú de abajo) y crea una de gasto o de ingreso para poder registrarlo.'**
   String get gastoFormNoCategories;
 
   /// No description provided for @gastoFormUpdate.
@@ -2353,6 +2355,390 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Volver al inicio de sesión'**
   String get resetBackToLogin;
+
+  /// No description provided for @budgetAlertsTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Alertas de presupuesto'**
+  String get budgetAlertsTitle;
+
+  /// No description provided for @budgetAlertWarn.
+  ///
+  /// In es, this message translates to:
+  /// **'Presupuesto de {categoria}: llevas el {pct} %'**
+  String budgetAlertWarn(String categoria, int pct);
+
+  /// No description provided for @budgetAlertOver.
+  ///
+  /// In es, this message translates to:
+  /// **'Superaste tu presupuesto de {categoria} ({pct} %)'**
+  String budgetAlertOver(String categoria, int pct);
+
+  /// No description provided for @errNotFoundGoal.
+  ///
+  /// In es, this message translates to:
+  /// **'Meta de ahorro no encontrada'**
+  String get errNotFoundGoal;
+
+  /// No description provided for @errNotFoundContribution.
+  ///
+  /// In es, this message translates to:
+  /// **'Movimiento de la meta no encontrado'**
+  String get errNotFoundContribution;
+
+  /// No description provided for @errGoalInsufficientFunds.
+  ///
+  /// In es, this message translates to:
+  /// **'El retiro supera lo ahorrado en la meta'**
+  String get errGoalInsufficientFunds;
+
+  /// No description provided for @goalsTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Metas de ahorro'**
+  String get goalsTitle;
+
+  /// No description provided for @goalsAccessSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Ahorra para eso que quieres lograr'**
+  String get goalsAccessSubtitle;
+
+  /// No description provided for @goalsNew.
+  ///
+  /// In es, this message translates to:
+  /// **'Nueva meta'**
+  String get goalsNew;
+
+  /// No description provided for @goalsEdit.
+  ///
+  /// In es, this message translates to:
+  /// **'Editar meta'**
+  String get goalsEdit;
+
+  /// No description provided for @goalsEmptyTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Aún no tienes metas'**
+  String get goalsEmptyTitle;
+
+  /// No description provided for @goalsEmptySubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Crea una meta, como un viaje o un fondo de emergencia, y ve sumando aportes.'**
+  String get goalsEmptySubtitle;
+
+  /// No description provided for @goalsIcon.
+  ///
+  /// In es, this message translates to:
+  /// **'Ícono'**
+  String get goalsIcon;
+
+  /// No description provided for @goalsName.
+  ///
+  /// In es, this message translates to:
+  /// **'Nombre de la meta'**
+  String get goalsName;
+
+  /// No description provided for @goalsTarget.
+  ///
+  /// In es, this message translates to:
+  /// **'Monto objetivo'**
+  String get goalsTarget;
+
+  /// No description provided for @goalsDeadline.
+  ///
+  /// In es, this message translates to:
+  /// **'Fecha límite: {date}'**
+  String goalsDeadline(String date);
+
+  /// No description provided for @goalsNoDeadline.
+  ///
+  /// In es, this message translates to:
+  /// **'Sin fecha límite'**
+  String get goalsNoDeadline;
+
+  /// No description provided for @goalsClearDeadline.
+  ///
+  /// In es, this message translates to:
+  /// **'Quitar fecha límite'**
+  String get goalsClearDeadline;
+
+  /// No description provided for @goalsInvalidForm.
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe un nombre y un monto mayor que cero'**
+  String get goalsInvalidForm;
+
+  /// No description provided for @goalsProgress.
+  ///
+  /// In es, this message translates to:
+  /// **'{saved} de {target} · {pct} %'**
+  String goalsProgress(String saved, String target, int pct);
+
+  /// No description provided for @goalsCompleted.
+  ///
+  /// In es, this message translates to:
+  /// **'¡Meta cumplida!'**
+  String get goalsCompleted;
+
+  /// No description provided for @goalsOverdue.
+  ///
+  /// In es, this message translates to:
+  /// **'El plazo ya venció'**
+  String get goalsOverdue;
+
+  /// No description provided for @goalsSuggested.
+  ///
+  /// In es, this message translates to:
+  /// **'Ahorra {amount} al mes para llegar a tiempo'**
+  String goalsSuggested(String amount);
+
+  /// No description provided for @goalsDeposit.
+  ///
+  /// In es, this message translates to:
+  /// **'Aportar'**
+  String get goalsDeposit;
+
+  /// No description provided for @goalsWithdraw.
+  ///
+  /// In es, this message translates to:
+  /// **'Retirar'**
+  String get goalsWithdraw;
+
+  /// No description provided for @goalsDepositTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Aportar a {name}'**
+  String goalsDepositTitle(String name);
+
+  /// No description provided for @goalsWithdrawTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Retirar de {name}'**
+  String goalsWithdrawTitle(String name);
+
+  /// No description provided for @goalsAmount.
+  ///
+  /// In es, this message translates to:
+  /// **'Monto'**
+  String get goalsAmount;
+
+  /// No description provided for @goalsNote.
+  ///
+  /// In es, this message translates to:
+  /// **'Nota (opcional)'**
+  String get goalsNote;
+
+  /// No description provided for @goalsHistory.
+  ///
+  /// In es, this message translates to:
+  /// **'Historial'**
+  String get goalsHistory;
+
+  /// No description provided for @goalsHistoryEmpty.
+  ///
+  /// In es, this message translates to:
+  /// **'Aún no hay movimientos'**
+  String get goalsHistoryEmpty;
+
+  /// No description provided for @goalsContribution.
+  ///
+  /// In es, this message translates to:
+  /// **'Aporte'**
+  String get goalsContribution;
+
+  /// No description provided for @goalsWithdrawal.
+  ///
+  /// In es, this message translates to:
+  /// **'Retiro'**
+  String get goalsWithdrawal;
+
+  /// No description provided for @goalsDeleteConfirm.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Eliminar la meta \"{name}\"? Su historial también se borrará.'**
+  String goalsDeleteConfirm(String name);
+
+  /// No description provided for @goalsDeleteMovementConfirm.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Eliminar este movimiento?'**
+  String get goalsDeleteMovementConfirm;
+
+  /// No description provided for @errImportInvalidFile.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo leer el archivo. Usa un .csv o un .xlsx válido (máximo 4 MB)'**
+  String get errImportInvalidFile;
+
+  /// No description provided for @errImportMissingColumns.
+  ///
+  /// In es, this message translates to:
+  /// **'Faltan columnas obligatorias: {columns}'**
+  String errImportMissingColumns(String columns);
+
+  /// No description provided for @errImportNoRows.
+  ///
+  /// In es, this message translates to:
+  /// **'El archivo no tiene filas para importar'**
+  String get errImportNoRows;
+
+  /// No description provided for @errImportTooManyRows.
+  ///
+  /// In es, this message translates to:
+  /// **'El archivo tiene demasiadas filas (máximo {max})'**
+  String errImportTooManyRows(int max);
+
+  /// No description provided for @errImportInvalidCategory.
+  ///
+  /// In es, this message translates to:
+  /// **'Una de las filas tiene una categoría que no existe'**
+  String get errImportInvalidCategory;
+
+  /// No description provided for @importTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Importar movimientos'**
+  String get importTitle;
+
+  /// No description provided for @importOpenButton.
+  ///
+  /// In es, this message translates to:
+  /// **'Importar desde CSV o Excel'**
+  String get importOpenButton;
+
+  /// No description provided for @importIntro.
+  ///
+  /// In es, this message translates to:
+  /// **'Sube un archivo .csv o .xlsx (hasta 4 MB y 2000 filas). La primera fila debe tener los nombres de las columnas.'**
+  String get importIntro;
+
+  /// No description provided for @importColumns.
+  ///
+  /// In es, this message translates to:
+  /// **'Columnas: fecha y monto son indispensables. También puedes incluir categoria (el nombre de una de tus categorías), descripcion y tipo (gasto o ingreso; si falta, se toma como gasto).'**
+  String get importColumns;
+
+  /// No description provided for @importTemplate.
+  ///
+  /// In es, this message translates to:
+  /// **'Descargar plantilla'**
+  String get importTemplate;
+
+  /// No description provided for @importPick.
+  ///
+  /// In es, this message translates to:
+  /// **'Elegir archivo'**
+  String get importPick;
+
+  /// No description provided for @importPickAnother.
+  ///
+  /// In es, this message translates to:
+  /// **'Elegir otro archivo'**
+  String get importPickAnother;
+
+  /// No description provided for @importSummaryReady.
+  ///
+  /// In es, this message translates to:
+  /// **'{n} listas'**
+  String importSummaryReady(int n);
+
+  /// No description provided for @importSummaryErrors.
+  ///
+  /// In es, this message translates to:
+  /// **'{n} con errores'**
+  String importSummaryErrors(int n);
+
+  /// No description provided for @importSummaryDuplicates.
+  ///
+  /// In es, this message translates to:
+  /// **'{n} duplicadas'**
+  String importSummaryDuplicates(int n);
+
+  /// No description provided for @importUnmatched.
+  ///
+  /// In es, this message translates to:
+  /// **'Categorías del archivo que no coinciden con las tuyas: {names}'**
+  String importUnmatched(String names);
+
+  /// No description provided for @importFallbackLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'Usar esta categoría para ellas'**
+  String get importFallbackLabel;
+
+  /// No description provided for @importFallbackNone.
+  ///
+  /// In es, this message translates to:
+  /// **'No importar esas filas'**
+  String get importFallbackNone;
+
+  /// No description provided for @importIncludeDuplicates.
+  ///
+  /// In es, this message translates to:
+  /// **'Incluir las duplicadas ({n})'**
+  String importIncludeDuplicates(int n);
+
+  /// No description provided for @importConfirm.
+  ///
+  /// In es, this message translates to:
+  /// **'{n, plural, =1{Importar 1 movimiento} other{Importar {n} movimientos}}'**
+  String importConfirm(int n);
+
+  /// No description provided for @importDone.
+  ///
+  /// In es, this message translates to:
+  /// **'{n, plural, =1{Se importó 1 movimiento} other{Se importaron {n} movimientos}}'**
+  String importDone(int n);
+
+  /// No description provided for @importMoreRows.
+  ///
+  /// In es, this message translates to:
+  /// **'y {n} filas más'**
+  String importMoreRows(int n);
+
+  /// No description provided for @importRowLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'Fila {n}'**
+  String importRowLabel(int n);
+
+  /// No description provided for @importDuplicateTag.
+  ///
+  /// In es, this message translates to:
+  /// **'Duplicada'**
+  String get importDuplicateTag;
+
+  /// No description provided for @importErrInvalidDate.
+  ///
+  /// In es, this message translates to:
+  /// **'fecha inválida'**
+  String get importErrInvalidDate;
+
+  /// No description provided for @importErrFutureDate.
+  ///
+  /// In es, this message translates to:
+  /// **'fecha futura'**
+  String get importErrFutureDate;
+
+  /// No description provided for @importErrInvalidAmount.
+  ///
+  /// In es, this message translates to:
+  /// **'monto inválido'**
+  String get importErrInvalidAmount;
+
+  /// No description provided for @importErrInvalidType.
+  ///
+  /// In es, this message translates to:
+  /// **'tipo inválido'**
+  String get importErrInvalidType;
+
+  /// No description provided for @importErrUnknownCategory.
+  ///
+  /// In es, this message translates to:
+  /// **'categoría no encontrada'**
+  String get importErrUnknownCategory;
 }
 
 class _AppLocalizationsDelegate
@@ -2366,7 +2752,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'es'].contains(locale.languageCode);
+      <String>['en', 'es', 'pt'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -2379,6 +2765,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsEn();
     case 'es':
       return AppLocalizationsEs();
+    case 'pt':
+      return AppLocalizationsPt();
   }
 
   throw FlutterError(

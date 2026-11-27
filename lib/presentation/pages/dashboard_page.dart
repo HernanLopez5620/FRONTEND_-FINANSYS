@@ -8,6 +8,7 @@ import '../providers/auth_provider.dart';
 import '../providers/gasto_provider.dart';
 import '../providers/categoria_provider.dart';
 import '../providers/gasto_recurrente_provider.dart';
+import '../providers/presupuesto_provider.dart';
 import '../providers/inactividad_provider.dart';
 import '../components/layout/app_header.dart';
 import '../components/layout/app_nav_bar.dart';
@@ -72,6 +73,7 @@ class _DashboardPageState extends State<DashboardPage> {
     await Future.wait([
       context.read<GastoProvider>().loadAll(),
       context.read<CategoriaProvider>().loadCategories(),
+      context.read<PresupuestoProvider>().loadAlertas(),
     ]);
   }
 
@@ -117,6 +119,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 resumen: gastoP.resumen,
                 selectedMonth: gastoP.selectedMonth,
                 username: auth.user?.username ?? '',
+                fotoUrl: auth.user?.fotoUrl,
                 onMonthChanged: (m) => gastoP.setMonth(m),
                 onLogout: _logout,
                 onVerPerfil: _verPerfil,
@@ -172,6 +175,7 @@ class _HomeTab extends StatelessWidget {
           : ListView(
               padding: const EdgeInsets.all(16),
               children: [
+                const _AlertasPresupuesto(),
                 if (gastoP.comparacion.isNotEmpty) ...[
                   AppCard(
                     child: Column(
@@ -338,6 +342,61 @@ class _GastoRow extends StatelessWidget {
               size: 16, color: cs.onSurface.withOpacity(0.4)),
         ),
       ]),
+    );
+  }
+}
+
+/// Banner con los presupuestos del mes que ya llegaron al 80 % o al 100 %.
+class _AlertasPresupuesto extends StatelessWidget {
+  const _AlertasPresupuesto();
+
+  @override
+  Widget build(BuildContext context) {
+    final alertas = context.watch<PresupuestoProvider>().alertas;
+    if (alertas.isEmpty) return const SizedBox.shrink();
+
+    final cs = Theme.of(context).colorScheme;
+    final hayExcedido = alertas.any((p) => p.nivel == 2);
+    final base =
+        hayExcedido ? const Color(0xFFD32F2F) : const Color(0xFFED6C02);
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: base.withValues(alpha: 0.10),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: base.withValues(alpha: 0.5), width: 1),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [
+              Icon(Icons.warning_amber_rounded, color: base, size: 20),
+              const SizedBox(width: 8),
+              Text(
+                context.l10n.budgetAlertsTitle,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: cs.onSurface,
+                ),
+              ),
+            ]),
+            const SizedBox(height: 8),
+            ...alertas.map(
+              (p) => Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text(
+                  '${p.icono} ${p.nivel == 2 ? context.l10n.budgetAlertOver(p.nombre, p.porcentajeEntero) : context.l10n.budgetAlertWarn(p.nombre, p.porcentajeEntero)}',
+                  style: TextStyle(fontSize: 13, color: cs.onSurface),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

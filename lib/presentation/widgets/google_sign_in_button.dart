@@ -108,7 +108,13 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
               ],
             ),
             const SizedBox(height: 14),
-            Center(child: web.renderButton()),
+            Center(
+              child: web.renderButton(
+                configuration: web.GSIButtonConfiguration(
+                  text: web.GSIButtonText.continueWith,
+                ),
+              ),
+            ),
             const SizedBox(height: 8),
             Text(
               context.l10n.authGoogleTermsNotice,

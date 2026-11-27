@@ -139,6 +139,38 @@
     "status": 404,
     "msg": "Gasto recurrente no encontrado"
   },
+  "NOT_FOUND_GOAL": {
+    "status": 404,
+    "msg": "Meta de ahorro no encontrada"
+  },
+  "NOT_FOUND_CONTRIBUTION": {
+    "status": 404,
+    "msg": "Movimiento de la meta no encontrado"
+  },
+  "GOAL_INSUFFICIENT_FUNDS": {
+    "status": 400,
+    "msg": "El retiro supera lo ahorrado en la meta"
+  },
+  "IMPORT_INVALID_FILE": {
+    "status": 400,
+    "msg": "No se pudo leer el archivo. Usa un .csv o un .xlsx válido (máximo 4 MB)"
+  },
+  "IMPORT_MISSING_COLUMNS": {
+    "status": 400,
+    "msg": "Faltan columnas obligatorias: {columns}"
+  },
+  "IMPORT_NO_ROWS": {
+    "status": 400,
+    "msg": "El archivo no tiene filas para importar"
+  },
+  "IMPORT_TOO_MANY_ROWS": {
+    "status": 400,
+    "msg": "El archivo tiene demasiadas filas (máximo {max})"
+  },
+  "IMPORT_INVALID_CATEGORY": {
+    "status": 400,
+    "msg": "Una de las filas tiene una categoría que no existe"
+  },
   "INTERNAL_ERROR": {
     "status": 500,
     "msg": "Error interno del servidor"

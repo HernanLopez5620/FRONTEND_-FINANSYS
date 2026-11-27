@@ -37,6 +37,10 @@ import 'infrastructure/api/compra_extranjera_api_adapter.dart';
 import 'application/usecases/compra_extranjera_usecase.dart';
 import 'infrastructure/api/gasto_recurrente_api_adapter.dart';
 import 'application/usecases/gasto_recurrente_usecases.dart';
+import 'infrastructure/api/meta_ahorro_api_adapter.dart';
+import 'application/usecases/meta_ahorro_usecases.dart';
+import 'infrastructure/api/importacion_api_adapter.dart';
+import 'application/usecases/importacion_usecases.dart';
 import 'application/usecases/recuperar_contrasena_usecases.dart';
 import 'application/usecases/update_tema_usecase.dart';
 import 'application/usecases/check_session_usecase.dart';
@@ -130,6 +134,26 @@ class Container {
       EliminarGastoRecurrenteUseCase(_gastoRecurrentePort);
   static final procesarGastosRecurrentesUseCase =
       ProcesarGastosRecurrentesUseCase(_gastoRecurrentePort);
+
+  // ── Metas de ahorro ──
+  static final _metaAhorroPort = MetaAhorroApiAdapter(_http);
+  static final listarMetasUseCase = ListarMetasUseCase(_metaAhorroPort);
+  static final crearMetaUseCase = CrearMetaUseCase(_metaAhorroPort);
+  static final actualizarMetaUseCase = ActualizarMetaUseCase(_metaAhorroPort);
+  static final eliminarMetaUseCase = EliminarMetaUseCase(_metaAhorroPort);
+  static final registrarAporteMetaUseCase =
+      RegistrarAporteMetaUseCase(_metaAhorroPort);
+  static final listarAportesMetaUseCase =
+      ListarAportesMetaUseCase(_metaAhorroPort);
+  static final eliminarAporteMetaUseCase =
+      EliminarAporteMetaUseCase(_metaAhorroPort);
+
+  // ── Importar CSV / Excel ──
+  static final _importacionPort = ImportacionApiAdapter(_http);
+  static final previsualizarImportacionUseCase =
+      PrevisualizarImportacionUseCase(_importacionPort);
+  static final confirmarImportacionUseCase =
+      ConfirmarImportacionUseCase(_importacionPort);
 
   //-- Cambio de temas (claro, oscuro, opera gx)--
   static final updateTemaUseCase = UpdateTemaUseCase(_authPort);

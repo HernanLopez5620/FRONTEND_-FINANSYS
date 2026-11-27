@@ -23,6 +23,7 @@ void main() {
   final catalog = _json('test/fixtures/error-codes.json');
   final es = _json('lib/l10n/app_es.arb');
   final en = _json('lib/l10n/app_en.arb');
+  final pt = _json('lib/l10n/app_pt.arb');
 
   test('ErrorTranslator soporta exactamente los códigos del catálogo', () {
     final soportados = ErrorTranslator.supportedCodes.toSet()
@@ -30,16 +31,18 @@ void main() {
     expect(soportados, catalog.keys.toSet());
   });
 
-  test('cada código tiene su clave en los ARB es y en', () {
+  test('cada código tiene su clave en los ARB es, en y pt', () {
     for (final code in catalog.keys) {
       expect(es.containsKey(_key(code)), isTrue,
           reason: 'app_es.arb: ${_key(code)}');
       expect(en.containsKey(_key(code)), isTrue,
           reason: 'app_en.arb: ${_key(code)}');
+      expect(pt.containsKey(_key(code)), isTrue,
+          reason: 'app_pt.arb: ${_key(code)}');
     }
   });
 
-  for (final lang in ['es', 'en']) {
+  for (final lang in ['es', 'en', 'pt']) {
     test('todos los códigos se traducen en $lang', () {
       final l = lookupAppLocalizations(Locale(lang));
       for (final code in catalog.keys) {
@@ -51,6 +54,13 @@ void main() {
       }
     });
   }
+
+  test('los ARB es, en y pt tienen exactamente las mismas claves', () {
+    Set<String> claves(Map<String, dynamic> m) =>
+        m.keys.where((k) => !k.startsWith('@')).toSet();
+    expect(claves(en), claves(es));
+    expect(claves(pt), claves(es));
+  });
 
   test('parámetros se interpolan', () {
     final l = lookupAppLocalizations(const Locale('en'));

@@ -13,6 +13,8 @@ import 'presentation/providers/presupuesto_provider.dart';
 import 'presentation/providers/divisa_provider.dart';
 import 'presentation/providers/compra_extranjera_provider.dart';
 import 'presentation/providers/gasto_recurrente_provider.dart';
+import 'presentation/providers/meta_ahorro_provider.dart';
+import 'presentation/providers/importacion_provider.dart';
 import 'presentation/pages/recuperar_contrasena.dart';
 import 'presentation/providers/tema_provider.dart';
 import 'presentation/pages/auth_page.dart';
@@ -62,6 +64,8 @@ class FinanSysApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => DivisaProvider()),
         ChangeNotifierProvider(create: (_) => CompraExtranjeraProvider()),
         ChangeNotifierProvider(create: (_) => GastoRecurrenteProvider()),
+        ChangeNotifierProvider(create: (_) => MetaAhorroProvider()),
+        ChangeNotifierProvider(create: (_) => ImportacionProvider()),
         // Aquí se agregó el provider de inactividad
         ChangeNotifierProvider(create: (_) => InactividadProvider()),
         ChangeNotifierProvider(create: (_) => AdminProvider()),

@@ -333,7 +333,7 @@
   "gastoFormAmount": "Monto",
   "gastoFormDescription": "Descripción (opcional)",
   "gastoFormCategory": "Categoría",
-  "gastoFormNoCategories": "Sin categorías para este tipo",
+  "gastoFormNoCategories": "No tienes categorías de este tipo. Ve a Categorías (menú de abajo) y crea una de gasto o de ingreso para poder registrarlo.",
   "gastoFormUpdate": "Actualizar",
   "catFormTitle": "Nueva categoría",
   "catFormName": "Nombre",
@@ -525,5 +525,214 @@
   "resetConfirm": "Confirmar contraseña",
   "resetSave": "Guardar contraseña",
   "resetSuccess": "Contraseña actualizada. Ya puedes iniciar sesión.",
-  "resetBackToLogin": "Volver al inicio de sesión"
+  "resetBackToLogin": "Volver al inicio de sesión",
+  "budgetAlertsTitle": "Alertas de presupuesto",
+  "budgetAlertWarn": "Presupuesto de {categoria}: llevas el {pct} %",
+  "@budgetAlertWarn": {
+    "placeholders": {
+      "categoria": {
+        "type": "String"
+      },
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
+  "budgetAlertOver": "Superaste tu presupuesto de {categoria} ({pct} %)",
+  "@budgetAlertOver": {
+    "placeholders": {
+      "categoria": {
+        "type": "String"
+      },
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
+  "errNotFoundGoal": "Meta de ahorro no encontrada",
+  "errNotFoundContribution": "Movimiento de la meta no encontrado",
+  "errGoalInsufficientFunds": "El retiro supera lo ahorrado en la meta",
+  "goalsTitle": "Metas de ahorro",
+  "goalsAccessSubtitle": "Ahorra para eso que quieres lograr",
+  "goalsNew": "Nueva meta",
+  "goalsEdit": "Editar meta",
+  "goalsEmptyTitle": "Aún no tienes metas",
+  "goalsEmptySubtitle": "Crea una meta, como un viaje o un fondo de emergencia, y ve sumando aportes.",
+  "goalsIcon": "Ícono",
+  "goalsName": "Nombre de la meta",
+  "goalsTarget": "Monto objetivo",
+  "goalsDeadline": "Fecha límite: {date}",
+  "@goalsDeadline": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsNoDeadline": "Sin fecha límite",
+  "goalsClearDeadline": "Quitar fecha límite",
+  "goalsInvalidForm": "Escribe un nombre y un monto mayor que cero",
+  "goalsProgress": "{saved} de {target} · {pct} %",
+  "@goalsProgress": {
+    "placeholders": {
+      "saved": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      },
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
+  "goalsCompleted": "¡Meta cumplida!",
+  "goalsOverdue": "El plazo ya venció",
+  "goalsSuggested": "Ahorra {amount} al mes para llegar a tiempo",
+  "@goalsSuggested": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsDeposit": "Aportar",
+  "goalsWithdraw": "Retirar",
+  "goalsDepositTitle": "Aportar a {name}",
+  "@goalsDepositTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsWithdrawTitle": "Retirar de {name}",
+  "@goalsWithdrawTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsAmount": "Monto",
+  "goalsNote": "Nota (opcional)",
+  "goalsHistory": "Historial",
+  "goalsHistoryEmpty": "Aún no hay movimientos",
+  "goalsContribution": "Aporte",
+  "goalsWithdrawal": "Retiro",
+  "goalsDeleteConfirm": "¿Eliminar la meta \"{name}\"? Su historial también se borrará.",
+  "@goalsDeleteConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsDeleteMovementConfirm": "¿Eliminar este movimiento?",
+  "errImportInvalidFile": "No se pudo leer el archivo. Usa un .csv o un .xlsx válido (máximo 4 MB)",
+  "errImportMissingColumns": "Faltan columnas obligatorias: {columns}",
+  "@errImportMissingColumns": {
+    "placeholders": {
+      "columns": {
+        "type": "String"
+      }
+    }
+  },
+  "errImportNoRows": "El archivo no tiene filas para importar",
+  "errImportTooManyRows": "El archivo tiene demasiadas filas (máximo {max})",
+  "@errImportTooManyRows": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "errImportInvalidCategory": "Una de las filas tiene una categoría que no existe",
+  "importTitle": "Importar movimientos",
+  "importOpenButton": "Importar desde CSV o Excel",
+  "importIntro": "Sube un archivo .csv o .xlsx (hasta 4 MB y 2000 filas). La primera fila debe tener los nombres de las columnas.",
+  "importColumns": "Columnas: fecha y monto son indispensables. También puedes incluir categoria (el nombre de una de tus categorías), descripcion y tipo (gasto o ingreso; si falta, se toma como gasto).",
+  "importTemplate": "Descargar plantilla",
+  "importPick": "Elegir archivo",
+  "importPickAnother": "Elegir otro archivo",
+  "importSummaryReady": "{n} listas",
+  "@importSummaryReady": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importSummaryErrors": "{n} con errores",
+  "@importSummaryErrors": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importSummaryDuplicates": "{n} duplicadas",
+  "@importSummaryDuplicates": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importUnmatched": "Categorías del archivo que no coinciden con las tuyas: {names}",
+  "@importUnmatched": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "importFallbackLabel": "Usar esta categoría para ellas",
+  "importFallbackNone": "No importar esas filas",
+  "importIncludeDuplicates": "Incluir las duplicadas ({n})",
+  "@importIncludeDuplicates": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importConfirm": "{n, plural, =1{Importar 1 movimiento} other{Importar {n} movimientos}}",
+  "@importConfirm": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importDone": "{n, plural, =1{Se importó 1 movimiento} other{Se importaron {n} movimientos}}",
+  "@importDone": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importMoreRows": "y {n} filas más",
+  "@importMoreRows": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importRowLabel": "Fila {n}",
+  "@importRowLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importDuplicateTag": "Duplicada",
+  "importErrInvalidDate": "fecha inválida",
+  "importErrFutureDate": "fecha futura",
+  "importErrInvalidAmount": "monto inválido",
+  "importErrInvalidType": "tipo inválido",
+  "importErrUnknownCategory": "categoría no encontrada"
 }

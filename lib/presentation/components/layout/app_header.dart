@@ -9,6 +9,7 @@ class AppHeader extends StatelessWidget {
   final ResumenMesEntity? resumen;
   final DateTime selectedMonth;
   final String username;
+  final String? fotoUrl;
   final ValueChanged<DateTime> onMonthChanged;
   final VoidCallback onLogout;
   final VoidCallback? onVerPerfil;
@@ -19,6 +20,7 @@ class AppHeader extends StatelessWidget {
     required this.resumen,
     required this.selectedMonth,
     required this.username,
+    this.fotoUrl,
     required this.onMonthChanged,
     required this.onLogout,
     this.onVerPerfil,
@@ -143,6 +145,13 @@ class AppHeader extends StatelessWidget {
               child: CircleAvatar(
                 radius: 17,
                 backgroundColor: onHeader.withOpacity(0.2),
+                // Si hay foto se muestra encima; si falla al cargar, queda la inicial
+                foregroundImage: (fotoUrl != null && fotoUrl!.isNotEmpty)
+                    ? NetworkImage(fotoUrl!)
+                    : null,
+                onForegroundImageError: (fotoUrl != null && fotoUrl!.isNotEmpty)
+                    ? (_, __) {}
+                    : null,
                 child: Text(
                   username.isNotEmpty ? username[0].toUpperCase() : 'U',
                   style: TextStyle(

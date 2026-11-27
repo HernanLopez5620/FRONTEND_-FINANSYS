@@ -6,10 +6,19 @@ import 'package:intl/intl.dart';
 class Formatters {
   Formatters._();
 
-  /// Idioma activo ('es' o 'en'). Lo actualiza IdiomaProvider al cambiar de idioma.
+  /// Idioma activo ('es', 'en' o 'pt'). Lo actualiza IdiomaProvider al cambiar de idioma.
   static String idioma = 'es';
 
-  static String get _localeMoneda => idioma == 'en' ? 'en_US' : 'es_CO';
+  static String get _localeMoneda {
+    switch (idioma) {
+      case 'en':
+        return 'en_US';
+      case 'pt':
+        return 'pt_BR';
+      default:
+        return 'es_CO';
+    }
+  }
 
   // ── Moneda COP completa ──
   static String toCurrency(double amount) {

@@ -10,6 +10,7 @@ import '../components/ui/app_spinner.dart';
 import '../components/ui/app_empty_state.dart';
 import '../components/charts/budget_bar_widget.dart';
 import '../components/modals/presupuesto_form_modal.dart';
+import 'metas_ahorro_page.dart';
 
 class PresupuestosPage extends StatefulWidget {
   const PresupuestosPage({super.key});
@@ -56,46 +57,100 @@ class _PresupuestosPageState extends State<PresupuestosPage> {
         backgroundColor: cs.primary, // ← Dinámico
         child: Icon(Icons.add_rounded, color: cs.onPrimary),
       ),
-      body: presuP.loading
-          ? const AppSpinner()
-          : presuP.presupuestos.isEmpty
-              ? AppEmptyState(
-                  icon: Icons.savings_outlined,
-                  title: context.l10n.budgetEmptyTitle,
-                  subtitle: context.l10n.budgetEmptySubtitle,
-                  actionLabel: context.l10n.budgetCreate,
-                  onAction: _showAdd,
-                )
-              : ListView(
-                  padding: const EdgeInsets.all(16),
-                  children: [
-                    Container(
+      body: Column(children: [
+        const _AccesoMetas(),
+        Expanded(
+          child: presuP.loading
+              ? const AppSpinner()
+              : presuP.presupuestos.isEmpty
+                  ? AppEmptyState(
+                      icon: Icons.savings_outlined,
+                      title: context.l10n.budgetEmptyTitle,
+                      subtitle: context.l10n.budgetEmptySubtitle,
+                      actionLabel: context.l10n.budgetCreate,
+                      onAction: _showAdd,
+                    )
+                  : ListView(
                       padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: theme.cardColor, // ← Dinámico
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                            color: theme.dividerColor,
-                            width: 0.5), // ← Dinámico
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(context.l10n.budgetMonthTitle,
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  color: cs.onSurface)), // ← Dinámico
-                          const SizedBox(height: 16),
-                          ...presuP.presupuestos.map(
-                            (p) => BudgetBarWidget(item: p),
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: theme.cardColor, // ← Dinámico
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(
+                                color: theme.dividerColor,
+                                width: 0.5), // ← Dinámico
                           ),
-                        ],
-                      ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(context.l10n.budgetMonthTitle,
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      color: cs.onSurface)), // ← Dinámico
+                              const SizedBox(height: 16),
+                              ...presuP.presupuestos.map(
+                                (p) => BudgetBarWidget(item: p),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 80),
+                      ],
                     ),
-                    const SizedBox(height: 80),
-                  ],
-                ),
+        ),
+      ]),
+    );
+  }
+}
+
+/// Acceso a las metas de ahorro, arriba de la lista de presupuestos.
+class _AccesoMetas extends StatelessWidget {
+  const _AccesoMetas();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+      child: Material(
+        color: theme.cardColor,
+        borderRadius: BorderRadius.circular(16),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => const MetasAhorroPage()),
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: theme.dividerColor, width: 0.5),
+            ),
+            child: Row(children: [
+              const Text('🎯', style: TextStyle(fontSize: 26)),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(context.l10n.goalsTitle,
+                          style: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w600)),
+                      const SizedBox(height: 2),
+                      Text(context.l10n.goalsAccessSubtitle,
+                          style: TextStyle(
+                              fontSize: 12, color: cs.onSurfaceVariant)),
+                    ]),
+              ),
+              Icon(Icons.chevron_right_rounded, color: cs.onSurfaceVariant),
+            ]),
+          ),
+        ),
+      ),
     );
   }
 }

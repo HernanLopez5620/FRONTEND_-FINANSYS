@@ -184,8 +184,12 @@ class _AuthPageState extends State<AuthPage>
                       ),
                     ),
                     const SizedBox(height: 36),
-                    SizedBox(
-                      height: 490,
+                    AnimatedBuilder(
+                      animation: _tabCtrl,
+                      builder: (_, child) => SizedBox(
+                        height: _tabCtrl.index == 0 ? 330 : 490,
+                        child: child,
+                      ),
                       child: TabBarView(
                         controller: _tabCtrl,
                         children: const [
@@ -194,6 +198,11 @@ class _AuthPageState extends State<AuthPage>
                         ],
                       ),
                     ),
+                    // Un solo botón de Google para ambas pestañas: sirve para
+                    // iniciar sesión y para crear la cuenta si no existe.
+                    const SizedBox(height: 8),
+                    const GoogleSignInButton(),
+                    const SizedBox(height: 24),
                   ],
                 ),
               ),
@@ -317,8 +326,6 @@ class _LoginFormState extends State<_LoginForm> {
                   : Text(context.l10n.authLoginButton),
             ),
           ),
-          const SizedBox(height: 20),
-          const GoogleSignInButton(),
         ],
       ),
     );

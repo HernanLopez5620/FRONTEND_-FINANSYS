@@ -749,7 +749,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get gastoFormCategory => 'Category';
 
   @override
-  String get gastoFormNoCategories => 'No categories for this type';
+  String get gastoFormNoCategories =>
+      'You have no categories of this type. Go to Categories (bottom menu) and create an expense or income one to be able to save it.';
 
   @override
   String get gastoFormUpdate => 'Update';
@@ -1234,4 +1235,252 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get resetBackToLogin => 'Back to sign in';
+
+  @override
+  String get budgetAlertsTitle => 'Budget alerts';
+
+  @override
+  String budgetAlertWarn(String categoria, int pct) {
+    return '$categoria budget: you have used $pct%';
+  }
+
+  @override
+  String budgetAlertOver(String categoria, int pct) {
+    return 'You went over your $categoria budget ($pct%)';
+  }
+
+  @override
+  String get errNotFoundGoal => 'Savings goal not found';
+
+  @override
+  String get errNotFoundContribution => 'Goal movement not found';
+
+  @override
+  String get errGoalInsufficientFunds =>
+      'The withdrawal is more than what is saved in the goal';
+
+  @override
+  String get goalsTitle => 'Savings goals';
+
+  @override
+  String get goalsAccessSubtitle => 'Save for what you want to achieve';
+
+  @override
+  String get goalsNew => 'New goal';
+
+  @override
+  String get goalsEdit => 'Edit goal';
+
+  @override
+  String get goalsEmptyTitle => 'No goals yet';
+
+  @override
+  String get goalsEmptySubtitle =>
+      'Create a goal, like a trip or an emergency fund, and keep adding contributions.';
+
+  @override
+  String get goalsIcon => 'Icon';
+
+  @override
+  String get goalsName => 'Goal name';
+
+  @override
+  String get goalsTarget => 'Target amount';
+
+  @override
+  String goalsDeadline(String date) {
+    return 'Deadline: $date';
+  }
+
+  @override
+  String get goalsNoDeadline => 'No deadline';
+
+  @override
+  String get goalsClearDeadline => 'Remove deadline';
+
+  @override
+  String get goalsInvalidForm => 'Enter a name and an amount greater than zero';
+
+  @override
+  String goalsProgress(String saved, String target, int pct) {
+    return '$saved of $target · $pct%';
+  }
+
+  @override
+  String get goalsCompleted => 'Goal reached!';
+
+  @override
+  String get goalsOverdue => 'The deadline has passed';
+
+  @override
+  String goalsSuggested(String amount) {
+    return 'Save $amount a month to get there on time';
+  }
+
+  @override
+  String get goalsDeposit => 'Add';
+
+  @override
+  String get goalsWithdraw => 'Withdraw';
+
+  @override
+  String goalsDepositTitle(String name) {
+    return 'Add to $name';
+  }
+
+  @override
+  String goalsWithdrawTitle(String name) {
+    return 'Withdraw from $name';
+  }
+
+  @override
+  String get goalsAmount => 'Amount';
+
+  @override
+  String get goalsNote => 'Note (optional)';
+
+  @override
+  String get goalsHistory => 'History';
+
+  @override
+  String get goalsHistoryEmpty => 'No movements yet';
+
+  @override
+  String get goalsContribution => 'Deposit';
+
+  @override
+  String get goalsWithdrawal => 'Withdrawal';
+
+  @override
+  String goalsDeleteConfirm(String name) {
+    return 'Delete the goal \"$name\"? Its history will be deleted too.';
+  }
+
+  @override
+  String get goalsDeleteMovementConfirm => 'Delete this movement?';
+
+  @override
+  String get errImportInvalidFile =>
+      'The file could not be read. Use a valid .csv or .xlsx (4 MB maximum)';
+
+  @override
+  String errImportMissingColumns(String columns) {
+    return 'Required columns are missing: $columns';
+  }
+
+  @override
+  String get errImportNoRows => 'The file has no rows to import';
+
+  @override
+  String errImportTooManyRows(int max) {
+    return 'The file has too many rows ($max maximum)';
+  }
+
+  @override
+  String get errImportInvalidCategory =>
+      'One of the rows has a category that does not exist';
+
+  @override
+  String get importTitle => 'Import transactions';
+
+  @override
+  String get importOpenButton => 'Import from CSV or Excel';
+
+  @override
+  String get importIntro =>
+      'Upload a .csv or .xlsx file (up to 4 MB and 2000 rows). The first row must contain the column names.';
+
+  @override
+  String get importColumns =>
+      'Columns: date and amount are required. You can also include category (the name of one of your categories), description and type (expense or income; if missing, it is treated as an expense). Headers can be in English or Spanish (fecha, monto, categoria, descripcion, tipo).';
+
+  @override
+  String get importTemplate => 'Download template';
+
+  @override
+  String get importPick => 'Choose file';
+
+  @override
+  String get importPickAnother => 'Choose another file';
+
+  @override
+  String importSummaryReady(int n) {
+    return '$n ready';
+  }
+
+  @override
+  String importSummaryErrors(int n) {
+    return '$n with errors';
+  }
+
+  @override
+  String importSummaryDuplicates(int n) {
+    return '$n duplicates';
+  }
+
+  @override
+  String importUnmatched(String names) {
+    return 'Categories in the file that do not match yours: $names';
+  }
+
+  @override
+  String get importFallbackLabel => 'Use this category for them';
+
+  @override
+  String get importFallbackNone => 'Skip those rows';
+
+  @override
+  String importIncludeDuplicates(int n) {
+    return 'Include duplicates ($n)';
+  }
+
+  @override
+  String importConfirm(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Import $n transactions',
+      one: 'Import 1 transaction',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importDone(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n transactions imported',
+      one: '1 transaction imported',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importMoreRows(int n) {
+    return 'and $n more rows';
+  }
+
+  @override
+  String importRowLabel(int n) {
+    return 'Row $n';
+  }
+
+  @override
+  String get importDuplicateTag => 'Duplicate';
+
+  @override
+  String get importErrInvalidDate => 'invalid date';
+
+  @override
+  String get importErrFutureDate => 'future date';
+
+  @override
+  String get importErrInvalidAmount => 'invalid amount';
+
+  @override
+  String get importErrInvalidType => 'invalid type';
+
+  @override
+  String get importErrUnknownCategory => 'category not found';
 }

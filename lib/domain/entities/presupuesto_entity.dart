@@ -23,6 +23,15 @@ class PresupuestoEntity {
 
   bool get overBudget => gastado > montoLimite;
 
+  /// Proporción real gastado/límite (puede pasar de 1.0).
+  double get ratio => montoLimite > 0 ? gastado / montoLimite : 0;
+
+  /// Porcentaje usado, redondeado hacia abajo (ej. 84.9 % -> 84).
+  int get porcentajeEntero => (ratio * 100).floor();
+
+  /// 0 = normal, 1 = aviso (desde 80 %), 2 = superado (desde 100 %).
+  int get nivel => ratio >= 1 ? 2 : (ratio >= 0.8 ? 1 : 0);
+
   factory PresupuestoEntity.fromJson(Map<String, dynamic> json) {
     return PresupuestoEntity(
       id: json['id'] ?? 0,

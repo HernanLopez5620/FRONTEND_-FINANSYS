@@ -51,6 +51,14 @@ class ErrorTranslator {
     'VALIDATION_INVALID_DATE',
     'VALIDATION_INVALID_TYPE',
     'NOT_FOUND_RECURRING',
+    'NOT_FOUND_GOAL',
+    'NOT_FOUND_CONTRIBUTION',
+    'GOAL_INSUFFICIENT_FUNDS',
+    'IMPORT_INVALID_FILE',
+    'IMPORT_MISSING_COLUMNS',
+    'IMPORT_NO_ROWS',
+    'IMPORT_TOO_MANY_ROWS',
+    'IMPORT_INVALID_CATEGORY',
     'NETWORK_ERROR',
   };
 
@@ -143,6 +151,22 @@ class ErrorTranslator {
         return l.errValidationInvalidType;
       case 'NOT_FOUND_RECURRING':
         return l.errNotFoundRecurring;
+      case 'NOT_FOUND_GOAL':
+        return l.errNotFoundGoal;
+      case 'NOT_FOUND_CONTRIBUTION':
+        return l.errNotFoundContribution;
+      case 'GOAL_INSUFFICIENT_FUNDS':
+        return l.errGoalInsufficientFunds;
+      case 'IMPORT_INVALID_FILE':
+        return l.errImportInvalidFile;
+      case 'IMPORT_MISSING_COLUMNS':
+        return l.errImportMissingColumns(_s(params['columns']));
+      case 'IMPORT_NO_ROWS':
+        return l.errImportNoRows;
+      case 'IMPORT_TOO_MANY_ROWS':
+        return l.errImportTooManyRows(_i(params['max']));
+      case 'IMPORT_INVALID_CATEGORY':
+        return l.errImportInvalidCategory;
       case 'NETWORK_ERROR':
         return l.errNetwork;
     }

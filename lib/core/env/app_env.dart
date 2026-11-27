@@ -19,7 +19,8 @@ class AppEnv {
   // No es secreto. Si queda vacío, el botón "Continuar con Google" no se muestra.
   static const String googleClientId = String.fromEnvironment(
     'GOOGLE_CLIENT_ID',
-    defaultValue: '',
+    defaultValue:
+        '843348241713-c7364gkf41kckeis2uh8mi59uakb45va.apps.googleusercontent.com',
   );
 
   static const String appName = String.fromEnvironment(

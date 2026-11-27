@@ -12,6 +12,7 @@ class UserEntity {
   final String tema; // ← nuevo
   final String rol; // 'usuario' o 'admin'
   final DateTime? createdAt;
+  final String? fotoUrl; // foto de perfil (la de Google), o null
 
   const UserEntity({
     required this.uid,
@@ -22,6 +23,7 @@ class UserEntity {
     this.tema = 'claro', // ← nuevo
     this.rol = 'usuario',
     this.createdAt,
+    this.fotoUrl,
   });
 
   bool get esAdmin => rol == 'admin';
@@ -38,6 +40,7 @@ class UserEntity {
       createdAt: json['created_at'] != null
           ? DateTime.tryParse(json['created_at'])
           : null,
+      fotoUrl: json['foto_url'] as String?,
     );
   }
 
@@ -48,5 +51,6 @@ class UserEntity {
         'username': username,
         'tema': tema,
         'rol': rol,
+        'foto_url': fotoUrl,
       };
 }

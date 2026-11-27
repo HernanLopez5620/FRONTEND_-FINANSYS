@@ -1,0 +1,738 @@
+{
+  "@@locale": "pt",
+  "commonCancel": "Cancelar",
+  "commonSave": "Salvar",
+  "commonDelete": "Excluir",
+  "commonEdit": "Editar",
+  "commonAccept": "Aceitar",
+  "commonClose": "Fechar",
+  "commonRetry": "Tentar novamente",
+  "commonContinue": "Continuar",
+  "commonSearch": "Buscar",
+  "commonLoading": "Carregando...",
+  "commonYes": "Sim",
+  "commonNo": "Não",
+  "appTitle": "FinanSys",
+  "dashRegister": "Registrar",
+  "dashMonthlyComparison": "Comparação mensal",
+  "dashExpensesByCategory": "Despesas por categoria",
+  "dashLatestMovements": "Últimas movimentações",
+  "dashSeeAll": "Ver todas",
+  "dashNoMovementsMonth": "Sem movimentações neste mês",
+  "dashTapPlusFirst": "Toque em + para registrar a primeira",
+  "gastosFilterAll": "Todos",
+  "gastosFilterExpenses": "Despesas",
+  "gastosFilterIncome": "Receitas",
+  "gastosEmptyTitle": "Sem movimentações",
+  "gastosEmptySubtitle": "Toque em + para registrar uma",
+  "gastosDeleteTitle": "Excluir movimentação",
+  "gastosDeleteConfirm": "Tem certeza de que deseja excluir \"{name}\"?",
+  "@gastosDeleteConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "gastosThisMovement": "esta movimentação",
+  "catEmptyTitle": "Sem categorias",
+  "catEmptySubtitle": "Crie a sua primeira categoria",
+  "catCreate": "Criar categoria",
+  "budgetEmptyTitle": "Sem orçamentos",
+  "budgetEmptySubtitle": "Defina limites por categoria",
+  "budgetCreate": "Criar orçamento",
+  "budgetMonthTitle": "Orçamento do mês",
+  "headerViewProfile": "Ver perfil",
+  "headerAdmin": "Administração",
+  "headerLogout": "Sair",
+  "headerLogoutConfirm": "Tem certeza de que deseja sair?",
+  "headerDebtWarning": "Você tem dívidas neste mês",
+  "headerBalanceAvailable": "Saldo disponível",
+  "headerIncome": "Receitas",
+  "headerExpenses": "Despesas",
+  "headerSavings": "Poupança",
+  "navHome": "Início",
+  "navMovements": "Movimentações",
+  "navReports": "Relatórios",
+  "navCategories": "Categorias",
+  "navBudgets": "Orçamentos",
+  "navCurrencies": "Moedas",
+  "authLoginTab": "Entrar",
+  "authRegisterTab": "Cadastrar-se",
+  "authTagline": "Suas finanças sob controle",
+  "authLoginError": "Erro ao entrar",
+  "authEmailOrUser": "E-mail ou usuário",
+  "authEmailOrUserRequired": "Informe seu e-mail ou usuário",
+  "authPassword": "Senha",
+  "authPasswordRequired": "Informe sua senha",
+  "authLoginButton": "Entrar",
+  "authUsernameHint": "Somente letras, números e _ (3 a 20 caracteres)",
+  "authMustAcceptTerms": "Você deve aceitar os Termos e a Política de Dados",
+  "authUsernameUnavailable": "O nome de usuário não está disponível",
+  "authRegisterError": "Erro ao cadastrar",
+  "authFullName": "Nome completo",
+  "authNameRequired": "Informe seu nome",
+  "authUsernameLabel": "Usuário (ex.: JuanCa123)",
+  "authUsernameRequired": "Informe um usuário",
+  "authEmail": "E-mail",
+  "authEmailInvalid": "E-mail inválido",
+  "authPasswordMin": "Mínimo de 6 caracteres",
+  "authConfirmPassword": "Confirmar senha",
+  "authPasswordsMismatch": "As senhas não coincidem",
+  "authAcceptPrefix": "Li e aceito os ",
+  "authTermsLink": "Termos e Condições",
+  "authAuthorizePrefix": "Autorizo o ",
+  "authPersonalDataLink": "Tratamento dos meus Dados Pessoais",
+  "authRegisterButton": "Cadastrar",
+  "authGoogleLoginError": "Não foi possível entrar com o Google",
+  "authGoogleLoadError": "Não foi possível carregar o login com o Google",
+  "authOr": "ou",
+  "authGoogleTermsNotice": "Ao continuar com o Google, você aceita os Termos e a Política de Dados do FinanSys.",
+  "sessionReplacedNotice": "Sua conta foi aberta em outra janela ou dispositivo, por isso esta sessão foi encerrada.",
+  "sessionInvalidNotice": "Sua sessão não é mais válida. Entre novamente.",
+  "sessionStillThereTitle": "Você ainda está aí?",
+  "sessionWillCloseIn": "Sua sessão será encerrada por inatividade em:",
+  "sessionContinueButton": "Continuar sessão",
+  "sessionClosedTitle": "Sessão encerrada",
+  "sessionClosedInactivity": "Sua sessão foi encerrada por inatividade.",
+  "sessionCanLoginIn": "Você poderá entrar em:",
+  "sessionSecondsShort": "{segundos}s",
+  "@sessionSecondsShort": {
+    "placeholders": {
+      "segundos": {
+        "type": "int"
+      }
+    }
+  },
+  "sessionWaitSecurityNotice": "Por segurança, você deve aguardar antes de entrar novamente.",
+  "profileTitle": "Meu perfil",
+  "profileUpdated": "Perfil atualizado",
+  "profileUpdateError": "Não foi possível atualizar o perfil",
+  "profileAccountActive": "✅ Conta ativa",
+  "profileAccountInactive": "❌ Conta inativa",
+  "profileMemberSince": "Membro desde {fecha}",
+  "@profileMemberSince": {
+    "placeholders": {
+      "fecha": {
+        "type": "String"
+      }
+    }
+  },
+  "profilePersonalData": "Dados pessoais",
+  "profileUsername": "Usuário",
+  "profileUsernameRequired": "Informe um nome de usuário",
+  "profileChangePasswordOptional": "Alterar senha (opcional)",
+  "profileNewPassword": "Nova senha",
+  "profileSaveChanges": "Salvar alterações",
+  "profileAppearance": "Aparência",
+  "profileThemeLight": "Claro",
+  "profileThemeDark": "Escuro",
+  "profileThemeGamer": "Gamer",
+  "profileMyData": "Meus dados",
+  "profileBackupDescription": "Baixe uma cópia dos seus dados (perfil, categorias, movimentações, orçamentos e compras no exterior) em um arquivo JSON. Não inclui senhas.",
+  "profileBackupDownloaded": "Cópia de segurança baixada",
+  "profileBackupError": "Não foi possível baixar a cópia",
+  "profileBackupGenerating": "Gerando...",
+  "profileBackupDownload": "Baixar meus dados",
+  "profileLegalInfo": "Informações legais",
+  "profileDataPolicy": "Política de tratamento de dados",
+  "profileLanguage": "Idioma",
+  "adminTitle": "Administração",
+  "adminRefreshTooltip": "Atualizar",
+  "adminTabSummary": "Resumo",
+  "adminTabUsers": "Usuários",
+  "adminTabActivity": "Atividade",
+  "adminSummaryLoadError": "Não foi possível carregar o resumo",
+  "adminStatUsers": "Usuários cadastrados",
+  "adminStatSessions": "Sessões abertas",
+  "adminStatNew7d": "Novos (7 dias)",
+  "adminStatActive24h": "Ativos (24 h)",
+  "adminStatRequests24h": "Requisições (24 h)",
+  "adminStatErrors24h": "Erros (24 h)",
+  "adminSecurityNote": "Por segurança, este painel nunca mostra senhas.",
+  "adminNoUsersFound": "Nenhum usuário encontrado",
+  "adminSearchHint": "Buscar por nome, usuário ou e-mail",
+  "adminUserCount": "{count, plural, =1{1 usuário} other{{count} usuários}}",
+  "@adminUserCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminAdminBadge": "Admin",
+  "adminOnline": "Online",
+  "adminActionsUnit": "ações",
+  "adminNoActivityYet": "Sem atividade",
+  "adminAgoNow": "Agora mesmo",
+  "adminAgoMinutes": "Há {n} min",
+  "@adminAgoMinutes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "adminAgoHours": "Há {n} h",
+  "@adminAgoHours": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "adminAgoDays": "Há {n} d",
+  "@adminAgoDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "adminDetailUser": "Usuário",
+  "adminDetailEmail": "E-mail",
+  "adminDetailRole": "Função",
+  "adminRoleAdmin": "Administrador",
+  "adminRoleUser": "Usuário",
+  "adminDetailRegistered": "Cadastrado",
+  "adminDetailStatus": "Status",
+  "adminDetailSession": "Sessão",
+  "adminSessionOpen": "Aberta",
+  "adminSessionClosed": "Encerrada",
+  "adminDetailActions": "Ações",
+  "adminActionsRegistered": "{count} registradas",
+  "@adminActionsRegistered": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminFilterAll": "Todos",
+  "adminFilterOnlyErrors": "Somente erros",
+  "adminNoActivityRecorded": "Sem atividade registrada",
+  "adminLoadMore": "Carregar mais ({shown} de {total})",
+  "@adminLoadMore": {
+    "placeholders": {
+      "shown": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "adminTotalRecords": "{total} registros no total",
+  "@adminTotalRecords": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "adminLogAnonymous": "Sem sessão (anônimo)",
+  "logLoginFailed": "Tentativa de login malsucedida",
+  "logLoginOk": "Entrou na conta",
+  "logRegisterFailed": "Cadastro malsucedido",
+  "logRegisterOk": "Criou a sua conta",
+  "logLogout": "Saiu da conta",
+  "logProfileView": "Consultou o seu perfil",
+  "logProfileUpdate": "Atualizou o seu perfil",
+  "logThemeChange": "Alterou o tema",
+  "logCheckUsername": "Verificou um nome de usuário",
+  "logForgotPassword": "Pediu para redefinir a sua senha",
+  "logResetPassword": "Redefiniu a sua senha",
+  "logUsersList": "Consultou a lista de usuários",
+  "logAdminPanel": "Consultou o painel de administração",
+  "logMovementCreate": "Registrou uma movimentação",
+  "logMovementEdit": "Editou uma movimentação",
+  "logMovementDelete": "Excluiu uma movimentação",
+  "logReportPdf": "Baixou um relatório em PDF",
+  "logReportExcel": "Baixou um relatório em Excel",
+  "logReportDownload": "Baixou um relatório",
+  "logReportsView": "Consultou relatórios",
+  "logMovementsView": "Consultou as suas movimentações",
+  "logCategoryCreate": "Criou uma categoria",
+  "logCategoryEdit": "Editou uma categoria",
+  "logCategoryDelete": "Excluiu uma categoria",
+  "logCategoriesView": "Consultou as suas categorias",
+  "logBudgetSave": "Salvou um orçamento",
+  "logBudgetEdit": "Editou um orçamento",
+  "logBudgetDelete": "Excluiu um orçamento",
+  "logBudgetsView": "Consultou os seus orçamentos",
+  "logForeignSave": "Salvou uma compra no exterior",
+  "logForeignDelete": "Excluiu uma compra no exterior",
+  "logForeignView": "Consultou as suas compras no exterior",
+  "logRatesView": "Consultou taxas de câmbio",
+  "logWithError": "{base} (com erro)",
+  "@logWithError": {
+    "placeholders": {
+      "base": {
+        "type": "String"
+      }
+    }
+  },
+  "divisasFillNameFirst": "Preencha o nome e faça uma conversão primeiro",
+  "divisasSaved": "✅ Compra salva",
+  "divisasSaveError": "❌ Erro ao salvar",
+  "divisasCalcTitle": "Calculadora de moedas",
+  "divisasAutoUpdate": "O resultado é atualizado automaticamente",
+  "divisasFrom": "De",
+  "divisasAmount": "Valor",
+  "divisasTo": "Para",
+  "divisasPurchaseNameLabel": "Nome da compra (ex.: Camiseta Nike)",
+  "divisasSavePurchase": "Salvar compra",
+  "divisasSavedTitle": "Compras salvas",
+  "divisasEmpty": "Sem compras salvas",
+  "divisasDeleteTitle": "Excluir compra",
+  "divisasDeleteConfirm": "Tem certeza de que deseja excluir \"{nombre}\"?",
+  "@divisasDeleteConfirm": {
+    "placeholders": {
+      "nombre": {
+        "type": "String"
+      }
+    }
+  },
+  "reportTabByCategory": "Por categoria",
+  "reportTabMonthly": "Mensal",
+  "reportDistribution": "Distribuição das despesas",
+  "reportNoDataMonth": "Sem dados neste mês",
+  "reportDetailByCategory": "Detalhe por categoria",
+  "reportIncomeVsExpenses": "Receitas vs. Despesas",
+  "reportNoData": "Sem dados",
+  "reportMonthlyComparison": "Comparativo mensal",
+  "reportIncome": "Receitas",
+  "reportExpenses": "Despesas",
+  "reportBalance": "Saldo",
+  "reportDownloaded": "Relatório baixado ({formato})",
+  "@reportDownloaded": {
+    "placeholders": {
+      "formato": {
+        "type": "String"
+      }
+    }
+  },
+  "reportExportFailed": "Não foi possível exportar o relatório",
+  "reportExportTooltip": "Exportar relatório",
+  "reportOfMonth": "Relatório de {mes}",
+  "@reportOfMonth": {
+    "placeholders": {
+      "mes": {
+        "type": "String"
+      }
+    }
+  },
+  "reportDownloadPdf": "Baixar PDF",
+  "reportDownloadExcel": "Baixar Excel",
+  "reportFilePrefix": "FinanSys_relatorio",
+  "gastoFormSelectCategory": "Selecione uma categoria",
+  "gastoFormEdit": "Editar movimentação",
+  "gastoFormNew": "Nova movimentação",
+  "gastoFormTabExpense": "Despesa",
+  "gastoFormTabIncome": "Receita",
+  "gastoFormAmount": "Valor",
+  "gastoFormDescription": "Descrição (opcional)",
+  "gastoFormCategory": "Categoria",
+  "gastoFormNoCategories": "Você não tem categorias deste tipo. Vá em Categorias (menu inferior) e crie uma de despesa ou de receita para poder registrá-lo.",
+  "gastoFormUpdate": "Atualizar",
+  "catFormTitle": "Nova categoria",
+  "catFormName": "Nome",
+  "catFormType": "Tipo",
+  "catFormTypeExpense": "despesa",
+  "catFormTypeIncome": "receita",
+  "catFormIcon": "Ícone",
+  "catFormColor": "Cor",
+  "catFormCreate": "Criar categoria",
+  "budgetFormTitle": "Novo orçamento",
+  "budgetFormCategory": "Categoria",
+  "budgetFormLimit": "Valor limite",
+  "budgetFormSave": "Salvar orçamento",
+  "chartIncome": "Receitas",
+  "chartExpenses": "Despesas",
+  "chartNoDataMonth": "Sem dados neste mês",
+  "chartTotalMonth": "Total neste mês",
+  "legalTermsSection1Title": "Aceitação dos Termos",
+  "legalTermsSection1Body": "Ao criar uma conta no FinanSys, você concorda em ficar vinculado a estes Termos e Condições. Se não concordar com alguma parte destes termos, não poderá acessar o serviço.",
+  "legalTermsSection2Title": "Descrição do Serviço",
+  "legalTermsSection2Body": "O FinanSys é um aplicativo de gestão de finanças pessoais que permite registrar receitas, despesas e orçamentos e realizar conversões de moedas. O serviço é fornecido \"no estado em que se encontra\" e pode ser modificado ou descontinuado a qualquer momento.",
+  "legalTermsSection3Title": "Cadastro e Conta de Usuário",
+  "legalTermsSection3Body": "Para usar o FinanSys, você deve criar uma conta fornecendo informações verdadeiras e atualizadas. Você é responsável por manter a confidencialidade da sua senha e por todas as atividades realizadas na sua conta. Você deve nos notificar imediatamente sobre qualquer uso não autorizado.",
+  "legalTermsSection4Title": "Privacidade e Tratamento de Dados",
+  "legalTermsSection4Body": "Coletamos e processamos os seus dados pessoais de acordo com a nossa Política de Privacidade. Os seus dados financeiros são privados e não serão compartilhados com terceiros sem o seu consentimento explícito, salvo exigência legal. As senhas são armazenadas criptografadas e nunca em texto simples.",
+  "legalTermsSection5Title": "Uso Aceitável",
+  "legalTermsSection5Body": "Você se compromete a usar o FinanSys apenas para fins legítimos e pessoais. É proibido: tentar acessar contas de outros usuários, realizar engenharia reversa do sistema, usar o serviço para atividades ilegais ou tentar comprometer a segurança da plataforma.",
+  "legalTermsSection6Title": "Limitação de Responsabilidade",
+  "legalTermsSection6Body": "O FinanSys não se responsabiliza por decisões financeiras tomadas com base nas informações exibidas no aplicativo. As informações de taxas de câmbio são referenciais e podem variar. Não garantimos a disponibilidade contínua do serviço.",
+  "legalTermsSection7Title": "Propriedade Intelectual",
+  "legalTermsSection7Body": "Todo o conteúdo, design, código e funcionalidades do FinanSys são propriedade dos seus desenvolvedores. Não é permitido reproduzir, distribuir ou criar trabalhos derivados sem autorização expressa por escrito.",
+  "legalTermsSection8Title": "Modificações",
+  "legalTermsSection8Body": "Reservamo-nos o direito de modificar estes termos a qualquer momento. As alterações entrarão em vigor quando forem publicadas no aplicativo. O uso continuado do serviço após as alterações constitui aceitação dos novos termos.",
+  "legalTermsSection9Title": "Cancelamento da Conta",
+  "legalTermsSection9Body": "Você pode cancelar a sua conta a qualquer momento. Ao fazê-lo, todos os seus dados serão excluídos permanentemente dos nossos servidores. Reservamo-nos o direito de suspender contas que violem estes termos.",
+  "legalTermsSection10Title": "Contato",
+  "legalTermsSection10Body": "Para dúvidas sobre estes Termos e Condições, você pode entrar em contato conosco pelo aplicativo. Faremos o nosso melhor para responder em um prazo razoável.",
+  "legalTermsAppBarTitle": "Termos e Condições",
+  "legalTermsTitle": "Termos e Condições de Uso",
+  "legalLastUpdated": "Última atualização: outubro de 2026",
+  "legalTermsFooterNote": "Ao criar uma conta no FinanSys, você confirma que leu, entendeu e aceitou estes Termos e Condições em sua totalidade.",
+  "legalTermsAcceptButton": "Entendi, aceito os termos",
+  "legalPrivacySection1Title": "Responsável pelo Tratamento",
+  "legalPrivacySection1Body": "O FinanSys, aplicativo de gestão de finanças pessoais desenvolvido como projeto acadêmico por estudantes da Universidad de Cundinamarca, é responsável pelo tratamento dos dados pessoais coletados por meio desta plataforma.",
+  "legalPrivacySection2Title": "Dados Pessoais Coletados",
+  "legalPrivacySection2Body": "Coletamos os seguintes dados pessoais:\n\n• Nome completo\n• Nome de usuário (username)\n• E-mail\n• Senha (armazenada em formato criptografado com bcrypt)\n• Informações financeiras: receitas, despesas, orçamentos e conversões de moedas registrados pelo usuário\n• Dados de atividade: data e hora de acesso, endereço IP",
+  "legalPrivacySection3Title": "Finalidade do Tratamento",
+  "legalPrivacySection3Body": "Os dados pessoais coletados são utilizados exclusivamente para:\n\n• Autenticação e acesso seguro à conta\n• Prestação do serviço de gestão financeira pessoal\n• Personalização da experiência do usuário\n• Monitoramento de segurança e detecção de acessos não autorizados\n• Melhoria contínua do serviço",
+  "legalPrivacySection4Title": "Direitos do Titular",
+  "legalPrivacySection4Body": "Como titular dos seus dados pessoais, você tem direito a:\n\n• Conhecer, atualizar e retificar os seus dados\n• Solicitar prova da autorização concedida\n• Ser informado sobre o uso dos seus dados\n• Revogar a autorização e solicitar a exclusão dos seus dados\n• Acessar gratuitamente os seus dados pessoais\n\nVocê pode exercer esses direitos diretamente nas configurações da sua conta.",
+  "legalPrivacySection5Title": "Segurança dos Dados",
+  "legalPrivacySection5Body": "Implementamos medidas técnicas e organizacionais para proteger os seus dados:\n\n• Senhas criptografadas com o algoritmo bcrypt (salt rounds: 10)\n• Autenticação por tokens JWT com expiração de 24 horas\n• Encerramento automático da sessão por inatividade\n• Registro de acessos e atividade para auditoria\n• Comunicação criptografada por HTTPS",
+  "legalPrivacySection6Title": "Compartilhamento de Dados",
+  "legalPrivacySection6Body": "Os seus dados pessoais NÃO serão vendidos, alugados nem compartilhados com terceiros para fins comerciais. Só poderão ser divulgados nos seguintes casos:\n\n• Por ordem judicial ou exigência de autoridade competente\n• Quando necessário para proteger os direitos de outros usuários\n• Com prestadores de serviços técnicos estritamente necessários para o funcionamento da plataforma, sob acordos de confidencialidade",
+  "legalPrivacySection7Title": "Retenção de Dados",
+  "legalPrivacySection7Body": "Os seus dados serão mantidos enquanto você tiver uma conta ativa no FinanSys. Ao excluir a sua conta, todos os seus dados pessoais e financeiros serão excluídos permanentemente dos nossos servidores em um prazo máximo de 30 dias.",
+  "legalPrivacySection8Title": "Cookies e Armazenamento Local",
+  "legalPrivacySection8Body": "O FinanSys utiliza o armazenamento local do navegador (localStorage) exclusivamente para manter a sessão do usuário por meio de um token de autenticação. Não utilizamos cookies de rastreamento nem de publicidade.",
+  "legalPrivacySection9Title": "Transferências Internacionais",
+  "legalPrivacySection9Body": "Os dados são armazenados em servidores locais ou em serviços de nuvem sediados em jurisdições que possuem padrões adequados de proteção de dados. Não realizamos transferências internacionais de dados sem as garantias adequadas.",
+  "legalPrivacySection10Title": "Alterações na Política",
+  "legalPrivacySection10Body": "Reservamo-nos o direito de atualizar esta política. As alterações serão notificadas por meio do aplicativo. O uso continuado do serviço após a notificação implica a aceitação da nova política.",
+  "legalPrivacyAppBarTitle": "Política de Tratamento de Dados",
+  "legalPrivacyTitle": "Política de Tratamento de Dados Pessoais",
+  "legalPrivacyIntro": "Em conformidade com a Lei 1581 de 2012 e o Decreto 1377 de 2013 da República da Colômbia, o FinanSys informa a sua política de tratamento de dados pessoais.",
+  "legalPrivacyFooterNote": "Ao usar o FinanSys, você autoriza o tratamento dos seus dados pessoais de acordo com esta política, em cumprimento à Lei 1581 de 2012.",
+  "legalPrivacyAcceptButton": "Entendi",
+  "errValidationMissingFields": "Faltam dados obrigatórios: {fields}",
+  "@errValidationMissingFields": {
+    "placeholders": {
+      "fields": {
+        "type": "String"
+      }
+    }
+  },
+  "errValidationUsernameFormat": "Usuário inválido: somente letras, números e _ (3 a 20 caracteres)",
+  "errValidationPasswordMin": "A senha deve ter no mínimo {min} caracteres",
+  "@errValidationPasswordMin": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "errValidationNothingToUpdate": "Envie pelo menos um campo para atualizar",
+  "errValidationInvalidTheme": "Tema inválido",
+  "errValidationInvalidFormat": "Formato inválido: use PDF ou Excel",
+  "errValidationInvalidMonth": "Mês inválido (1 a 12)",
+  "errValidationInvalidYear": "Ano inválido",
+  "errValidationInvalidUid": "Identificador de usuário inválido",
+  "errAuthUserNotFound": "Usuário não encontrado",
+  "errAuthWrongPassword": "Senha incorreta",
+  "errAuthTokenMissing": "Você não entrou na conta",
+  "errAuthTokenInvalid": "Sua sessão não é válida. Entre novamente.",
+  "errSesionCerrada": "Sua sessão não é mais válida. Entre novamente.",
+  "errSesionReemplazada": "Sua conta foi aberta em outra janela ou dispositivo, por isso esta sessão foi encerrada.",
+  "errAuthSessionCheckFailed": "Não foi possível verificar a sessão",
+  "errAuthForbiddenAdminOnly": "Acesso somente para administradores",
+  "errAuthAccountDisabled": "Conta desativada",
+  "errAuthResetLinkInvalid": "O link é inválido ou expirou",
+  "errAuthGoogleTokenMissing": "Falta o token do Google",
+  "errAuthGoogleTokenInvalid": "Token do Google inválido ou expirado",
+  "errAuthGoogleEmailUnverified": "O seu e-mail do Google não está verificado",
+  "errAuthGoogleNotConfigured": "O login com o Google não está configurado no servidor",
+  "errConflictEmailTaken": "O e-mail já está cadastrado",
+  "errConflictUsernameTaken": "O nome de usuário já está em uso",
+  "errNotFoundExpense": "Despesa não encontrada",
+  "errNotFoundRoute": "Recurso não encontrado",
+  "errRateLimitDaily": "Limite diário atingido ({limit} solicitações). Tente amanhã.",
+  "@errRateLimitDaily": {
+    "placeholders": {
+      "limit": {
+        "type": "int"
+      }
+    }
+  },
+  "errExternalRateFetchFailed": "Erro ao consultar a taxa de câmbio",
+  "errExternalConvertFailed": "Erro ao converter a moeda",
+  "errInternalError": "Erro interno do servidor",
+  "errNetwork": "Sem conexão. Verifique se o servidor está em execução.",
+  "errUnknown": "Ocorreu um erro inesperado",
+  "authUsernameAvailable": "Usuário disponível",
+  "errValidationInvalidFrequency": "Frequência inválida: use semanal, mensal ou anual",
+  "errValidationInvalidAmount": "O valor deve ser um número maior que zero",
+  "errValidationInvalidDate": "Data inválida",
+  "errValidationInvalidType": "Tipo inválido: use despesa ou receita",
+  "errNotFoundRecurring": "Despesa recorrente não encontrada",
+  "recurTitle": "Despesas recorrentes",
+  "recurOpenButton": "Recorrentes",
+  "recurNew": "Nova recorrente",
+  "recurEdit": "Editar recorrente",
+  "recurEmptyTitle": "Sem despesas recorrentes",
+  "recurEmptySubtitle": "Registre o seu aluguel, assinaturas ou salário uma única vez e eles se repetirão sozinhos",
+  "recurFreqWeekly": "Semanal",
+  "recurFreqMonthly": "Mensal",
+  "recurFreqYearly": "Anual",
+  "recurNext": "Próxima: {date}",
+  "@recurNext": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "recurEnds": "Até {date}",
+  "@recurEnds": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "recurPaused": "Pausada",
+  "recurPause": "Pausar",
+  "recurResume": "Retomar",
+  "recurAmount": "Valor",
+  "recurDescription": "Descrição (ex.: Aluguel)",
+  "recurCategory": "Categoria",
+  "recurFrequency": "Frequência",
+  "recurStartDate": "Data de início",
+  "recurEndDate": "Data final (opcional)",
+  "recurNoEnd": "Sem data final",
+  "recurClearEnd": "Remover data final",
+  "recurDeleteConfirm": "Excluir \"{name}\"? As movimentações já registradas são mantidas.",
+  "@recurDeleteConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "recurInvalidForm": "Revise o valor e a categoria",
+  "recurGenerated": "{count, plural, =1{1 movimentação pendente foi registrada} other{{count} movimentações pendentes foram registradas}}",
+  "@recurGenerated": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "authForgotLink": "Esqueceu a sua senha?",
+  "forgotTitle": "Recuperar senha",
+  "forgotIntro": "Informe o seu e-mail e enviaremos um link para criar uma nova senha.",
+  "forgotEmailLabel": "E-mail",
+  "forgotSend": "Enviar link",
+  "forgotSent": "Se o e-mail estiver cadastrado, você receberá um link em alguns minutos. Verifique também a pasta de spam.",
+  "resetTitle": "Nova senha",
+  "resetNewPassword": "Nova senha",
+  "resetConfirm": "Confirmar senha",
+  "resetSave": "Salvar senha",
+  "resetSuccess": "Senha atualizada. Agora você já pode entrar.",
+  "resetBackToLogin": "Voltar para o login",
+  "budgetAlertsTitle": "Alertas de orçamento",
+  "budgetAlertWarn": "Orçamento de {categoria}: você usou {pct} %",
+  "@budgetAlertWarn": {
+    "placeholders": {
+      "categoria": {
+        "type": "String"
+      },
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
+  "budgetAlertOver": "Você ultrapassou o orçamento de {categoria} ({pct} %)",
+  "@budgetAlertOver": {
+    "placeholders": {
+      "categoria": {
+        "type": "String"
+      },
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
+  "errNotFoundGoal": "Meta de poupança não encontrada",
+  "errNotFoundContribution": "Movimentação da meta não encontrada",
+  "errGoalInsufficientFunds": "A retirada é maior do que o valor poupado na meta",
+  "goalsTitle": "Metas de poupança",
+  "goalsAccessSubtitle": "Poupe para aquilo que você quer alcançar",
+  "goalsNew": "Nova meta",
+  "goalsEdit": "Editar meta",
+  "goalsEmptyTitle": "Você ainda não tem metas",
+  "goalsEmptySubtitle": "Crie uma meta, como uma viagem ou uma reserva de emergência, e vá somando aportes.",
+  "goalsIcon": "Ícone",
+  "goalsName": "Nome da meta",
+  "goalsTarget": "Valor objetivo",
+  "goalsDeadline": "Data limite: {date}",
+  "@goalsDeadline": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsNoDeadline": "Sem data limite",
+  "goalsClearDeadline": "Remover data limite",
+  "goalsInvalidForm": "Informe um nome e um valor maior que zero",
+  "goalsProgress": "{saved} de {target} · {pct} %",
+  "@goalsProgress": {
+    "placeholders": {
+      "saved": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      },
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
+  "goalsCompleted": "Meta alcançada!",
+  "goalsOverdue": "O prazo já venceu",
+  "goalsSuggested": "Poupe {amount} por mês para chegar a tempo",
+  "@goalsSuggested": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsDeposit": "Aportar",
+  "goalsWithdraw": "Retirar",
+  "goalsDepositTitle": "Aportar em {name}",
+  "@goalsDepositTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsWithdrawTitle": "Retirar de {name}",
+  "@goalsWithdrawTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsAmount": "Valor",
+  "goalsNote": "Observação (opcional)",
+  "goalsHistory": "Histórico",
+  "goalsHistoryEmpty": "Ainda não há movimentações",
+  "goalsContribution": "Aporte",
+  "goalsWithdrawal": "Retirada",
+  "goalsDeleteConfirm": "Excluir a meta \"{name}\"? O histórico dela também será apagado.",
+  "@goalsDeleteConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsDeleteMovementConfirm": "Excluir esta movimentação?",
+  "errImportInvalidFile": "Não foi possível ler o arquivo. Use um .csv ou .xlsx válido (máximo de 4 MB)",
+  "errImportMissingColumns": "Faltam colunas obrigatórias: {columns}",
+  "@errImportMissingColumns": {
+    "placeholders": {
+      "columns": {
+        "type": "String"
+      }
+    }
+  },
+  "errImportNoRows": "O arquivo não tem linhas para importar",
+  "errImportTooManyRows": "O arquivo tem linhas demais (máximo de {max})",
+  "@errImportTooManyRows": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "errImportInvalidCategory": "Uma das linhas tem uma categoria que não existe",
+  "importTitle": "Importar movimentações",
+  "importOpenButton": "Importar de CSV ou Excel",
+  "importIntro": "Envie um arquivo .csv ou .xlsx (até 4 MB e 2000 linhas). A primeira linha deve ter os nomes das colunas.",
+  "importColumns": "Colunas: data e valor são indispensáveis. Você também pode incluir categoria (o nome de uma das suas categorias), descricao e tipo (despesa ou receita; se faltar, será considerado despesa).",
+  "importTemplate": "Baixar modelo",
+  "importPick": "Escolher arquivo",
+  "importPickAnother": "Escolher outro arquivo",
+  "importSummaryReady": "{n} prontas",
+  "@importSummaryReady": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importSummaryErrors": "{n} com erros",
+  "@importSummaryErrors": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importSummaryDuplicates": "{n} duplicadas",
+  "@importSummaryDuplicates": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importUnmatched": "Categorias do arquivo que não correspondem às suas: {names}",
+  "@importUnmatched": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "importFallbackLabel": "Usar esta categoria para elas",
+  "importFallbackNone": "Não importar essas linhas",
+  "importIncludeDuplicates": "Incluir as duplicadas ({n})",
+  "@importIncludeDuplicates": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importConfirm": "{n, plural, =1{Importar 1 movimentação} other{Importar {n} movimentações}}",
+  "@importConfirm": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importDone": "{n, plural, =1{1 movimentação importada} other{{n} movimentações importadas}}",
+  "@importDone": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importMoreRows": "e mais {n} linhas",
+  "@importMoreRows": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importRowLabel": "Linha {n}",
+  "@importRowLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importDuplicateTag": "Duplicada",
+  "importErrInvalidDate": "data inválida",
+  "importErrFutureDate": "data futura",
+  "importErrInvalidAmount": "valor inválido",
+  "importErrInvalidType": "tipo inválido",
+  "importErrUnknownCategory": "categoria não encontrada"
+}

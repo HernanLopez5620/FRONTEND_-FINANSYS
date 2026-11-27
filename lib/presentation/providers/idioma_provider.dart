@@ -11,12 +11,13 @@ class IdiomaProvider extends ChangeNotifier {
   static const _clave = 'finansys_idioma';
 
   /// Idiomas disponibles (deben coincidir con los archivos app_XX.arb).
-  static const soportados = <Locale>[Locale('es'), Locale('en')];
+  static const soportados = <Locale>[Locale('es'), Locale('en'), Locale('pt')];
 
   /// Nombre de cada idioma en su propio idioma (no se traduce).
   static const nombres = <String, String>{
     'es': 'Español',
     'en': 'English',
+    'pt': 'Português',
   };
 
   Locale _locale = const Locale('es');

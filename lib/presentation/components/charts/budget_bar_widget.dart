@@ -13,9 +13,9 @@ class BudgetBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = item.overBudget
+    final color = item.nivel == 2
         ? AppTheme.danger
-        : item.porcentaje > 0.8
+        : item.nivel == 1
             ? AppTheme.warning
             : Theme.of(context).colorScheme.primary;
 
@@ -36,8 +36,12 @@ class BudgetBarWidget extends StatelessWidget {
             ),
           ),
           Text(
-            '${Formatters.toShortCurrency(item.gastado)} / ${Formatters.toShortCurrency(item.montoLimite)}',
-            style: const TextStyle(fontSize: 11, color: AppTheme.textGrey),
+            '${Formatters.toShortCurrency(item.gastado)} / ${Formatters.toShortCurrency(item.montoLimite)} · ${item.porcentajeEntero} %',
+            style: TextStyle(
+              fontSize: 11,
+              color: item.nivel > 0 ? color : AppTheme.textGrey,
+              fontWeight: item.nivel > 0 ? FontWeight.w600 : FontWeight.w400,
+            ),
           ),
         ]),
         const SizedBox(height: 6),

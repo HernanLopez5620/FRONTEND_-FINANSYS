@@ -130,6 +130,14 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: CircleAvatar(
                     radius: 45,
                     backgroundColor: cs.primary,
+                    foregroundImage:
+                        (user?.fotoUrl != null && user!.fotoUrl!.isNotEmpty)
+                            ? NetworkImage(user.fotoUrl!)
+                            : null,
+                    onForegroundImageError:
+                        (user?.fotoUrl != null && user!.fotoUrl!.isNotEmpty)
+                            ? (_, __) {}
+                            : null,
                     child: Text(
                       _inicial(
                         user?.nombre,

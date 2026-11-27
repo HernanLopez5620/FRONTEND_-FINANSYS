@@ -10,6 +10,8 @@ import '../../../domain/entities/gasto_entity.dart';
 import '../../../domain/entities/categoria_entity.dart';
 import '../../providers/gasto_provider.dart';
 import '../../providers/categoria_provider.dart';
+import '../../providers/presupuesto_provider.dart';
+import '../ui/app_toast.dart';
 
 class GastoFormModal extends StatefulWidget {
   final GastoEntity? gasto; // null = crear, not null = editar
@@ -83,11 +85,32 @@ class _GastoFormModalState extends State<GastoFormModal>
       );
       return;
     } else {
+      final presP = context.read<PresupuestoProvider>();
+      // Foto de los presupuestos antes de guardar, para avisar solo si este
+      // gasto es el que cruza el 80 % o el 100 %.
+      final antes =
+          tipo == 'gasto' ? await presP.instantanea(_fecha) : <int, int>{};
+      if (!mounted) return;
       ok = await context.read<GastoProvider>().createExpense(gasto);
+      if (ok && tipo == 'gasto' && mounted) {
+        final nuevas = await presP.nuevasAlertas(antes, _fecha);
+        if (mounted) {
+          for (final b in nuevas) {
+            AppToast.show(
+              context,
+              b.nivel == 2
+                  ? context.l10n.budgetAlertOver(b.nombre, b.porcentajeEntero)
+                  : context.l10n.budgetAlertWarn(b.nombre, b.porcentajeEntero),
+              type: b.nivel == 2 ? ToastType.error : ToastType.warning,
+            );
+          }
+        }
+      }
     }
 
+    if (!mounted) return;
     setState(() => _saving = false);
-    if (ok && mounted) Navigator.pop(context);
+    if (ok) Navigator.pop(context);
   }
 
   Future<void> _pickDate() async {
